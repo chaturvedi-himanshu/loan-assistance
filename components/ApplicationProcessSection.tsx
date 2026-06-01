@@ -8,16 +8,16 @@ interface ApplicationProcessSectionProps {
 const marginClasses = ["mr_40", "mlr_40", "ml_40"];
 
 const defaultSteps: ProcessStepItem[] = [
-  { _id:"1", num:"01", title:"Apply Bank Loan",    desc:"Fill out our simple online form in just a few minutes.",               icon:"icofont-paper",         order:1 },
-  { _id:"2", num:"02", title:"Approved Bank Loan", desc:"Our team reviews and approves your application quickly.",              icon:"icofont-check-circled", order:2 },
-  { _id:"3", num:"03", title:"Review Your Loan",   desc:"Receive funds and manage repayments with ease.",                       icon:"icofont-money",         order:3 },
+  { _id:"1", num:"01", title:"Apply Online",         desc:"Fill out the simple online form.",                                                   icon:"icofont-paper",         order:1 },
+  { _id:"2", num:"02", title:"Share Documents",      desc:"Share the required documents and know your borrowing capacity.",                     icon:"icofont-check-circled", order:2 },
+  { _id:"3", num:"03", title:"Choose Your Lender",   desc:"Choose the best lenders from multiple options.",                                     icon:"icofont-money",         order:3 },
 ];
 
 export default function ApplicationProcessSection({ steps, content }: ApplicationProcessSectionProps) {
   const items = steps?.length ? steps : defaultSteps;
   const badge = content?.processBadge ?? `Simple ${items.length} Steps`;
-  const heading = content?.processHeading ?? "Fast and very easy\napplication process here";
-  const subtitle = content?.processSubtitle ?? "We are here to help you when you need your financial\nsupport, then we are help you.";
+  const heading = content?.processHeading ?? "Fast and Very Easy\nApplication Process";
+  const subtitle = content?.processSubtitle ?? "Three simple steps and our team takes care of the rest —\nfast, transparent, and stress-free.";
 
   return (
     <section className="commonSection applicatioProces" style={{ position: "relative", overflow: "hidden" }}>

@@ -26,12 +26,9 @@ function serviceToProduct(s: ServiceItem, i: number, tags: string[]) {
 }
 
 const defaultProducts = [
-  { _id:"1", icon:"icofont-businessman", title:"Business Loan", rate:"10.2%", maxAmount:"₹5,00,000", tenure:"Up to 84 months", tag:"Most Popular", tagColor:"#fff", accentColor:"#2cbbdf", accentBg:"rgba(44,187,223,0.10)", bullets:["No collateral required","Instant disbursal","Overdraft facility"] },
-  { _id:"2", icon:"icofont-people",      title:"Personal Loan", rate:"9.35%", maxAmount:"₹2,00,000", tenure:"Up to 60 months", tag:"Best Rate",    tagColor:"#fff", accentColor:"#27ae60", accentBg:"rgba(39,174,96,0.10)",   bullets:["Zero processing fee","Flexible EMI plans","Same-day approval"] },
-  { _id:"3", icon:"icofont-student",     title:"Education Loan",rate:"7.80%", maxAmount:"₹10,00,000",tenure:"Up to 120 months",tag:"Low Interest",  tagColor:"#fff", accentColor:"#2196f3", accentBg:"rgba(33,150,243,0.10)", bullets:["Tuition + living costs","Moratorium period","Tax benefit"] },
-  { _id:"4", icon:"icofont-car",         title:"Car Loan",      rate:"8.70%", maxAmount:"₹3,00,000", tenure:"Up to 84 months", tag:"Fast Approval", tagColor:"#fff", accentColor:"#f0734a", accentBg:"rgba(240,115,74,0.10)", bullets:["New & used cars","Up to 95% financing","Doorstep service"] },
-  { _id:"5", icon:"icofont-building",    title:"Home Loan",     rate:"6.90%", maxAmount:"₹50,00,000",tenure:"Up to 360 months",tag:"Lowest Rate",   tagColor:"#fff", accentColor:"#e91e8c", accentBg:"rgba(233,30,140,0.10)",bullets:["Balance transfer","Top-up facility","Tax benefits"] },
-  { _id:"6", icon:"icofont-heartbeat",   title:"Medical Loan",  rate:"11.50%",maxAmount:"₹1,00,000", tenure:"Up to 48 months", tag:"Emergency",     tagColor:"#fff", accentColor:"#ff9800", accentBg:"rgba(255,152,0,0.10)",  bullets:["Disbursed in 4 hours","No income proof","Cashless hospitals"] },
+  { _id:"1", icon:"icofont-building",    title:"Home Loan",     rate:"6.90%", maxAmount:"₹50,00,000",tenure:"Up to 360 months",tag:"Lowest Rate",   tagColor:"#fff", accentColor:"#e91e8c", accentBg:"rgba(233,30,140,0.10)",bullets:["Balance transfer","Top-up facility","Tax benefits"] },
+  { _id:"2", icon:"icofont-businessman", title:"Business Loan", rate:"10.2%", maxAmount:"₹5,00,000", tenure:"Up to 84 months", tag:"Most Popular", tagColor:"#fff", accentColor:"#2cbbdf", accentBg:"rgba(44,187,223,0.10)", bullets:["No collateral required","Instant disbursal","Overdraft facility"] },
+  { _id:"3", icon:"icofont-car",         title:"Car Loan",      rate:"8.70%", maxAmount:"₹3,00,000", tenure:"Up to 60 months", tag:"Fast Approval", tagColor:"#fff", accentColor:"#f0734a", accentBg:"rgba(240,115,74,0.10)", bullets:["New & used cars","Up to 95% financing","Doorstep service"] },
 ];
 
 interface LoanProductsSectionProps {

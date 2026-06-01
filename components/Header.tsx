@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import type { SiteSettings } from "@/lib/data";
 
 const navLinks = [
@@ -13,15 +14,34 @@ const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
+/**
+ * Routes whose hero / banner uses a LIGHT background and therefore need a
+ * dark logo + dark nav links. Every other public route currently uses the
+ * dark gradient `<PageBanner>` and benefits from a light overlay header.
+ */
+const LIGHT_BG_ROUTES = new Set<string>(["/"]);
+
 export default function Header({ settings }: { settings?: SiteSettings }) {
   const [fixed, setFixed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const onScroll = () => setFixed(window.scrollY > 40);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Decide whether the header should render in light-on-dark mode. We render
+  // dark-on-light when:
+  //   • the header is pinned (solid white bar after scroll), OR
+  //   • the page below is known to use a light hero (currently just `/`).
+  const isLightBgPage = LIGHT_BG_ROUTES.has(pathname ?? "/");
+  const useDarkText = fixed || isLightBgPage;
+
+  const linkColor = useDarkText ? "#1a1a2e" : "#ffffff";
+  const linkColorHover = "#2cbbdf";
+  const logoFilter = useDarkText ? "none" : "brightness(0) invert(1)";
 
   return (
     <header
@@ -35,9 +55,17 @@ export default function Header({ settings }: { settings?: SiteSettings }) {
               <Link href="/">
                 <Image
                   src="/images/logo.png"
-                  alt="Smart Loans"
-                  width={200}
-                  height={70}
+                  alt={settings?.siteName ?? "Smart Loans"}
+                  width={240}
+                  height={84}
+                  style={{
+                    width: "auto",
+                    height: 64,
+                    maxHeight: 64,
+                    filter: logoFilter,
+                    transition: "filter 0.25s ease",
+                  }}
+                  priority
                 />
               </Link>
             </div>
@@ -52,16 +80,38 @@ export default function Header({ settings }: { settings?: SiteSettings }) {
                 className={`mobilemenu d-md-none d-lg-none d-xl-none${mobileOpen ? " active" : ""}`}
                 onClick={() => setMobileOpen((v) => !v)}
                 aria-label="Toggle menu"
+                style={{
+                  // ensure hamburger lines are visible on dark overlay too
+                  color: linkColor,
+                }}
               >
-                <span></span>
-                <span></span>
-                <span></span>
+                <span style={{ background: linkColor }}></span>
+                <span style={{ background: linkColor }}></span>
+                <span style={{ background: linkColor }}></span>
               </button>
 
-              <ul style={{ display: mobileOpen ? "block" : undefined }}>
+              <ul
+                style={{ display: mobileOpen ? "block" : undefined }}
+                className={useDarkText ? "smart-nav" : "smart-nav smart-nav--light"}
+              >
                 {navLinks.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href} onClick={() => setMobileOpen(false)}>
+                    <Link
+                      href={link.href}
+                      onClick={() => setMobileOpen(false)}
+                      style={{
+                        color: linkColor,
+                        transition: "color 0.2s ease",
+                      }}
+                      onMouseEnter={(e) => {
+                        (e.currentTarget as HTMLAnchorElement).style.color =
+                          linkColorHover;
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLAnchorElement).style.color =
+                          linkColor;
+                      }}
+                    >
                       {link.label}
                     </Link>
                   </li>
@@ -79,6 +129,12 @@ export default function Header({ settings }: { settings?: SiteSettings }) {
           </div>
         </div>
       </div>
+
+      {/* Make sure inline hover wins on legacy `.mainmenu ul li a` rule. */}
+      <style>{`
+        .smart-nav li a { color: ${linkColor} !important; }
+        .smart-nav li a:hover { color: ${linkColorHover} !important; }
+      `}</style>
     </header>
   );
 }

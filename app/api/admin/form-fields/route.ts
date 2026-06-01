@@ -24,8 +24,15 @@ export async function GET() {
 export async function PUT(req: NextRequest) {
   try {
     await connectDB();
-    const fields: Array<{ _id: string; enabled: boolean; required: boolean; label: string; placeholder: string; order: number }> =
-      await req.json();
+    const fields: Array<{
+      _id: string;
+      enabled: boolean;
+      required: boolean;
+      label: string;
+      placeholder: string;
+      order: number;
+      options?: string[];
+    }> = await req.json();
 
     await Promise.all(
       fields.map((f) =>
@@ -35,6 +42,7 @@ export async function PUT(req: NextRequest) {
           label: f.label,
           placeholder: f.placeholder,
           order: f.order,
+          ...(Array.isArray(f.options) ? { options: f.options } : {}),
         }),
       ),
     );

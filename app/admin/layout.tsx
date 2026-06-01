@@ -41,7 +41,6 @@ const navItems: NavEntry[] = [
       { href: "/admin/footer/brand", icon: "icofont-image", label: "Brand Column" },
       { href: "/admin/footer/quick-links", icon: "icofont-listing-box", label: "Quick Links" },
       { href: "/admin/footer/loan-types", icon: "icofont-bank-alt", label: "Loan Types Links" },
-      { href: "/admin/footer/newsletter", icon: "icofont-email", label: "Newsletter" },
       { href: "/admin/footer/bottom-bar", icon: "icofont-copyright", label: "Bottom Bar" },
       { href: "/admin/footer/copyright-bar", icon: "icofont-ui-press", label: "Copyright Bar" },
     ],
@@ -122,7 +121,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <i className="icofont-bank" style={{ color: "#fff", fontSize: 18 }}></i>
             </div>
             <div>
-              <div style={{ color: "#fff", fontWeight: 800, fontSize: 16, lineHeight: 1.1 }}>Payloan</div>
+              <div style={{ color: "#fff", fontWeight: 800, fontSize: 16, lineHeight: 1.1 }}>Smart Loans</div>
               <div style={{ color: "rgba(255,255,255,0.40)", fontSize: 11 }}>Admin Panel</div>
             </div>
           </div>

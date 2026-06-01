@@ -299,7 +299,14 @@ const formFieldSchema = new Schema(
     key: { type: String, required: true, unique: true },
     label: { type: String, required: true },
     placeholder: { type: String, default: "" },
-    type: { type: String, enum: ["text", "email", "number"], default: "text" },
+    // `select` renders as a dropdown using the `options` array below.
+    type: {
+      type: String,
+      enum: ["text", "email", "number", "select"],
+      default: "text",
+    },
+    /** Options used when `type === "select"`. Stored as an array of strings. */
+    options: { type: [String], default: [] },
     required: { type: Boolean, default: false },
     enabled: { type: Boolean, default: true },
     order: { type: Number, default: 0 },
@@ -350,8 +357,9 @@ export const FORM_FIELD_SEEDS = [
   {
     key: "purpose",
     label: "Purpose of Loan",
-    placeholder: "Purpose of loan",
-    type: "text",
+    placeholder: "Select purpose",
+    type: "select",
+    options: ["Investment", "Owner Occupied", "Business Loan", "Car Loan"],
     required: true,
     enabled: true,
     order: 5,
@@ -509,53 +517,53 @@ const aboutHistoryItemSchema = new Schema(
 const aboutPageSchema = new Schema(
   {
     // Section 1
-    sec1Heading: { type: String, default: "Why we are starting our company?" },
+    sec1Heading: { type: String, default: "Why we started Smart Loans?" },
     sec1Sub: {
       type: String,
       default:
-        "We are here to help you when you need your financial support, then we are help you.",
+        "Smart Loans was founded to make financing simple, transparent, and accessible for every Indian household and business.",
     },
     sec1Body1: {
       type: String,
       default:
-        "We all know how hard it can be to make a site look like the demo, so to make your start into the world of as easy as possible have included the demo content from showcase site. Simply import the sample files we ship with the theme and the core structure for your site is already built mind that even if you don't use the demo content,.",
+        "Smart Loans was started with one goal — to take the friction out of borrowing. We help you cut through paperwork, jargon, and waiting rooms, and connect you with the right lender for your needs.",
     },
     sec1Body2: {
       type: String,
       default:
-        "We all know how hard it can be to make a site look like the demo, so to make your start into the world of as easy as possible have included the demo content.",
+        "Whether you are looking for a Home Loan for your dream property, a Business Loan to fuel growth, or a Car Loan for your next ride, our team is here to guide you end-to-end.",
     },
     sec1Image: { type: String, default: "/images/about/1.png" },
     // Section 2
     sec2Heading: {
       type: String,
-      default: "We are leading Smart Loans financial company.",
+      default: "A leading consumer finance company you can trust.",
     },
     sec2Sub: {
       type: String,
       default:
-        "We are here to help you when you need your financial support, then we are help you.",
+        "We combine deep lender relationships with a customer-first approach so you always get a clear, honest deal.",
     },
     sec2Link: {
       type: String,
       default:
-        "We all know how hard it can be to make a site look like the demo, so to make your start into the world of as easy as possible have included the demo content.",
+        "Smart Loans partners with multiple banks and NBFCs so you can compare offers in one place and pick the one that fits you best.",
     },
     sec2Body: {
       type: String,
       default:
-        "We all know how hard it can be to make a site look like the demo, so to make your start into the world of as easy as possible have included the demo content from showcase site. Simply import the sample files we ship with the theme and the core structure for your site is already built mind that even if you don't use the demo content,.",
+        "Since 2017 we have helped thousands of customers find the right loan — from first-time home buyers to growing businesses. Every application is reviewed by a real human, and our advisors are with you from the first conversation until disbursal.",
     },
     sec2Image: { type: String, default: "/images/about/2.png" },
     // History section
     historyTitle: {
       type: String,
-      default: "We have 25 years experienced\nsee our company history",
+      default: "We have 9 years of experience\nsee our company history",
     },
     historyDesc: {
       type: String,
       default:
-        "We are here to help you when you need your financial support, then we are help you.",
+        "From a small finance desk in 2017 to a trusted national brand today — here are the milestones that shaped Smart Loans.",
     },
     // Preferred: dynamic list of history cards. Replaces the hardcoded
     // history1/history2/history3 fields below (kept for back-compat only).
@@ -703,22 +711,22 @@ const homeContentSchema = new Schema(
     servicesFeature1Icon: { type: String, default: "icofont-check-circled" },
     servicesFeature1Text: {
       type: String,
-      default: "Fastest loan approval in 24 hrs",
+      default: "Fastest Loan Approval",
     },
-    servicesFeature2Icon: { type: String, default: "icofont-shield" },
+    servicesFeature2Icon: { type: String, default: "icofont-ui-calculator" },
     servicesFeature2Text: {
       type: String,
-      default: "100% secure & confidential process",
+      default: "Flexible / Transparent EMI",
     },
-    servicesFeature3Icon: { type: String, default: "icofont-ui-calculator" },
+    servicesFeature3Icon: { type: String, default: "icofont-support" },
     servicesFeature3Text: {
       type: String,
-      default: "Flexible EMI plans to suit you",
+      default: "Making Every Step Simple and Stress-Free",
     },
-    servicesFeature4Icon: { type: String, default: "icofont-support" },
+    servicesFeature4Icon: { type: String, default: "" },
     servicesFeature4Text: {
       type: String,
-      default: "24/7 dedicated customer support",
+      default: "",
     },
 
     // Loan Products section
@@ -792,12 +800,12 @@ const homeContentSchema = new Schema(
     processBadge: { type: String, default: "Simple Steps" },
     processHeading: {
       type: String,
-      default: "Fast and very easy\napplication process here",
+      default: "Fast and Very Easy\nApplication Process",
     },
     processSubtitle: {
       type: String,
       default:
-        "We are here to help you when you need your financial\nsupport, then we are help you.",
+        "Three simple steps and our team takes care of the rest —\nfast, transparent, and stress-free.",
     },
 
     // Conveyancing section
@@ -825,7 +833,7 @@ const homeContentSchema = new Schema(
     // Apply Amount Form section
     applyAmountHeading: {
       type: String,
-      default: "Get your amount\nfor fillup this form",
+      default: "",
     },
     applyAmountField1Placeholder: { type: String, default: "Amount" },
     applyAmountField2Placeholder: { type: String, default: "Long of months?" },
@@ -876,14 +884,14 @@ const homeContentSchema = new Schema(
     testimonialsBadge: { type: String, default: "Testimonials" },
     testimonialsHeading: {
       type: String,
-      default: "How to say our most\nhonorable customer",
+      default: "What Our Clients\nSay About Us",
     },
     testimonialsSubtitle: {
       type: String,
       default:
-        "We are here to help you when you need your financial\nsupport, then we are help you.",
+        "Real stories from people who chose Smart Loans\nto power their next big step.",
     },
-    testimonialsRatingValue: { type: String, default: "4.9" },
+    testimonialsRatingValue: { type: String, default: "5" },
     testimonialsRatingLabel: { type: String, default: "Customer Rating" },
     testimonialsImage: { type: String, default: "/images/about/3.png" },
     testimonialsImageAlt: { type: String, default: "Customer" },

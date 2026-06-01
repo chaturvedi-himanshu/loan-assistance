@@ -14,7 +14,7 @@ function interpolate(template: string, vars: Record<string, string | number>) {
 }
 
 export default function Copyright({ settings, content }: CopyrightProps) {
-  const siteName = settings?.siteName ?? "Payloan";
+  const siteName = settings?.siteName ?? "Smart Loans";
 
   const text = useMemo(() => {
     const template = content?.copyrightBarText ?? "Copyright {siteName}. All rights reserved";

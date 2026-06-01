@@ -144,15 +144,15 @@ export default function ChatbotWidget() {
       .map((q) => q.question)
       .slice(0, 5);
     const defaults = [
-      "Personal Loan",
+      "Owner Occupied",
+      "Investment",
       "Business Loan",
-      "Interest Rates",
+      "Car Loan",
       "Apply Now",
-      "Contact Us",
     ];
     const t = setTimeout(() => {
       addBotMessage(
-        "👋 Hi there! I'm **Smart Loans Assistant**. I'm here to help you with all your loan queries.\n\nHow can I help you today?",
+        "👋 Hi there! I'm the **Smart LC Assistant**. I'm here to help you with all your Smart Loans queries.\n\nHow can I help you today?",
         quickReplies.length ? quickReplies : defaults,
       );
     }, 400);
@@ -581,7 +581,7 @@ export default function ChatbotWidget() {
                   lineHeight: 1.2,
                 }}
               >
-                Smart Loans Assistant
+                Smart LC Assistant
               </div>
               <div
                 style={{
@@ -997,7 +997,7 @@ export default function ChatbotWidget() {
         >
           <span style={{ fontSize: 10, color: "#ccc" }}>Powered by </span>
           <span style={{ fontSize: 10, color: "#2cbbdf", fontWeight: 700 }}>
-            Smart Loans Assistant
+            Smart LC Assistant
           </span>
           <span style={{ fontSize: 10, color: "#ccc" }}>
             {" "}

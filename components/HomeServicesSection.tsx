@@ -25,10 +25,10 @@ export default function HomeServicesSection({ services, content }: HomeServicesS
     : defaultServices;
 
   const features = [
-    { icon: content?.servicesFeature1Icon ?? "icofont-check-circled", text: content?.servicesFeature1Text ?? "Fastest loan approval in 24 hrs" },
-    { icon: content?.servicesFeature2Icon ?? "icofont-shield",        text: content?.servicesFeature2Text ?? "100% secure & confidential process" },
-    { icon: content?.servicesFeature3Icon ?? "icofont-ui-calculator", text: content?.servicesFeature3Text ?? "Flexible EMI plans to suit you" },
-    { icon: content?.servicesFeature4Icon ?? "icofont-support",       text: content?.servicesFeature4Text ?? "24/7 dedicated customer support" },
+    { icon: content?.servicesFeature1Icon ?? "icofont-check-circled", text: content?.servicesFeature1Text ?? "Fastest Loan Approval" },
+    { icon: content?.servicesFeature2Icon ?? "icofont-ui-calculator", text: content?.servicesFeature2Text ?? "Flexible / Transparent EMI" },
+    { icon: content?.servicesFeature3Icon ?? "icofont-support",       text: content?.servicesFeature3Text ?? "Making Every Step Simple and Stress-Free" },
+    { icon: content?.servicesFeature4Icon ?? "",                     text: content?.servicesFeature4Text ?? "" },
   ].filter(f => f.text);
 
   const heading = content?.servicesHeading ?? "We provide awesome services, it's here.";

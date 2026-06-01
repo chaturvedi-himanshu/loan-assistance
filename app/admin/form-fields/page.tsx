@@ -8,6 +8,8 @@ interface FieldConfig {
   label: string;
   placeholder: string;
   type: string;
+  /** Options used when `type === "select"`. */
+  options?: string[];
   required: boolean;
   enabled: boolean;
   order: number;
@@ -45,6 +47,14 @@ export default function AdminFormFieldsPage() {
 
   const updateText = (id: string, prop: "label" | "placeholder", value: string) => {
     setFields((prev) => prev.map((f) => (f._id === id ? { ...f, [prop]: value } : f)));
+  };
+
+  const updateOptions = (id: string, value: string) => {
+    const options = value
+      .split(",")
+      .map((o) => o.trim())
+      .filter(Boolean);
+    setFields((prev) => prev.map((f) => (f._id === id ? { ...f, options } : f)));
   };
 
   const moveRow = (idx: number, dir: -1 | 1) => {
@@ -103,6 +113,14 @@ export default function AdminFormFieldsPage() {
         {/* Type */}
         <td style={{ padding: "10px 14px", fontSize: 12, color: "#888" }}>
           {f.type}
+          {f.type === "select" && (
+            <input
+              value={(f.options ?? []).join(", ")}
+              onChange={(e) => updateOptions(f._id, e.target.value)}
+              placeholder="Comma-separated options"
+              style={{ ...inputStyle, marginTop: 6 }}
+            />
+          )}
         </td>
 
         {/* Required toggle */}

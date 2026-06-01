@@ -386,13 +386,13 @@ const FALLBACK_HOME_CONTENT: HomeContentData = {
   servicesCtaText: "View More",
   servicesCtaUrl: "/services",
   servicesFeature1Icon: "icofont-check-circled",
-  servicesFeature1Text: "Fastest loan approval in 24 hrs",
-  servicesFeature2Icon: "icofont-shield",
-  servicesFeature2Text: "100% secure & confidential process",
-  servicesFeature3Icon: "icofont-ui-calculator",
-  servicesFeature3Text: "Flexible EMI plans to suit you",
-  servicesFeature4Icon: "icofont-support",
-  servicesFeature4Text: "24/7 dedicated customer support",
+  servicesFeature1Text: "Fastest Loan Approval",
+  servicesFeature2Icon: "icofont-ui-calculator",
+  servicesFeature2Text: "Flexible / Transparent EMI",
+  servicesFeature3Icon: "icofont-support",
+  servicesFeature3Text: "Making Every Step Simple and Stress-Free",
+  servicesFeature4Icon: "",
+  servicesFeature4Text: "",
 
   loanProductsBadge: "Loan Products",
   loanProductsHeading: "Choose the right loan\nfor your needs",
@@ -438,9 +438,9 @@ const FALLBACK_HOME_CONTENT: HomeContentData = {
   contactAddressLabel: "Our headquarters",
 
   processBadge: "Simple Steps",
-  processHeading: "Fast and very easy\napplication process here",
+  processHeading: "Fast and Very Easy\nApplication Process",
   processSubtitle:
-    "We are here to help you when you need your financial\nsupport, then we are help you.",
+    "Three simple steps and our team takes care of the rest —\nfast, transparent, and stress-free.",
 
   conveyancingBadge: "Conveyancing Services",
   conveyancingHeading: "Expert Property Transfer & Legal Services",
@@ -451,7 +451,7 @@ const FALLBACK_HOME_CONTENT: HomeContentData = {
   conveyancingCtaFullText: "Get a Free Consultation",
   conveyancingCtaFullUrl: "/application-form",
 
-  applyAmountHeading: "Get your amount\nfor fillup this form",
+  applyAmountHeading: "",
   applyAmountField1Placeholder: "Amount",
   applyAmountField2Placeholder: "Long of months?",
   applyAmountField3Placeholder: "Installment amount.",
@@ -487,10 +487,10 @@ const FALLBACK_HOME_CONTENT: HomeContentData = {
     "We are here to help you when you need your financial\nsupport, then we are help you.",
 
   testimonialsBadge: "Testimonials",
-  testimonialsHeading: "How to say our most\nhonorable customer",
+  testimonialsHeading: "What Our Clients\nSay About Us",
   testimonialsSubtitle:
-    "We are here to help you when you need your financial\nsupport, then we are help you.",
-  testimonialsRatingValue: "4.9",
+    "Real stories from people who chose Smart Loans\nto power their next big step.",
+  testimonialsRatingValue: "5",
   testimonialsRatingLabel: "Customer Rating",
   testimonialsImage: "/images/about/3.png",
   testimonialsImageAlt: "Customer",
@@ -534,81 +534,42 @@ const FALLBACK_STATS: StatItem[] = [
 const FALLBACK_SERVICES: ServiceItem[] = [
   {
     _id: "1",
-    slug: "personal-loan",
-    icon: "flaticon-money",
-    rate: "9.35%",
-    title: "Personal Loan",
-    amount: "₹2,00,000",
-    tenure: "Up to 60 months",
-    desc: "Ideal for urgent expenses, travel plans, medical support.",
-    features: ["No collateral", "Instant e-approval", "Flexible EMI"],
-    color: "#2cbbdf",
-    order: 1,
-  },
-  {
-    _id: "2",
-    slug: "education-loan",
-    icon: "flaticon-resume",
-    rate: "9.35%",
-    title: "Education Loan",
-    amount: "₹10,00,000",
-    tenure: "Up to 120 months",
-    desc: "Support your academic journey.",
-    features: ["Moratorium", "Tax benefits", "Co-applicant support"],
-    color: "#2196f3",
-    order: 2,
-  },
-  {
-    _id: "3",
-    slug: "business-loan",
-    icon: "flaticon-mortgage-loan",
-    rate: "10.2%",
-    title: "Business Loan",
-    amount: "₹5,00,000",
-    tenure: "Up to 84 months",
-    desc: "Working capital for SMEs and startups.",
-    features: ["Fast disbursal", "Minimal paperwork", "Overdraft"],
-    color: "#f0734a",
-    order: 3,
-  },
-  {
-    _id: "4",
-    slug: "car-loan",
-    icon: "flaticon-loan-2",
-    rate: "9.35%",
-    title: "Car Loan",
-    amount: "₹3,00,000",
-    tenure: "Up to 84 months",
-    desc: "Buy a new or used car easily.",
-    features: ["Up to 95% financing", "Used car", "Doorstep processing"],
-    color: "#27ae60",
-    order: 4,
-  },
-  {
-    _id: "5",
-    slug: "medical-loan",
-    icon: "flaticon-loan-1",
-    rate: "18.5%",
-    title: "Medical Loan",
-    amount: "₹1,00,000",
-    tenure: "Up to 48 months",
-    desc: "Emergency healthcare financing.",
-    features: ["Emergency approvals", "Cashless network", "No charges"],
-    color: "#e91e8c",
-    order: 5,
-  },
-  {
-    _id: "6",
     slug: "home-loan",
     icon: "flaticon-mortgage-loan",
     rate: "6.90%",
     title: "Home Loan",
     amount: "₹50,00,000",
     tenure: "Up to 360 months",
-    desc: "Own your dream home.",
+    desc: "Own your dream home with Smart Loans.",
     features: ["Top-up facility", "Balance transfer", "Dedicated manager"],
     color: "#ff9800",
-    order: 6,
+    order: 1,
+  },
+  {
+    _id: "2",
+    slug: "business-loan",
+    icon: "flaticon-mortgage-loan",
+    rate: "10.2%",
+    title: "Business Loan",
+    amount: "₹5,00,000",
+    tenure: "Up to 84 months",
+    desc: "Working capital for SMEs and startups, powered by Smart Loans.",
+    features: ["Fast disbursal", "Minimal paperwork", "Overdraft"],
+    color: "#f0734a",
+    order: 2,
+  },
+  {
+    _id: "3",
+    slug: "car-loan",
+    icon: "flaticon-loan-2",
+    rate: "9.35%",
+    title: "Car Loan",
+    amount: "₹3,00,000",
+    tenure: "Up to 60 months",
+    desc: "Buy a new or used car easily with Smart Loans.",
+    features: ["Up to 95% financing", "Used car", "Doorstep processing"],
+    color: "#27ae60",
+    order: 3,
   },
 ];
 
@@ -780,57 +741,60 @@ const FALLBACK_BLOG: BlogItem[] = [
 ];
 
 const FALLBACK_ABOUT: AboutPageData = {
-  sec1Heading: "Why we are starting our company?",
+  sec1Heading: "Why we started Smart Loans?",
   sec1Sub:
-    "We are here to help you when you need your financial support, then we are help you.",
+    "Smart Loans was founded to make financing simple, transparent, and accessible for every Indian household and business.",
   sec1Body1:
-    "We all know how hard it can be to make a site look like the demo, so to make your start into the world of as easy as possible have included the demo content from showcase site. Simply import the sample files we ship with the theme and the core structure for your site is already built mind that even if you don't use the demo content,.",
+    "Smart Loans was started with one goal — to take the friction out of borrowing. We help you cut through paperwork, jargon, and waiting rooms, and connect you with the right lender for your needs.",
   sec1Body2:
-    "We all know how hard it can be to make a site look like the demo, so to make your start into the world of as easy as possible have included the demo content.",
+    "Whether you are looking for a Home Loan for your dream property, a Business Loan to fuel growth, or a Car Loan for your next ride, our team is here to guide you end-to-end.",
   sec1Image: "/images/about/1.png",
-  sec2Heading: "We are leading Smart Loans financial company.",
+  sec2Heading: "A leading consumer finance company you can trust.",
   sec2Sub:
-    "We are here to help you when you need your financial support, then we are help you.",
+    "We combine deep lender relationships with a customer-first approach so you always get a clear, honest deal.",
   sec2Link:
-    "We all know how hard it can be to make a site look like the demo, so to make your start into the world of as easy as possible have included the demo content.",
+    "Smart Loans partners with multiple banks and NBFCs so you can compare offers in one place and pick the one that fits you best.",
   sec2Body:
-    "We all know how hard it can be to make a site look like the demo, so to make your start into the world of as easy as possible have included the demo content from showcase site. Simply import the sample files we ship with the theme and the core structure for your site is already built mind that even if you don't use the demo content,.",
+    "Since 2017 we have helped thousands of customers find the right loan — from first-time home buyers to growing businesses. Every application is reviewed by a real human, and our advisors are with you from the first conversation until disbursal.",
   sec2Image: "/images/about/2.png",
-  historyTitle: "We have 25 years experienced\nsee our company history",
+  historyTitle: "We have 9 years of experience\nsee our company history",
   historyDesc:
-    "We are here to help you when you need your financial support, then we are help you.",
+    "From a small finance desk in 2017 to a trusted national brand today — here are the milestones that shaped Smart Loans.",
   historyItems: [
-    {
-      period: "2010 to 2013",
-      frontDesc1:
-        "We all know how hard it can be to make your start into the world of as easy possible.",
-      frontDesc2: "We all know how hard it can be to as easy possible.",
-      backDesc1:
-        "We all know how hard it can be to make site look like the demo so to make your start into the world of as easy possible.",
-      backDesc2:
-        "We all know how hard it can be to make site look like the demo so to make your start into.",
-      order: 0,
-    },
-    {
-      period: "2014 to 2016",
-      frontDesc1:
-        "We all know how hard it can be to make your start into the world of as easy possible.",
-      frontDesc2: "We all know how hard it can be to as easy possible.",
-      backDesc1:
-        "We all know how hard it can be to make site look like the demo so to make your start into the world of as easy possible.",
-      backDesc2:
-        "We all know how hard it can be to make site look like the demo so to make your start into.",
-      order: 1,
-    },
     {
       period: "2017 to 2019",
       frontDesc1:
-        "We all know how hard it can be to make your start into the world of as easy possible.",
-      frontDesc2: "We all know how hard it can be to as easy possible.",
+        "Smart Loans was founded in 2017 with a small team focused on Home and Personal loans for first-time borrowers.",
+      frontDesc2:
+        "We helped our first 1,000 customers find faster, fairer financing.",
       backDesc1:
-        "We all know how hard it can be to make site look like the demo so to make your start into the world of as easy possible.",
+        "Built our partner network with leading banks and NBFCs, and launched our digital application portal.",
       backDesc2:
-        "We all know how hard it can be to make site look like the demo so to make your start into.",
+        "Crossed the milestone of ₹100 Cr in loans facilitated within two years.",
+      order: 0,
+    },
+    {
+      period: "2020 to 2022",
+      frontDesc1:
+        "Expanded into Business and Car loans and scaled our advisory team across multiple cities.",
+      frontDesc2:
+        "Launched virtual consultations to keep customers supported through the pandemic years.",
+      backDesc1:
+        "Introduced doorstep documentation pickup and end-to-end digital approvals.",
+      backDesc2:
+        "Grew our customer base 5× and built a 4.9-star advisor experience.",
+      order: 1,
+    },
+    {
+      period: "2022 to Present",
+      frontDesc1:
+        "Today Smart Loans is a trusted name across India for Home, Business and Car loans.",
+      frontDesc2:
+        "We continue to invest in technology and people to keep borrowing simple and stress-free.",
+      backDesc1:
+        "Partnered with 25+ lenders to give you the widest choice and the most competitive rates.",
+      backDesc2:
+        "On a mission to make every step of your loan journey simple, transparent, and stress-free.",
       order: 2,
     },
   ],
@@ -1408,12 +1372,9 @@ const FALLBACK_FOOTER: FooterContentData = {
   ],
   loanLinksHeading: "Loan Types",
   loanLinks: [
-    { label: "Personal Loan", href: "/services", icon: "icofont-people" },
-    { label: "Business Loan", href: "/services", icon: "icofont-businessman" },
     { label: "Home Loan", href: "/services", icon: "icofont-building" },
-    { label: "Education Loan", href: "/services", icon: "icofont-student" },
+    { label: "Business Loan", href: "/services", icon: "icofont-businessman" },
     { label: "Car Loan", href: "/services", icon: "icofont-car" },
-    { label: "Medical Loan", href: "/services", icon: "icofont-heartbeat" },
   ],
   newsletterHeading: "Newsletter",
   newsletterDescription:

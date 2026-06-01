@@ -55,9 +55,9 @@ export default function TestimonialsSection({
   const [current, setCurrent] = useState(0);
 
   const badge = content?.testimonialsBadge ?? "Testimonials";
-  const heading = content?.testimonialsHeading ?? "How to say our most\nhonorable customer";
-  const subtitle = content?.testimonialsSubtitle ?? "We are here to help you when you need your financial\nsupport, then we are help you.";
-  const ratingValue = content?.testimonialsRatingValue ?? "4.9";
+  const heading = content?.testimonialsHeading ?? "What Our Clients\nSay About Us";
+  const subtitle = content?.testimonialsSubtitle ?? "Real stories from people who chose Smart Loans\nto power their next big step.";
+  const ratingValue = content?.testimonialsRatingValue ?? "5";
   const ratingLabel = content?.testimonialsRatingLabel ?? "Customer Rating";
   const sideImage = content?.testimonialsImage ?? "/images/about/3.png";
   const sideImageAlt = content?.testimonialsImageAlt ?? "Customer";

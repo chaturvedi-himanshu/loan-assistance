@@ -327,35 +327,6 @@ export default function HeroSection({ hero, stats }: HeroSectionProps) {
                 </div>
               </div>
 
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: 50,
-                  right: 10,
-                  background: "#2cbbdf",
-                  borderRadius: 12,
-                  padding: "10px 18px",
-                  boxShadow: "0 8px 30px rgba(44,187,223,0.4)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 10,
-                  zIndex: 2,
-                }}
-              >
-                <i
-                  className={hero?.badge2Icon ?? "icofont-rupee"}
-                  style={{ color: "#fff", fontSize: 24 }}
-                ></i>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: "#fff" }}>
-                    {hero?.badge2Title ?? "Low Interest"}
-                  </div>
-                  <div style={{ fontSize: 18, fontWeight: 800, color: "#fff" }}>
-                    {hero?.badge2Subtitle ?? "From 8.5%"}
-                  </div>
-                </div>
-              </div>
-
               <DynamicImage
                 src={imageSrc}
                 alt={imageAlt}

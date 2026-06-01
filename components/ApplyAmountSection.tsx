@@ -12,7 +12,7 @@ export default function ApplyAmountSection({ content }: ApplyAmountSectionProps)
   const [months, setMonths] = useState("");
   const [installment, setInstallment] = useState("");
 
-  const heading = content?.applyAmountHeading ?? "Get your amount\nfor fillup this form";
+  const heading = (content?.applyAmountHeading ?? "").trim();
   const amountPlaceholder = content?.applyAmountField1Placeholder ?? "Amount";
   const monthsPlaceholder = content?.applyAmountField2Placeholder ?? "Long of months?";
   const installmentPlaceholder = content?.applyAmountField3Placeholder ?? "Installment amount.";
@@ -26,11 +26,13 @@ export default function ApplyAmountSection({ content }: ApplyAmountSectionProps)
   return (
     <section className="commonSection">
       <div className="container">
-        <div className="row">
-          <div className="col-lg-12 text-center">
-            <h2 className="sec_title" style={{ whiteSpace: "pre-line" }}>{heading}</h2>
+        {heading && (
+          <div className="row">
+            <div className="col-lg-12 text-center">
+              <h2 className="sec_title" style={{ whiteSpace: "pre-line" }}>{heading}</h2>
+            </div>
           </div>
-        </div>
+        )}
         <div className="row">
           <div className="col-sm-12">
             <div className="applyamountFrom">

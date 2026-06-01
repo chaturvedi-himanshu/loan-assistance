@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import DynamicImage from "@/components/DynamicImage";
 import type { SiteSettings, FooterContentData, FooterLink } from "@/lib/data";
@@ -19,12 +19,9 @@ const DEFAULT_QUICK_LINKS: FooterLink[] = [
 ];
 
 const DEFAULT_LOAN_LINKS: FooterLink[] = [
-  { label: "Personal Loan", href: "/services", icon: "icofont-people" },
-  { label: "Business Loan", href: "/services", icon: "icofont-businessman" },
   { label: "Home Loan", href: "/services", icon: "icofont-building" },
-  { label: "Education Loan", href: "/services", icon: "icofont-student" },
+  { label: "Business Loan", href: "/services", icon: "icofont-businessman" },
   { label: "Car Loan", href: "/services", icon: "icofont-car" },
-  { label: "Medical Loan", href: "/services", icon: "icofont-heartbeat" },
 ];
 
 function interpolate(template: string, vars: Record<string, string | number>) {
@@ -36,31 +33,16 @@ export default function Footer({ settings, content }: FooterProps) {
   const c = content;
 
   const brandLogo = c?.brandLogo ?? "/images/logo.png";
-  const brandLogoAlt = c?.brandLogoAlt ?? s?.siteName ?? "Payloan";
+  const brandLogoAlt = c?.brandLogoAlt ?? s?.siteName ?? "Smart Loans";
   const brandDescription =
     c?.brandDescription ??
-    "Payloan helps you access fast, affordable financing with zero hassle. Trusted by 50,000+ customers across the country.";
+    "Smart Loans helps you access fast, affordable financing with zero hassle. Trusted by thousands of customers across the country.";
 
   const quickLinksHeading = c?.quickLinksHeading ?? "Quick Links";
   const quickLinks = c?.quickLinks?.length ? c.quickLinks : DEFAULT_QUICK_LINKS;
 
   const loanLinksHeading = c?.loanLinksHeading ?? "Loan Types";
   const loanLinks = c?.loanLinks?.length ? c.loanLinks : DEFAULT_LOAN_LINKS;
-
-  const newsletterHeading = c?.newsletterHeading ?? "Newsletter";
-  const newsletterDescription =
-    c?.newsletterDescription ??
-    "Get the latest loan tips, rate updates, and exclusive offers straight to your inbox.";
-  const newsletterPlaceholder = c?.newsletterPlaceholder ?? "Your email address";
-  const newsletterButtonText = c?.newsletterButtonText ?? "Subscribe Now";
-  const newsletterButtonIcon = c?.newsletterButtonIcon ?? "icofont-paper-plane";
-  const newsletterSuccessText = c?.newsletterSuccessText ?? "You're subscribed!";
-  const trustBadges = c?.trustBadges?.length
-    ? c.trustBadges
-    : [
-        { icon: "icofont-lock", text: "SSL Secure" },
-        { icon: "icofont-shield", text: "No Spam" },
-      ];
 
   const bottomLinks = c?.bottomLinks?.length
     ? c.bottomLinks
@@ -74,7 +56,7 @@ export default function Footer({ settings, content }: FooterProps) {
     const template = c?.copyrightText ?? "© {year} {siteName}. All rights reserved.";
     return interpolate(template, {
       year: new Date().getFullYear(),
-      siteName: s?.siteName ?? "Payloan",
+      siteName: s?.siteName ?? "Smart Loans",
     });
   }, [c?.copyrightText, s?.siteName]);
 
@@ -91,14 +73,6 @@ export default function Footer({ settings, content }: FooterProps) {
     { icon: "icofont-instagram",    href: s?.instagramUrl ?? "#", color: "#e1306c", label: "Instagram" },
     { icon: "icofont-youtube-play", href: s?.youtubeUrl   ?? "#", color: "#ff0000", label: "YouTube" },
   ];
-
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
-
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) setSubscribed(true);
-  };
 
   return (
     <footer style={{ background: "#13132b", position: "relative", overflow: "hidden" }}>
@@ -146,7 +120,7 @@ export default function Footer({ settings, content }: FooterProps) {
       <div className="container" style={{ position: "relative", zIndex: 1, padding: "64px 15px 48px" }}>
         <div className="row">
           {/* ── Col 1 — Brand ── */}
-          <div className="col-lg-4 col-md-6" style={{ marginBottom: 40 }}>
+          <div className="col-lg-6 col-md-6" style={{ marginBottom: 40 }}>
             <Link href="/">
               <DynamicImage
                 src={brandLogo}
@@ -200,7 +174,7 @@ export default function Footer({ settings, content }: FooterProps) {
           </div>
 
           {/* ── Col 2 — Quick Links ── */}
-          <div className="col-lg-2 col-md-6" style={{ marginBottom: 40 }}>
+          <div className="col-lg-3 col-md-6" style={{ marginBottom: 40 }}>
             <h4 style={{ color: "#fff", fontSize: 17, fontWeight: 700, marginBottom: 24, position: "relative", paddingBottom: 14 }}>
               {quickLinksHeading}
               <span style={{ position: "absolute", bottom: 0, left: 0, width: 32, height: 3, background: "linear-gradient(90deg,#2cbbdf,#f0734a)", borderRadius: 2 }} />
@@ -229,7 +203,7 @@ export default function Footer({ settings, content }: FooterProps) {
           </div>
 
           {/* ── Col 3 — Loan Types ── */}
-          <div className="col-lg-2 col-md-6" style={{ marginBottom: 40 }}>
+          <div className="col-lg-3 col-md-6" style={{ marginBottom: 40 }}>
             <h4 style={{ color: "#fff", fontSize: 17, fontWeight: 700, marginBottom: 24, position: "relative", paddingBottom: 14 }}>
               {loanLinksHeading}
               <span style={{ position: "absolute", bottom: 0, left: 0, width: 32, height: 3, background: "linear-gradient(90deg,#2cbbdf,#f0734a)", borderRadius: 2 }} />
@@ -257,61 +231,6 @@ export default function Footer({ settings, content }: FooterProps) {
             </ul>
           </div>
 
-          {/* ── Col 5 — Newsletter ── */}
-          <div className="col-lg-3 col-md-6" style={{ marginBottom: 40 }}>
-            <h4 style={{ color: "#fff", fontSize: 17, fontWeight: 700, marginBottom: 24, position: "relative", paddingBottom: 14 }}>
-              {newsletterHeading}
-              <span style={{ position: "absolute", bottom: 0, left: 0, width: 32, height: 3, background: "linear-gradient(90deg,#2cbbdf,#f0734a)", borderRadius: 2 }} />
-            </h4>
-
-            <p style={{ color: "rgba(255,255,255,0.50)", fontSize: 14, lineHeight: 1.7, marginBottom: 20 }}>
-              {newsletterDescription}
-            </p>
-
-            {subscribed ? (
-              <div style={{ background: "rgba(39,174,96,0.15)", border: "1px solid rgba(39,174,96,0.30)", borderRadius: 12, padding: "16px 20px", display: "flex", alignItems: "center", gap: 12 }}>
-                <i className="icofont-check-circled" style={{ color: "#27ae60", fontSize: 22 }}></i>
-                <span style={{ color: "#27ae60", fontWeight: 600, fontSize: 14 }}>{newsletterSuccessText}</span>
-              </div>
-            ) : (
-              <form onSubmit={handleSubscribe}>
-                <div style={{ position: "relative", marginBottom: 12 }}>
-                  <i className="icofont-email" style={{ position: "absolute", left: 14, top: "50%", transform: "translateY(-50%)", color: "rgba(255,255,255,0.35)", fontSize: 16, pointerEvents: "none" }}></i>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder={newsletterPlaceholder}
-                    required
-                    style={{ width: "100%", padding: "13px 14px 13px 42px", background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: 10, color: "#fff", fontSize: 14, outline: "none", boxSizing: "border-box" }}
-                  />
-                </div>
-                <button
-                  type="submit"
-                  style={{ width: "100%", padding: "13px", background: "linear-gradient(135deg, #2cbbdf 0%, #38cfe8 100%)", border: "none", borderRadius: 10, color: "#fff", fontWeight: 700, fontSize: 15, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, boxShadow: "0 6px 20px rgba(44,187,223,0.40)", transition: "opacity 0.2s" }}
-                  onMouseEnter={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = "0.88")}
-                  onMouseLeave={(e) => ((e.currentTarget as HTMLButtonElement).style.opacity = "1")}
-                >
-                  {newsletterButtonIcon && <i className={newsletterButtonIcon} style={{ fontSize: 16 }}></i>}
-                  {newsletterButtonText}
-                </button>
-              </form>
-            )}
-
-            {trustBadges.length > 0 && (
-              <div style={{ marginTop: 24, display: "flex", gap: 12, flexWrap: "wrap" }}>
-                {trustBadges.map((b, i) => (
-                  <div
-                    key={`${b.text}-${i}`}
-                    style={{ display: "flex", alignItems: "center", gap: 6, background: "rgba(255,255,255,0.06)", padding: "6px 12px", borderRadius: 8 }}
-                  >
-                    {b.icon && <i className={b.icon} style={{ color: "#2cbbdf", fontSize: 13 }}></i>}
-                    <span style={{ color: "rgba(255,255,255,0.50)", fontSize: 12 }}>{b.text}</span>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
         </div>
       </div>
 

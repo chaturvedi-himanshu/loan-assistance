@@ -4,7 +4,6 @@ const sections = [
   { href: "/admin/footer/brand", icon: "icofont-image", label: "Brand Column", desc: "Logo, alt text and the short description shown in the first footer column." },
   { href: "/admin/footer/quick-links", icon: "icofont-listing-box", label: "Quick Links", desc: "Heading and list of navigation links shown in the second column." },
   { href: "/admin/footer/loan-types", icon: "icofont-bank-alt", label: "Loan Types Links", desc: "Heading and list of loan-type links shown in the third column." },
-  { href: "/admin/footer/newsletter", icon: "icofont-email", label: "Newsletter", desc: "Heading, description, form labels and trust badges." },
   { href: "/admin/footer/bottom-bar", icon: "icofont-copyright", label: "Bottom Bar", desc: "Copyright text and small links shown in the bottom strip." },
   { href: "/admin/footer/copyright-bar", icon: "icofont-ui-press", label: "Copyright Bar", desc: "Edit the small copyright bar shown below the footer." },
 ];
