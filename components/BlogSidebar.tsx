@@ -17,12 +17,13 @@ export default function BlogSidebar() {
       <aside className="widget recent_posts">
         <h3 className="widget_title">Recent News</h3>
         {[1, 2, 3].map((i) => (
-          <div key={i} className="payloan_post_widget">
+          <div key={i} className="Smart Loans_post_widget">
             <h4>
               <Link href="#">Provide best financial solution.</Link>
             </h4>
             <p>
-              We all know how hard it can be make a site look like the demo world of as easy as possible.
+              We all know how hard it can be make a site look like the demo
+              world of as easy as possible.
             </p>
             <div className="author">
               Habibur Rahman <span>(05 Jan 2019).</span>
@@ -35,12 +36,13 @@ export default function BlogSidebar() {
       <aside className="widget archive_posts">
         <h3 className="widget_title">Archive Post</h3>
         {[1, 2].map((i) => (
-          <div key={i} className="payloan_post_widget">
+          <div key={i} className="Smart Loans_post_widget">
             <h4>
               <Link href="#">Provide best financial solution.</Link>
             </h4>
             <p>
-              We all know how hard it can be make a site look like the demo world of as easy as possible.
+              We all know how hard it can be make a site look like the demo
+              world of as easy as possible.
             </p>
             <div className="author">
               Habibur Rahman <span>(05 Jan 2019).</span>
@@ -53,7 +55,17 @@ export default function BlogSidebar() {
       <aside className="widget widget_tag_cloud">
         <h3 className="widget_title">Popular Tags</h3>
         <div className="tagcloud">
-          {["Business", "Agency", "Corporate", "Marketing", "Minimal", "Medical", "SEO", "WooCommerce", "Digital Agency"].map((tag) => (
+          {[
+            "Business",
+            "Agency",
+            "Corporate",
+            "Marketing",
+            "Minimal",
+            "Medical",
+            "SEO",
+            "WooCommerce",
+            "Digital Agency",
+          ].map((tag) => (
             <span key={tag}>
               <Link href="#">{tag}</Link>
               {", "}

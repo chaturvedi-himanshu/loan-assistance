@@ -11,16 +11,14 @@ import ApplyAmountSection from "@/components/ApplyAmountSection";
 import EmiCalculatorSection from "@/components/EmiCalculatorSection";
 import TeamSection from "@/components/TeamSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import LatestPostsSection from "@/components/LatestPostsSection";
-import TrustedPartnersSection from "@/components/TrustedPartnersSection";
 import ConveyancingSection from "@/components/ConveyancingSection";
 import Footer from "@/components/Footer";
 import Copyright from "@/components/Copyright";
 
 import {
   getHero, getStats, getServices, getWhyChooseUs,
-  getTeam, getTestimonials, getBlogPosts, getSettings,
-  getProcessSteps, getPartners, getConveyancingServices,
+  getTeam, getTestimonials, getSettings,
+  getProcessSteps, getConveyancingServices, getHomeContent, getFooterContent,
 } from "@/lib/data";
 
 export const revalidate = 60;
@@ -28,7 +26,7 @@ export const revalidate = 60;
 export default async function HomePage() {
   const [
     hero, stats, services, why, team,
-    testimonials, posts, settings, processSteps, partners, conveyancing,
+    testimonials, settings, processSteps, conveyancing, homeContent, footerContent,
   ] = await Promise.all([
     getHero(),
     getStats(),
@@ -36,11 +34,11 @@ export default async function HomePage() {
     getWhyChooseUs(),
     getTeam(),
     getTestimonials(),
-    getBlogPosts(),
     getSettings(),
     getProcessSteps(),
-    getPartners(),
     getConveyancingServices(),
+    getHomeContent(),
+    getFooterContent(),
   ]);
 
   return (
@@ -51,31 +49,35 @@ export default async function HomePage() {
       <HeroSection hero={hero} stats={stats} />
       <StatsSection stats={stats} />
 
-      <HomeServicesSection services={services} />
-      <LoanProductsSection services={services} />
+      <HomeServicesSection services={services} content={homeContent} />
+      <LoanProductsSection services={services} content={homeContent} />
 
-      <WhyChooseUsSection features={why} />
+      <WhyChooseUsSection features={why} content={homeContent} />
 
-      <HomeContactSection settings={settings} />
-      <ApplicationProcessSection steps={processSteps} />
+      <HomeContactSection settings={settings} content={homeContent} />
+      <ApplicationProcessSection steps={processSteps} content={homeContent} />
 
-      <ConveyancingSection items={conveyancing} compact={true} />
+      <ConveyancingSection items={conveyancing} compact={true} content={homeContent} />
 
-      <ApplyAmountSection />
-      <EmiCalculatorSection />
+      <ApplyAmountSection content={homeContent} />
+      <EmiCalculatorSection content={homeContent} />
 
-      <TeamSection members={team.map(m => ({ name: m.name, role: m.role, description: m.description, image: m.image }))} />
+      <TeamSection
+        members={team.map(m => ({ name: m.name, role: m.role, description: m.description, image: m.image }))}
+        content={homeContent}
+      />
       <TestimonialsSection
         sectionClass="custome_sec_2"
         showThumb={true}
         testimonials={testimonials}
+        content={homeContent}
       />
 
       {/* <LatestPostsSection posts={posts.slice(0, 2)} /> */}
       {/* <TrustedPartnersSection partners={partners} /> */}
 
-      <Footer settings={settings} />
-      <Copyright settings={settings} />
+      <Footer settings={settings} content={footerContent} />
+      <Copyright settings={settings} content={footerContent} />
     </>
   );
 }

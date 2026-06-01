@@ -19,10 +19,36 @@ interface AdminCrudProps {
   apiPath: string;
   fields: Field[];
   defaultValues: Record<string, unknown>;
-  renderCard: (item: Record<string, unknown>, onEdit: () => void, onDelete: () => void) => React.ReactNode;
+  renderCard: (
+    item: Record<string, unknown>,
+    onEdit: () => void,
+    onDelete: () => void,
+    controls?: ReorderControls,
+  ) => React.ReactNode;
+  /**
+   * Enables Move Up / Move Down ordering buttons on each card. The list is
+   * sorted by the `order` field ASC and reordering persists by PATCHing the
+   * `order` value of the two swapped items. Defaults to true.
+   */
+  enableOrdering?: boolean;
 }
 
-export default function AdminCrud({ title, apiPath, fields, defaultValues, renderCard }: AdminCrudProps) {
+export interface ReorderControls {
+  index: number;
+  total: number;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
+  isReordering: boolean;
+}
+
+export default function AdminCrud({
+  title,
+  apiPath,
+  fields,
+  defaultValues,
+  renderCard,
+  enableOrdering = true,
+}: AdminCrudProps) {
   const [items, setItems] = useState<Record<string, unknown>[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -30,6 +56,7 @@ export default function AdminCrud({ title, apiPath, fields, defaultValues, rende
   const [editId, setEditId] = useState<string | null>(null);
   const [form, setForm] = useState<Record<string, unknown>>(defaultValues);
   const [toast, setToast] = useState<{ msg: string; type: "success" | "error" } | null>(null);
+  const [reorderingId, setReorderingId] = useState<string | null>(null);
 
   const showToast = (msg: string, type: "success" | "error" = "success") => {
     setToast({ msg, type });
@@ -42,14 +69,20 @@ export default function AdminCrud({ title, apiPath, fields, defaultValues, rende
       const res = await fetch(`/api/admin/${apiPath}`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const json = await res.json();
-      setItems(json.data ?? []);
+      const raw = (json.data ?? []) as Record<string, unknown>[];
+      // Always sort by `order` ASC when ordering is enabled so the displayed
+      // sequence matches what users see in the public site.
+      const sorted = enableOrdering
+        ? [...raw].sort((a, b) => (Number(a.order ?? 0)) - (Number(b.order ?? 0)))
+        : raw;
+      setItems(sorted);
     } catch (e) {
       console.error(`[AdminCrud] Failed to load "${apiPath}":`, e);
       showToast(`Failed to load data`, "error");
     } finally {
       setLoading(false);
     }
-  }, [apiPath]);
+  }, [apiPath, enableOrdering]);
 
   useEffect(() => { load(); }, [load]);
 
@@ -100,6 +133,51 @@ export default function AdminCrud({ title, apiPath, fields, defaultValues, rende
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
+  /**
+   * Move the item at `index` by `dir` (-1 = up, +1 = down). We renumber the
+   * full list contiguously and PUT only the two items whose `order` changed,
+   * so reordering stays cheap and consistent even if the dataset has gaps or
+   * duplicate `order` values.
+   */
+  const handleMove = async (index: number, dir: -1 | 1) => {
+    const target = index + dir;
+    if (target < 0 || target >= items.length) return;
+
+    const reordered = [...items];
+    [reordered[index], reordered[target]] = [reordered[target], reordered[index]];
+    // Renumber contiguously so the canonical `order` matches array position.
+    const next: Record<string, unknown>[] = reordered.map((it, i) => ({
+      ...it,
+      order: i,
+    }));
+    // Identify the two rows whose order actually changed.
+    const changed = next.filter(
+      (_, i) => Number(items[i]?.order ?? -1) !== i,
+    );
+
+    // Optimistic update so the UI feels instant.
+    setItems(next);
+    setReorderingId((next[target]._id as string) ?? null);
+
+    try {
+      await Promise.all(
+        changed.map((it) =>
+          fetch(`/api/admin/${apiPath}/${it._id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ order: it.order }),
+          }),
+        ),
+      );
+    } catch (e) {
+      console.error("[AdminCrud] Reorder failed:", e);
+      showToast("Reorder failed", "error");
+      load();
+    } finally {
+      setReorderingId(null);
+    }
+  };
+
   return (
     <div>
       {/* Toast */}
@@ -131,13 +209,87 @@ export default function AdminCrud({ title, apiPath, fields, defaultValues, rende
         </div>
       ) : (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 16 }}>
-          {items.map((item) =>
-            renderCard(
+          {items.map((item, idx) => {
+            const controls: ReorderControls | undefined = enableOrdering
+              ? {
+                  index: idx,
+                  total: items.length,
+                  onMoveUp: () => handleMove(idx, -1),
+                  onMoveDown: () => handleMove(idx, 1),
+                  isReordering: reorderingId === (item._id as string),
+                }
+              : undefined;
+            const card = renderCard(
               item,
               () => openEdit(item),
               () => handleDelete(item._id as string),
-            )
-          )}
+              controls,
+            );
+            if (!enableOrdering || !controls) return card;
+            // Wrap each card so we can overlay the reorder strip without
+            // requiring every CRUD page to render its own arrows.
+            return (
+              <div key={(item._id as string) ?? idx} style={{ position: "relative" }}>
+                {card}
+                <div
+                  aria-label="Reorder controls"
+                  style={{
+                    position: "absolute",
+                    top: 10,
+                    left: 10,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 4,
+                    background: "rgba(255,255,255,0.95)",
+                    border: "1px solid #e6eff5",
+                    borderRadius: 8,
+                    padding: 3,
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+                    zIndex: 2,
+                    opacity: controls.isReordering ? 0.5 : 1,
+                    pointerEvents: controls.isReordering ? "none" : "auto",
+                  }}
+                >
+                  <button
+                    type="button"
+                    onClick={controls.onMoveUp}
+                    disabled={controls.index === 0}
+                    title="Move up"
+                    aria-label="Move up"
+                    style={{
+                      width: 26,
+                      height: 22,
+                      border: "none",
+                      background: "transparent",
+                      cursor: controls.index === 0 ? "not-allowed" : "pointer",
+                      color: controls.index === 0 ? "#ccc" : "#444",
+                      fontSize: 13,
+                      lineHeight: 1,
+                      borderRadius: 4,
+                    }}
+                  >▲</button>
+                  <button
+                    type="button"
+                    onClick={controls.onMoveDown}
+                    disabled={controls.index === controls.total - 1}
+                    title="Move down"
+                    aria-label="Move down"
+                    style={{
+                      width: 26,
+                      height: 22,
+                      border: "none",
+                      background: "transparent",
+                      cursor: controls.index === controls.total - 1 ? "not-allowed" : "pointer",
+                      color: controls.index === controls.total - 1 ? "#ccc" : "#444",
+                      fontSize: 13,
+                      lineHeight: 1,
+                      borderRadius: 4,
+                    }}
+                  >▼</button>
+                </div>
+              </div>
+            );
+          })}
         </div>
       )}
 

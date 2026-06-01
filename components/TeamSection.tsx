@@ -1,6 +1,7 @@
 "use client";
 
 import DynamicImage from "@/components/DynamicImage";
+import type { HomeContentData } from "@/lib/data";
 
 interface TeamMember {
   image: string;
@@ -12,6 +13,7 @@ interface TeamMember {
 interface TeamSectionProps {
   members?: TeamMember[];
   sectionClass?: string;
+  content?: HomeContentData;
 }
 
 const defaultMembers: TeamMember[] = [
@@ -21,7 +23,11 @@ const defaultMembers: TeamMember[] = [
   { image: "/images/team/4.png", name: "Gertrude Keller", role: "Commercial Manager", description: "Manages key commercial partnerships and helps businesses secure the right financing." },
 ];
 
-export default function TeamSection({ members = defaultMembers, sectionClass = "" }: TeamSectionProps) {
+export default function TeamSection({ members = defaultMembers, sectionClass = "", content }: TeamSectionProps) {
+  const badge = content?.teamBadge ?? "Our Experts";
+  const heading = content?.teamHeading ?? "Expert team members";
+  const subtitle = content?.teamSubtitle ?? "We are here to help you when you need your financial\nsupport, then we are help you.";
+
   return (
     <section
       className={`commonSection ${sectionClass}`}
@@ -67,13 +73,10 @@ export default function TeamSection({ members = defaultMembers, sectionClass = "
           <div className="col-lg-12 text-center">
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(44,187,223,0.10)", padding: "6px 16px", borderRadius: 20, marginBottom: 16 }}>
               <i className="icofont-people" style={{ color: "#2cbbdf", fontSize: 16 }}></i>
-              <span style={{ fontSize: 13, color: "#2cbbdf", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>Our Experts</span>
+              <span style={{ fontSize: 13, color: "#2cbbdf", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>{badge}</span>
             </div>
-            <h2 className="sec_title">Expert team members</h2>
-            <p className="sec_desc">
-              We are here to help you when you need your financial
-              <br /> support, then we are help you.
-            </p>
+            <h2 className="sec_title" style={{ whiteSpace: "pre-line" }}>{heading}</h2>
+            <p className="sec_desc" style={{ whiteSpace: "pre-line" }}>{subtitle}</p>
           </div>
         </div>
 

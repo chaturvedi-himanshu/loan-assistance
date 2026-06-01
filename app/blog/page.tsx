@@ -7,12 +7,16 @@ import Copyright from "@/components/Copyright";
 import Image from "next/image";
 import DynamicImage from "@/components/DynamicImage";
 import Link from "next/link";
-import { getBlogPosts, getSettings } from "@/lib/data";
+import { getBlogPosts, getSettings, getFooterContent } from "@/lib/data";
 
 export const revalidate = 60;
 
 export default async function BlogPage() {
-  const [posts, settings] = await Promise.all([getBlogPosts(), getSettings()]);
+  const [posts, settings, footerContent] = await Promise.all([
+    getBlogPosts(),
+    getSettings(),
+    getFooterContent(),
+  ]);
 
   return (
     <>
@@ -61,8 +65,8 @@ export default async function BlogPage() {
         </div>
       </section>
 
-      <Footer settings={settings} />
-      <Copyright settings={settings} />
+      <Footer settings={settings} content={footerContent} />
+      <Copyright settings={settings} content={footerContent} />
     </>
   );
 }

@@ -7,7 +7,7 @@ import Copyright from "@/components/Copyright";
 import Image from "next/image";
 import DynamicImage from "@/components/DynamicImage";
 import Link from "next/link";
-import { getBlogPost, getBlogPosts, getSettings } from "@/lib/data";
+import { getBlogPost, getBlogPosts, getSettings, getFooterContent } from "@/lib/data";
 import { notFound } from "next/navigation";
 
 export const revalidate = 60;
@@ -23,10 +23,11 @@ export default async function SingleBlogPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const [post, related, settings] = await Promise.all([
+  const [post, related, settings, footerContent] = await Promise.all([
     getBlogPost(id),
     getBlogPosts(),
     getSettings(),
+    getFooterContent(),
   ]);
 
   if (!post) notFound();
@@ -120,8 +121,8 @@ export default async function SingleBlogPage({
         </div>
       </section>
 
-      <Footer settings={settings} />
-      <Copyright settings={settings} />
+      <Footer settings={settings} content={footerContent} />
+      <Copyright settings={settings} content={footerContent} />
     </>
   );
 }

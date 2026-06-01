@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { ServiceItem } from "@/lib/data";
+import type { ServiceItem, HomeContentData } from "@/lib/data";
 
-const TAGS = ["Most Popular","Best Rate","Low Interest","Fast Approval","Lowest Rate","Emergency"];
+const DEFAULT_TAGS = ["Most Popular","Best Rate","Low Interest","Fast Approval","Lowest Rate","Emergency"];
 
-function serviceToProduct(s: ServiceItem, i: number) {
+function serviceToProduct(s: ServiceItem, i: number, tags: string[]) {
   return {
     _id: s._id,
     icon: s.icon,
@@ -14,7 +14,7 @@ function serviceToProduct(s: ServiceItem, i: number) {
     rate: s.rate,
     maxAmount: s.amount,
     tenure: s.tenure,
-    tag: TAGS[i] ?? "Popular",
+    tag: tags[i] ?? tags[tags.length - 1] ?? "Popular",
     tagColor: "#fff",
     accentColor: s.color,
     accentBg: `${s.color}1A`,
@@ -33,11 +33,19 @@ const defaultProducts = [
 
 interface LoanProductsSectionProps {
   services?: ServiceItem[];
+  content?: HomeContentData;
 }
 
-export default function LoanProductsSection({ services }: LoanProductsSectionProps) {
-  const products = services?.length ? services.map(serviceToProduct) : defaultProducts;
+export default function LoanProductsSection({ services, content }: LoanProductsSectionProps) {
+  const tags = (content?.loanProductsTags?.length ? content.loanProductsTags : DEFAULT_TAGS);
+  const products = services?.length ? services.map((s, i) => serviceToProduct(s, i, tags)) : defaultProducts;
   const [hovered, setHovered] = useState<string | null>(null);
+
+  const badge = content?.loanProductsBadge ?? "Loan Products";
+  const heading = content?.loanProductsHeading ?? "Choose the right loan\nfor your needs";
+  const subtitle = content?.loanProductsSubtitle ?? "From personal to business, we have a loan product crafted\nfor every milestone in your life.";
+  const ctaText = content?.loanProductsCtaText ?? "Apply Now";
+  const ctaUrl = content?.loanProductsCtaUrl ?? "/application-form";
 
   return (
     <section
@@ -91,16 +99,10 @@ export default function LoanProductsSection({ services }: LoanProductsSectionPro
           <div className="col-lg-12 text-center">
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(44,187,223,0.10)", padding: "6px 16px", borderRadius: 20, marginBottom: 16 }}>
               <i className="icofont-bank-alt" style={{ color: "#2cbbdf", fontSize: 16 }}></i>
-              <span style={{ fontSize: 13, color: "#2cbbdf", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>Loan Products</span>
+              <span style={{ fontSize: 13, color: "#2cbbdf", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>{badge}</span>
             </div>
-            <h2 className="sec_title">
-              Choose the right loan
-              <br />for your needs
-            </h2>
-            <p className="sec_desc">
-              From personal to business, we have a loan product crafted
-              <br />for every milestone in your life.
-            </p>
+            <h2 className="sec_title" style={{ whiteSpace: "pre-line" }}>{heading}</h2>
+            <p className="sec_desc" style={{ whiteSpace: "pre-line" }}>{subtitle}</p>
           </div>
         </div>
 
@@ -179,7 +181,7 @@ export default function LoanProductsSection({ services }: LoanProductsSectionPro
 
                   {/* CTA */}
                   <Link
-                    href="/application-form"
+                    href={ctaUrl}
                     style={{
                       display: "inline-flex",
                       alignItems: "center",
@@ -196,7 +198,7 @@ export default function LoanProductsSection({ services }: LoanProductsSectionPro
                       textDecoration: "none",
                     }}
                   >
-                    Apply Now
+                    {ctaText}
                     <i className="icofont-long-arrow-right" style={{ fontSize: 16 }}></i>
                   </Link>
                 </div>

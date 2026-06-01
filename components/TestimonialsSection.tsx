@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import DynamicImage from "@/components/DynamicImage";
+import type { HomeContentData } from "@/lib/data";
 
 interface Testimonial {
   name: string;
@@ -38,18 +39,28 @@ interface TestimonialsSectionProps {
   sectionClass?: string;
   showThumb?: boolean;
   testimonials?: TestimonialItem[];
+  content?: HomeContentData;
 }
 
 export default function TestimonialsSection({
   sectionClass = "custome_sec_2",
   showThumb = true,
   testimonials: propTestimonials,
+  content,
 }: TestimonialsSectionProps) {
   const list = propTestimonials?.length
     ? propTestimonials.map(p => ({ name: p.name, text: p.text, avatar: p.image ?? "/images/about/5.png", signature: "/images/signature.png" }))
     : testimonials;
 
   const [current, setCurrent] = useState(0);
+
+  const badge = content?.testimonialsBadge ?? "Testimonials";
+  const heading = content?.testimonialsHeading ?? "How to say our most\nhonorable customer";
+  const subtitle = content?.testimonialsSubtitle ?? "We are here to help you when you need your financial\nsupport, then we are help you.";
+  const ratingValue = content?.testimonialsRatingValue ?? "4.9";
+  const ratingLabel = content?.testimonialsRatingLabel ?? "Customer Rating";
+  const sideImage = content?.testimonialsImage ?? "/images/about/3.png";
+  const sideImageAlt = content?.testimonialsImageAlt ?? "Customer";
 
   const prev = () => setCurrent((c) => (c - 1 + list.length) % list.length);
   const next = () => setCurrent((c) => (c + 1) % list.length);
@@ -87,16 +98,10 @@ export default function TestimonialsSection({
           <div className="col-lg-12 text-center">
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(44,187,223,0.10)", padding: "6px 16px", borderRadius: 20, marginBottom: 16 }}>
               <i className="icofont-star" style={{ color: "#2cbbdf", fontSize: 14 }}></i>
-              <span style={{ fontSize: 13, color: "#2cbbdf", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>Testimonials</span>
+              <span style={{ fontSize: 13, color: "#2cbbdf", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>{badge}</span>
             </div>
-            <h2 className="sec_title">
-              How to say our most
-              <br /> honorable customer
-            </h2>
-            <p className="sec_desc">
-              We are here to help you when you need your financial
-              <br /> support, then we are help you.
-            </p>
+            <h2 className="sec_title" style={{ whiteSpace: "pre-line" }}>{heading}</h2>
+            <p className="sec_desc" style={{ whiteSpace: "pre-line" }}>{subtitle}</p>
           </div>
         </div>
 
@@ -144,15 +149,15 @@ export default function TestimonialsSection({
               <div className="customer_thumb" style={{ position: "relative" }}>
                 {/* Floating rating badge */}
                 <div style={{ position: "absolute", top: 20, right: 10, background: "#fff", borderRadius: 14, padding: "12px 16px", boxShadow: "0 8px 24px rgba(0,0,0,0.08)", zIndex: 2, textAlign: "center" }}>
-                  <div style={{ fontSize: 26, fontWeight: 800, color: "#222" }}>4.9</div>
+                  <div style={{ fontSize: 26, fontWeight: 800, color: "#222" }}>{ratingValue}</div>
                   <div style={{ display: "flex", justifyContent: "center", margin: "3px 0" }}>
                     {[1, 2, 3, 4, 5].map(s => (
                       <i key={s} className="icofont-star" style={{ color: "#f0734a", fontSize: 12 }}></i>
                     ))}
                   </div>
-                  <div style={{ fontSize: 11, color: "#aaa" }}>Customer Rating</div>
+                  <div style={{ fontSize: 11, color: "#aaa" }}>{ratingLabel}</div>
                 </div>
-                <Image src="/images/about/3.png" alt="Customer" width={500} height={400} />
+                <DynamicImage src={sideImage} alt={sideImageAlt} width={500} height={400} />
               </div>
             </div>
           )}

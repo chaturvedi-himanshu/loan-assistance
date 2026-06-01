@@ -1,13 +1,22 @@
 "use client";
 
 import { useState, useMemo, useEffect, useRef } from "react";
+import type { HomeContentData } from "@/lib/data";
 
-function formatCurrency(value: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(value);
+function formatCurrency(value: number, currency = "USD") {
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+      maximumFractionDigits: 0,
+    }).format(value);
+  } catch {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+    }).format(value);
+  }
 }
 
 function calcEmi(principal: number, annualRate: number, months: number) {
@@ -16,10 +25,43 @@ function calcEmi(principal: number, annualRate: number, months: number) {
   return (principal * r * Math.pow(1 + r, months)) / (Math.pow(1 + r, months) - 1);
 }
 
-export default function EmiCalculatorSection() {
-  const [principal, setPrincipal] = useState(500000);
-  const [annualRate, setAnnualRate] = useState(8.5);
-  const [tenureMonths, setTenureMonths] = useState(60);
+interface EmiCalculatorSectionProps {
+  content?: HomeContentData;
+}
+
+export default function EmiCalculatorSection({ content }: EmiCalculatorSectionProps) {
+  const amountMin = content?.emiLoanAmountMin ?? 10000;
+  const amountMax = content?.emiLoanAmountMax ?? 5000000;
+  const amountStep = content?.emiLoanAmountStep ?? 10000;
+  const amountDefault = content?.emiLoanAmountDefault ?? 500000;
+
+  const rateMin = content?.emiInterestMin ?? 1;
+  const rateMax = content?.emiInterestMax ?? 30;
+  const rateStep = content?.emiInterestStep ?? 0.1;
+  const rateDefault = content?.emiInterestDefault ?? 8.5;
+
+  const tenureMin = content?.emiTenureMin ?? 6;
+  const tenureMax = content?.emiTenureMax ?? 360;
+  const tenureStep = content?.emiTenureStep ?? 6;
+  const tenureDefault = content?.emiTenureDefault ?? 60;
+
+  const currency = content?.emiCurrency ?? "USD";
+
+  const heading = content?.emiHeading ?? "EMI Calculator";
+  const subtitle = content?.emiSubtitle ?? "Plan your loan repayment easily. Adjust the sliders to see your monthly\ninstallment, total interest, and total payment instantly.";
+
+  const loanAmountLabel = content?.emiLoanAmountLabel ?? "Loan Amount";
+  const interestLabel = content?.emiInterestLabel ?? "Annual Interest Rate";
+  const tenureLabel = content?.emiTenureLabel ?? "Loan Tenure";
+
+  const monthlyEmiLabel = content?.emiMonthlyEmiLabel ?? "Monthly EMI";
+  const principalLabel = content?.emiPrincipalLabel ?? "Principal Amount";
+  const interestTotalLabel = content?.emiInterestTotalLabel ?? "Total Interest";
+  const totalPaymentLabel = content?.emiTotalPaymentLabel ?? "Total Payment";
+
+  const [principal, setPrincipal] = useState(amountDefault);
+  const [annualRate, setAnnualRate] = useState(rateDefault);
+  const [tenureMonths, setTenureMonths] = useState(tenureDefault);
 
   const sliderRef1 = useRef<HTMLInputElement>(null);
   const sliderRef2 = useRef<HTMLInputElement>(null);
@@ -31,9 +73,9 @@ export default function EmiCalculatorSection() {
     el.style.background = `linear-gradient(to right, #2cbbdf 0%, #2cbbdf ${pct}%, #ddd ${pct}%, #ddd 100%)`;
   };
 
-  useEffect(() => { updateTrack(sliderRef1.current, 10000, 5000000, principal); }, [principal]);
-  useEffect(() => { updateTrack(sliderRef2.current, 1, 30, annualRate); }, [annualRate]);
-  useEffect(() => { updateTrack(sliderRef3.current, 6, 360, tenureMonths); }, [tenureMonths]);
+  useEffect(() => { updateTrack(sliderRef1.current, amountMin, amountMax, principal); }, [principal, amountMin, amountMax]);
+  useEffect(() => { updateTrack(sliderRef2.current, rateMin, rateMax, annualRate); }, [annualRate, rateMin, rateMax]);
+  useEffect(() => { updateTrack(sliderRef3.current, tenureMin, tenureMax, tenureMonths); }, [tenureMonths, tenureMin, tenureMax]);
 
   const emi = useMemo(
     () => calcEmi(principal, annualRate, tenureMonths),
@@ -139,12 +181,8 @@ export default function EmiCalculatorSection() {
         {/* Section heading */}
         <div className="row">
           <div className="col-lg-12 text-center">
-            <h2 className="sec_title">EMI Calculator</h2>
-            <p className="sec_desc">
-              Plan your loan repayment easily. Adjust the sliders to see your monthly
-              <br />
-              installment, total interest, and total payment instantly.
-            </p>
+            <h2 className="sec_title">{heading}</h2>
+            <p className="sec_desc" style={{ whiteSpace: "pre-line" }}>{subtitle}</p>
           </div>
         </div>
 
@@ -158,23 +196,23 @@ export default function EmiCalculatorSection() {
                 <div className="emi-label-row">
                   <span className="emi-label">
                     <i className="flaticon-mortgage-loan" style={{ marginRight: 8, color: "#2cbbdf" }}></i>
-                    Loan Amount
+                    {loanAmountLabel}
                   </span>
-                  <span className="emi-value-badge">{formatCurrency(principal)}</span>
+                  <span className="emi-value-badge">{formatCurrency(principal, currency)}</span>
                 </div>
                 <input
                   ref={sliderRef1}
                   type="range"
                   className="emi-range"
-                  min={10000}
-                  max={5000000}
-                  step={10000}
+                  min={amountMin}
+                  max={amountMax}
+                  step={amountStep}
                   value={principal}
                   onChange={(e) => setPrincipal(Number(e.target.value))}
                 />
                 <div className="emi-minmax">
-                  <span>₹10,000</span>
-                  <span>₹50,00,000</span>
+                  <span>{formatCurrency(amountMin, currency)}</span>
+                  <span>{formatCurrency(amountMax, currency)}</span>
                 </div>
               </div>
 
@@ -183,7 +221,7 @@ export default function EmiCalculatorSection() {
                 <div className="emi-label-row">
                   <span className="emi-label">
                     <i className="icofont-money" style={{ marginRight: 8, color: "#2cbbdf" }}></i>
-                    Annual Interest Rate
+                    {interestLabel}
                   </span>
                   <span className="emi-value-badge">{annualRate.toFixed(1)}%</span>
                 </div>
@@ -191,15 +229,15 @@ export default function EmiCalculatorSection() {
                   ref={sliderRef2}
                   type="range"
                   className="emi-range"
-                  min={1}
-                  max={30}
-                  step={0.1}
+                  min={rateMin}
+                  max={rateMax}
+                  step={rateStep}
                   value={annualRate}
                   onChange={(e) => setAnnualRate(Number(e.target.value))}
                 />
                 <div className="emi-minmax">
-                  <span>1%</span>
-                  <span>30%</span>
+                  <span>{rateMin}%</span>
+                  <span>{rateMax}%</span>
                 </div>
               </div>
 
@@ -208,7 +246,7 @@ export default function EmiCalculatorSection() {
                 <div className="emi-label-row">
                   <span className="emi-label">
                     <i className="icofont-calendar" style={{ marginRight: 8, color: "#2cbbdf" }}></i>
-                    Loan Tenure
+                    {tenureLabel}
                   </span>
                   <span className="emi-value-badge">{tenureMonths} mo</span>
                 </div>
@@ -216,15 +254,15 @@ export default function EmiCalculatorSection() {
                   ref={sliderRef3}
                   type="range"
                   className="emi-range"
-                  min={6}
-                  max={360}
-                  step={6}
+                  min={tenureMin}
+                  max={tenureMax}
+                  step={tenureStep}
                   value={tenureMonths}
                   onChange={(e) => setTenureMonths(Number(e.target.value))}
                 />
                 <div className="emi-minmax">
-                  <span>6 months</span>
-                  <span>360 months</span>
+                  <span>{tenureMin} months</span>
+                  <span>{tenureMax} months</span>
                 </div>
               </div>
             </div>
@@ -238,8 +276,8 @@ export default function EmiCalculatorSection() {
                 <div className="emi-main-icon">
                   <i className="flaticon-money"></i>
                 </div>
-                <p className="emi-main-label">Monthly EMI</p>
-                <h2 className="emi-main-value">{formatCurrency(emi)}</h2>
+                <p className="emi-main-label">{monthlyEmiLabel}</p>
+                <h2 className="emi-main-value">{formatCurrency(emi, currency)}</h2>
                 <p className="emi-main-sub">
                   for {tenureMonths} months @ {annualRate.toFixed(1)}% p.a.
                 </p>
@@ -250,8 +288,8 @@ export default function EmiCalculatorSection() {
                 <div className="col-6">
                   <div className="emi-stat-card">
                     <i className="icofont-bank-alt" style={{ color: "#2cbbdf" }}></i>
-                    <p>Principal Amount</p>
-                    <h5>{formatCurrency(principal)}</h5>
+                    <p>{principalLabel}</p>
+                    <h5>{formatCurrency(principal, currency)}</h5>
                     <div className="emi-pct-bar">
                       <div className="emi-pct-fill principal-fill" style={{ width: `${principalPct}%` }}></div>
                     </div>
@@ -261,8 +299,8 @@ export default function EmiCalculatorSection() {
                 <div className="col-6">
                   <div className="emi-stat-card">
                     <i className="icofont-chart-arrows-axis" style={{ color: "#f0734a" }}></i>
-                    <p>Total Interest</p>
-                    <h5 style={{ color: "#f0734a" }}>{formatCurrency(totalInterest)}</h5>
+                    <p>{interestTotalLabel}</p>
+                    <h5 style={{ color: "#f0734a" }}>{formatCurrency(totalInterest, currency)}</h5>
                     <div className="emi-pct-bar">
                       <div className="emi-pct-fill interest-fill" style={{ width: `${interestPct}%` }}></div>
                     </div>
@@ -273,8 +311,8 @@ export default function EmiCalculatorSection() {
 
               <div className="emi-total-row">
                 <i className="icofont-checked" style={{ color: "#2cbbdf", marginRight: 8 }}></i>
-                <span>Total Payment&nbsp;:&nbsp;</span>
-                <strong>{formatCurrency(totalPayment)}</strong>
+                <span>{totalPaymentLabel}&nbsp;:&nbsp;</span>
+                <strong>{formatCurrency(totalPayment, currency)}</strong>
               </div>
             </div>
           </div>

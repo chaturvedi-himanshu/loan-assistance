@@ -1,15 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import type { ConveyancingItem } from "@/lib/data";
+import type { ConveyancingItem, HomeContentData } from "@/lib/data";
 
 interface ConveyancingSectionProps {
   items?: ConveyancingItem[];
   compact?: boolean; // true = home page (show 3), false = services page (show all)
+  content?: HomeContentData;
 }
 
-export default function ConveyancingSection({ items = [], compact = false }: ConveyancingSectionProps) {
+export default function ConveyancingSection({ items = [], compact = false, content }: ConveyancingSectionProps) {
   const displayed = compact ? items.slice(0, 3) : items;
+  const badge = content?.conveyancingBadge ?? "Conveyancing Services";
+  const heading = content?.conveyancingHeading ?? "Expert Property Transfer & Legal Services";
+  const subtitle = content?.conveyancingSubtitle ?? "From residential settlements to commercial title transfers, our licensed conveyancers ensure every transaction is secure, compliant, and hassle-free.";
+  const ctaCompactText = content?.conveyancingCtaCompactText ?? "View All Conveyancing Services";
+  const ctaCompactUrl = content?.conveyancingCtaCompactUrl ?? "/services";
+  const ctaFullText = content?.conveyancingCtaFullText ?? "Get a Free Consultation";
+  const ctaFullUrl = content?.conveyancingCtaFullUrl ?? "/application-form";
 
   return (
     <section
@@ -64,14 +72,14 @@ export default function ConveyancingSection({ items = [], compact = false }: Con
           >
             <i className="icofont-law-document" style={{ color: "#2cbbdf", fontSize: 15 }}></i>
             <span style={{ fontSize: 12, color: "#2cbbdf", fontWeight: 700, letterSpacing: 1.2, textTransform: "uppercase" }}>
-              Conveyancing Services
+              {badge}
             </span>
           </div>
           <h2 style={{ color: "#fff", fontSize: 36, fontWeight: 800, margin: "0 0 14px", lineHeight: 1.25 }}>
-            Expert Property Transfer &amp; Legal Services
+            {heading}
           </h2>
           <p style={{ color: "rgba(255,255,255,0.55)", fontSize: 16, maxWidth: 560, margin: "0 auto", lineHeight: 1.7 }}>
-            From residential settlements to commercial title transfers, our licensed conveyancers ensure every transaction is secure, compliant, and hassle-free.
+            {subtitle}
           </p>
         </div>
 
@@ -194,7 +202,7 @@ export default function ConveyancingSection({ items = [], compact = false }: Con
         <div style={{ textAlign: "center", marginTop: 20 }}>
           {compact ? (
             <Link
-              href="/services"
+              href={ctaCompactUrl}
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -218,12 +226,12 @@ export default function ConveyancingSection({ items = [], compact = false }: Con
                 (e.currentTarget as HTMLAnchorElement).style.color = "#2cbbdf";
               }}
             >
-              View All Conveyancing Services
+              {ctaCompactText}
               <i className="icofont-long-arrow-right"></i>
             </Link>
           ) : (
-            <Link href="/application-form" className="common_btn">
-              Get a Free Consultation
+            <Link href={ctaFullUrl} className="common_btn">
+              {ctaFullText}
             </Link>
           )}
         </div>

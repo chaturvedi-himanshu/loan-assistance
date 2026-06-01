@@ -1,7 +1,8 @@
-import type { ProcessStepItem } from "@/lib/data";
+import type { ProcessStepItem, HomeContentData } from "@/lib/data";
 
 interface ApplicationProcessSectionProps {
   steps?: ProcessStepItem[];
+  content?: HomeContentData;
 }
 
 const marginClasses = ["mr_40", "mlr_40", "ml_40"];
@@ -12,8 +13,11 @@ const defaultSteps: ProcessStepItem[] = [
   { _id:"3", num:"03", title:"Review Your Loan",   desc:"Receive funds and manage repayments with ease.",                       icon:"icofont-money",         order:3 },
 ];
 
-export default function ApplicationProcessSection({ steps }: ApplicationProcessSectionProps) {
+export default function ApplicationProcessSection({ steps, content }: ApplicationProcessSectionProps) {
   const items = steps?.length ? steps : defaultSteps;
+  const badge = content?.processBadge ?? `Simple ${items.length} Steps`;
+  const heading = content?.processHeading ?? "Fast and very easy\napplication process here";
+  const subtitle = content?.processSubtitle ?? "We are here to help you when you need your financial\nsupport, then we are help you.";
 
   return (
     <section className="commonSection applicatioProces" style={{ position: "relative", overflow: "hidden" }}>
@@ -37,10 +41,10 @@ export default function ApplicationProcessSection({ steps }: ApplicationProcessS
           <div className="col-lg-12 text-center">
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(44,187,223,0.10)", padding: "6px 16px", borderRadius: 20, marginBottom: 16 }}>
               <i className="icofont-rocket-alt-2" style={{ color: "#2cbbdf", fontSize: 16 }}></i>
-              <span style={{ fontSize: 13, color: "#2cbbdf", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>Simple {items.length} Steps</span>
+              <span style={{ fontSize: 13, color: "#2cbbdf", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>{badge}</span>
             </div>
-            <h2 className="sec_title">Fast and very easy<br />application process here</h2>
-            <p className="sec_desc">We are here to help you when you need your financial<br />support, then we are help you.</p>
+            <h2 className="sec_title" style={{ whiteSpace: "pre-line" }}>{heading}</h2>
+            <p className="sec_desc" style={{ whiteSpace: "pre-line" }}>{subtitle}</p>
           </div>
         </div>
 

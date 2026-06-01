@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getServiceById, getServices, getSettings } from "@/lib/data";
+import { getServiceById, getServices, getSettings, getFooterContent } from "@/lib/data";
 
 import Preloader from "@/components/Preloader";
 import Header from "@/components/Header";
@@ -24,7 +24,11 @@ const processSteps = [
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const [service, settings] = await Promise.all([getServiceById(id), getSettings()]);
+  const [service, settings, footerContent] = await Promise.all([
+    getServiceById(id),
+    getSettings(),
+    getFooterContent(),
+  ]);
 
   if (!service) notFound();
 
@@ -181,8 +185,8 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         </div>
       </section>
 
-      <Footer settings={settings} />
-      <Copyright settings={settings} />
+      <Footer settings={settings} content={footerContent} />
+      <Copyright settings={settings} content={footerContent} />
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { getSettings, getTeam, getTestimonials, getAboutPage } from "@/lib/data";
+import { getSettings, getTeam, getTestimonials, getAboutPage, getFooterContent } from "@/lib/data";
 
 import Preloader from "@/components/Preloader";
 import Header from "@/components/Header";
@@ -14,36 +14,15 @@ import Link from "next/link";
 export const revalidate = 60;
 
 export default async function AboutPage() {
-  const [settings, team, testimonials, about] = await Promise.all([
+  const [settings, team, testimonials, about, footerContent] = await Promise.all([
     getSettings(),
     getTeam(),
     getTestimonials(),
     getAboutPage(),
+    getFooterContent(),
   ]);
 
-  const historyItems = [
-    {
-      period: about.history1Period,
-      frontDesc1: about.history1FrontDesc1,
-      frontDesc2: about.history1FrontDesc2,
-      backDesc1: about.history1BackDesc1,
-      backDesc2: about.history1BackDesc2,
-    },
-    {
-      period: about.history2Period,
-      frontDesc1: about.history2FrontDesc1,
-      frontDesc2: about.history2FrontDesc2,
-      backDesc1: about.history2BackDesc1,
-      backDesc2: about.history2BackDesc2,
-    },
-    {
-      period: about.history3Period,
-      frontDesc1: about.history3FrontDesc1,
-      frontDesc2: about.history3FrontDesc2,
-      backDesc1: about.history3BackDesc1,
-      backDesc2: about.history3BackDesc2,
-    },
-  ];
+  const historyItems = about.historyItems ?? [];
 
   return (
     <>
@@ -111,8 +90,8 @@ export default async function AboutPage() {
             </div>
           </div>
           <div className="row">
-            {historyItems.map((item) => (
-              <div key={item.period} className="col-lg-4 col-md-6">
+            {historyItems.map((item, idx) => (
+              <div key={item._id ?? `${item.period}-${idx}`} className="col-lg-4 col-md-6">
                 <div className="singleHistory">
                   <div className="flipper">
                     <div className="front">
@@ -135,8 +114,8 @@ export default async function AboutPage() {
 
       <TeamSection sectionClass="grays" members={team} />
       <TestimonialsSection sectionClass="custome_sec" showThumb={true} testimonials={testimonials} />
-      <Footer settings={settings} />
-      <Copyright settings={settings} />
+      <Footer settings={settings} content={footerContent} />
+      <Copyright settings={settings} content={footerContent} />
     </>
   );
 }

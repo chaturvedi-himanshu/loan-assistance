@@ -6,11 +6,11 @@ import Image from "next/image";
 import type { SiteSettings } from "@/lib/data";
 
 const navLinks = [
-  { label: "Home",     href: "/" },
-  { label: "About",    href: "/about" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
   { label: "Services", href: "/services" },
   // { label: "Blog",     href: "/blog" },
-  { label: "Contact",  href: "/contact" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function Header({ settings }: { settings?: SiteSettings }) {
@@ -33,13 +33,20 @@ export default function Header({ settings }: { settings?: SiteSettings }) {
           <div className="col-lg-3 col-md-3">
             <div className="logo">
               <Link href="/">
-                <Image src="/images/logo.png" alt="Payloan" width={160} height={50} />
+                <Image
+                  src="/images/logo.png"
+                  alt="Smart Loans"
+                  width={200}
+                  height={70}
+                />
               </Link>
             </div>
           </div>
 
           <div className="col-lg-7 col-md-7">
-            <nav className={`mainmenu MenuInRight text-right${mobileOpen ? " open" : ""}`}>
+            <nav
+              className={`mainmenu MenuInRight text-right${mobileOpen ? " open" : ""}`}
+            >
               {/* Hamburger */}
               <button
                 className={`mobilemenu d-md-none d-lg-none d-xl-none${mobileOpen ? " active" : ""}`}
@@ -65,7 +72,9 @@ export default function Header({ settings }: { settings?: SiteSettings }) {
 
           <div className="col-lg-2 col-md-2 hidden-xs">
             <div className="navigator_btn btn_bg text-right">
-              <Link className="common_btn" href="/application-form">Apply Now</Link>
+              <Link className="common_btn" href="/application-form">
+                Apply Now
+              </Link>
             </div>
           </div>
         </div>

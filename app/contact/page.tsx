@@ -4,12 +4,12 @@ import PageBanner from "@/components/PageBanner";
 import Footer from "@/components/Footer";
 import Copyright from "@/components/Copyright";
 import ContactForm from "@/components/ContactForm";
-import { getSettings } from "@/lib/data";
+import { getSettings, getFooterContent } from "@/lib/data";
 
 export const revalidate = 60;
 
 export default async function ContactPage() {
-  const settings = await getSettings();
+  const [settings, footerContent] = await Promise.all([getSettings(), getFooterContent()]);
 
   return (
     <>
@@ -36,8 +36,8 @@ export default async function ContactPage() {
         </div>
       </section>
 
-      <Footer settings={settings} />
-      <Copyright settings={settings} />
+      <Footer settings={settings} content={footerContent} />
+      <Copyright settings={settings} content={footerContent} />
     </>
   );
 }

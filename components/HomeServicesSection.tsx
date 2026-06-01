@@ -1,9 +1,10 @@
 import Link from "next/link";
 import ServiceFlipCard from "./ServiceFlipCard";
-import type { ServiceItem } from "@/lib/data";
+import type { ServiceItem, HomeContentData } from "@/lib/data";
 
 interface HomeServicesSectionProps {
   services?: ServiceItem[];
+  content?: HomeContentData;
 }
 
 const defaultServices = [
@@ -12,14 +13,7 @@ const defaultServices = [
   { icon: "flaticon-loan-1",        rate: "28.6%", title: "Education Loan", description: "Stay turned into the world of finance & business.", installment: "20 months installment" },
 ];
 
-const features = [
-  { icon: "icofont-check-circled", text: "Fastest loan approval in 24 hrs" },
-  { icon: "icofont-shield",        text: "100% secure & confidential process" },
-  { icon: "icofont-ui-calculator", text: "Flexible EMI plans to suit you" },
-  { icon: "icofont-support",       text: "24/7 dedicated customer support" },
-];
-
-export default function HomeServicesSection({ services }: HomeServicesSectionProps) {
+export default function HomeServicesSection({ services, content }: HomeServicesSectionProps) {
   const cards = services?.length
     ? services.slice(0, 3).map(s => ({
         icon: s.icon,
@@ -29,6 +23,18 @@ export default function HomeServicesSection({ services }: HomeServicesSectionPro
         installment: `Tenure: ${s.tenure}`,
       }))
     : defaultServices;
+
+  const features = [
+    { icon: content?.servicesFeature1Icon ?? "icofont-check-circled", text: content?.servicesFeature1Text ?? "Fastest loan approval in 24 hrs" },
+    { icon: content?.servicesFeature2Icon ?? "icofont-shield",        text: content?.servicesFeature2Text ?? "100% secure & confidential process" },
+    { icon: content?.servicesFeature3Icon ?? "icofont-ui-calculator", text: content?.servicesFeature3Text ?? "Flexible EMI plans to suit you" },
+    { icon: content?.servicesFeature4Icon ?? "icofont-support",       text: content?.servicesFeature4Text ?? "24/7 dedicated customer support" },
+  ].filter(f => f.text);
+
+  const heading = content?.servicesHeading ?? "We provide awesome services, it's here.";
+  const subtitle = content?.servicesSubtitle ?? "We are here to help you when you need your financial support, then we are here to guide you every step of the way.";
+  const ctaText = content?.servicesCtaText ?? "View More";
+  const ctaUrl = content?.servicesCtaUrl ?? "/services";
 
   return (
     <section className="commonSection homeService" style={{ position: "relative", overflow: "hidden" }}>
@@ -56,8 +62,8 @@ export default function HomeServicesSection({ services }: HomeServicesSectionPro
           </div>
           <div className="col-xl-6 col-lg-4 col-md-12">
             <div className="serviceArea">
-              <h3>We provide awesome services, it&apos;s here.</h3>
-              <p>We are here to help you when you need your financial support, then we are here to guide you every step of the way.</p>
+              <h3>{heading}</h3>
+              <p>{subtitle}</p>
               <ul style={{ padding: 0, margin: "20px 0 28px", listStyle: "none" }}>
                 {features.map(f => (
                   <li key={f.text} style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 14 }}>
@@ -68,7 +74,7 @@ export default function HomeServicesSection({ services }: HomeServicesSectionPro
                   </li>
                 ))}
               </ul>
-              <Link href="/services" className="common_btn">View More</Link>
+              <Link href={ctaUrl} className="common_btn">{ctaText}</Link>
             </div>
           </div>
         </div>
