@@ -3,19 +3,18 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import type { HomeContentData } from "@/lib/data";
 
-function formatCurrency(value: number, currency = "USD") {
+// Currency is always rendered as Indian Rupees regardless of what is stored
+// in the database (some legacy documents still carry "USD"). Locale is also
+// pinned to en-IN so thousands grouping follows the Indian system (1,00,000).
+function formatCurrency(value: number) {
   try {
-    return new Intl.NumberFormat("en-US", {
+    return new Intl.NumberFormat("en-IN", {
       style: "currency",
-      currency,
+      currency: "INR",
       maximumFractionDigits: 0,
     }).format(value);
   } catch {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-      maximumFractionDigits: 0,
-    }).format(value);
+    return `₹${Math.round(value).toLocaleString("en-IN")}`;
   }
 }
 
@@ -45,7 +44,8 @@ export default function EmiCalculatorSection({ content }: EmiCalculatorSectionPr
   const tenureStep = content?.emiTenureStep ?? 6;
   const tenureDefault = content?.emiTenureDefault ?? 60;
 
-  const currency = content?.emiCurrency ?? "USD";
+  // Currency is intentionally hard-pinned to INR inside formatCurrency so
+  // legacy "USD" values in `content?.emiCurrency` cannot leak into the UI.
 
   const heading = content?.emiHeading ?? "EMI Calculator";
   const subtitle = content?.emiSubtitle ?? "Plan your loan repayment easily. Adjust the sliders to see your monthly\ninstallment, total interest, and total payment instantly.";
@@ -198,7 +198,7 @@ export default function EmiCalculatorSection({ content }: EmiCalculatorSectionPr
                     <i className="flaticon-mortgage-loan" style={{ marginRight: 8, color: "#2cbbdf" }}></i>
                     {loanAmountLabel}
                   </span>
-                  <span className="emi-value-badge">{formatCurrency(principal, currency)}</span>
+                  <span className="emi-value-badge">{formatCurrency(principal)}</span>
                 </div>
                 <input
                   ref={sliderRef1}
@@ -211,8 +211,8 @@ export default function EmiCalculatorSection({ content }: EmiCalculatorSectionPr
                   onChange={(e) => setPrincipal(Number(e.target.value))}
                 />
                 <div className="emi-minmax">
-                  <span>{formatCurrency(amountMin, currency)}</span>
-                  <span>{formatCurrency(amountMax, currency)}</span>
+                  <span>{formatCurrency(amountMin)}</span>
+                  <span>{formatCurrency(amountMax)}</span>
                 </div>
               </div>
 
@@ -277,7 +277,7 @@ export default function EmiCalculatorSection({ content }: EmiCalculatorSectionPr
                   <i className="flaticon-money"></i>
                 </div>
                 <p className="emi-main-label">{monthlyEmiLabel}</p>
-                <h2 className="emi-main-value">{formatCurrency(emi, currency)}</h2>
+                <h2 className="emi-main-value">{formatCurrency(emi)}</h2>
                 <p className="emi-main-sub">
                   for {tenureMonths} months @ {annualRate.toFixed(1)}% p.a.
                 </p>
@@ -289,7 +289,7 @@ export default function EmiCalculatorSection({ content }: EmiCalculatorSectionPr
                   <div className="emi-stat-card">
                     <i className="icofont-bank-alt" style={{ color: "#2cbbdf" }}></i>
                     <p>{principalLabel}</p>
-                    <h5>{formatCurrency(principal, currency)}</h5>
+                    <h5>{formatCurrency(principal)}</h5>
                     <div className="emi-pct-bar">
                       <div className="emi-pct-fill principal-fill" style={{ width: `${principalPct}%` }}></div>
                     </div>
@@ -300,7 +300,7 @@ export default function EmiCalculatorSection({ content }: EmiCalculatorSectionPr
                   <div className="emi-stat-card">
                     <i className="icofont-chart-arrows-axis" style={{ color: "#f0734a" }}></i>
                     <p>{interestTotalLabel}</p>
-                    <h5 style={{ color: "#f0734a" }}>{formatCurrency(totalInterest, currency)}</h5>
+                    <h5 style={{ color: "#f0734a" }}>{formatCurrency(totalInterest)}</h5>
                     <div className="emi-pct-bar">
                       <div className="emi-pct-fill interest-fill" style={{ width: `${interestPct}%` }}></div>
                     </div>
@@ -312,7 +312,7 @@ export default function EmiCalculatorSection({ content }: EmiCalculatorSectionPr
               <div className="emi-total-row">
                 <i className="icofont-checked" style={{ color: "#2cbbdf", marginRight: 8 }}></i>
                 <span>{totalPaymentLabel}&nbsp;:&nbsp;</span>
-                <strong>{formatCurrency(totalPayment, currency)}</strong>
+                <strong>{formatCurrency(totalPayment)}</strong>
               </div>
             </div>
           </div>

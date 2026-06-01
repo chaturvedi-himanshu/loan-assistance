@@ -801,7 +801,7 @@ const homeContentSchema = new Schema(
     emiTenureMax: { type: Number, default: 360 },
     emiTenureStep: { type: Number, default: 6 },
     emiTenureDefault: { type: Number, default: 60 },
-    emiCurrency: { type: String, default: "USD" },
+    emiCurrency: { type: String, default: "INR" },
     emiMonthlyEmiLabel: { type: String, default: "Monthly EMI" },
     emiPrincipalLabel: { type: String, default: "Principal Amount" },
     emiInterestTotalLabel: { type: String, default: "Total Interest" },

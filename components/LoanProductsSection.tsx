@@ -1,15 +1,112 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import type { ServiceItem, HomeContentData } from "@/lib/data";
 
 const DEFAULT_TAGS = ["Most Popular","Best Rate","Low Interest","Fast Approval","Lowest Rate","Emergency"];
 
+/**
+ * Rotating set of safe icofont classes used when a service in the database
+ * has no `icon` field. Keeps each card visually distinct even without DB data.
+ */
+const FALLBACK_ICONS = [
+  "icofont-businessman",
+  "icofont-people",
+  "icofont-student",
+  "icofont-car",
+  "icofont-building",
+  "icofont-heart-beat",
+];
+
+/**
+ * Try to guess a sensible icon from common keywords in the loan title before
+ * falling back to the rotation. This handles cases like "Home Loan" or
+ * "Education" being stored with no icon class.
+ */
+function inferIconFromTitle(title?: string): string | null {
+  if (!title) return null;
+  const t = title.toLowerCase();
+  if (/home|house|property|mortgage/.test(t)) return "icofont-building";
+  if (/car|auto|vehicle|bike/.test(t)) return "icofont-car";
+  if (/business|sme|enterprise|commercial/.test(t)) return "icofont-businessman";
+  if (/education|student|tuition|school/.test(t)) return "icofont-student";
+  if (/medical|health|hospital|emergency/.test(t)) return "icofont-heart-beat";
+  if (/personal|individual/.test(t)) return "icofont-people";
+  if (/gold|jewel/.test(t)) return "icofont-gold";
+  if (/agri|farm/.test(t)) return "icofont-tractor";
+  return null;
+}
+
+function resolveIcon(rawIcon: string | undefined, title: string | undefined, index: number): string {
+  const trimmed = (rawIcon ?? "").trim();
+  if (trimmed) return trimmed;
+  return inferIconFromTitle(title) ?? FALLBACK_ICONS[index % FALLBACK_ICONS.length];
+}
+
+/**
+ * Renders an icofont `<i>` and, after mount, checks whether the glyph
+ * actually painted (`offsetWidth > 0`). If the font stylesheet failed to
+ * load or the class is unknown, we swap in an inline SVG so the card never
+ * shows an empty circle.
+ */
+function FallbackIconRenderer({ iconClass, color }: { iconClass: string; color: string }) {
+  const ref = useRef<HTMLElement | null>(null);
+  const [needsFallback, setNeedsFallback] = useState(false);
+
+  useEffect(() => {
+    if (!ref.current) return;
+    // Allow icofont to apply its `:before` content before measuring.
+    const id = requestAnimationFrame(() => {
+      const el = ref.current;
+      if (!el) return;
+      const before = window.getComputedStyle(el, "::before");
+      const content = before.content;
+      // icofont sets a single private-use codepoint via `content`. If it is
+      // missing ("none"/"normal"/empty) the class did not match anything —
+      // fall back to the SVG glyph.
+      const hasIconContent =
+        content && content !== "none" && content !== "normal" && content !== '""' && content !== "''";
+      if (!hasIconContent || el.offsetWidth === 0) {
+        setNeedsFallback(true);
+      }
+    });
+    return () => cancelAnimationFrame(id);
+  }, [iconClass]);
+
+  if (needsFallback) {
+    return (
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        width="28"
+        height="28"
+        fill="none"
+        stroke={color}
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M3 21h18" />
+        <path d="M5 21V10l7-5 7 5v11" />
+        <path d="M9 21v-6h6v6" />
+      </svg>
+    );
+  }
+
+  return (
+    <i
+      ref={ref}
+      className={iconClass}
+      style={{ fontSize: 28, color, transition: "color 0.35s" }}
+    />
+  );
+}
+
 function serviceToProduct(s: ServiceItem, i: number, tags: string[]) {
   return {
     _id: s._id,
-    icon: s.icon,
+    icon: resolveIcon(s.icon, s.title, i),
     title: s.title,
     rate: s.rate,
     maxAmount: s.amount,
@@ -78,10 +175,10 @@ export default function LoanProductsSection({ services, content }: LoanProductsS
 
         {/* Floating currency symbols */}
         {[
-          { x: 60,   y: 350, sym: "$", op: 0.06 },
+          { x: 60,   y: 350, sym: "₹", op: 0.06 },
           { x: 1360, y: 200, sym: "%", op: 0.06 },
           { x: 700,  y: 740, sym: "₹", op: 0.05 },
-          { x: 1200, y: 620, sym: "$", op: 0.05 },
+          { x: 1200, y: 620, sym: "₹", op: 0.05 },
           { x: 180,  y: 650, sym: "%", op: 0.05 },
         ].map((s, i) => (
           <text key={i} x={s.x} y={s.y} fontSize="52" fill={`rgba(44,187,223,${s.op})`} fontFamily="sans-serif" fontWeight="bold">{s.sym}</text>
@@ -139,9 +236,11 @@ export default function LoanProductsSection({ services, content }: LoanProductsS
                     <span style={{ fontSize: 11, fontWeight: 700, color: isHovered ? "#fff" : p.accentColor, letterSpacing: 0.5 }}>{p.tag}</span>
                   </div>
 
-                  {/* Icon */}
+                  {/* Icon — resolved class is guaranteed non-empty via
+                      resolveIcon(); FallbackIconRenderer also hard-detects
+                      icofont load failures at runtime and swaps to SVG. */}
                   <div style={{ width: 60, height: 60, borderRadius: 16, background: isHovered ? "rgba(255,255,255,0.18)" : p.accentBg, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: 18, transition: "all 0.35s", flexShrink: 0 }}>
-                    <i className={p.icon} style={{ fontSize: 28, color: isHovered ? "#fff" : p.accentColor, transition: "color 0.35s" }}></i>
+                    <FallbackIconRenderer iconClass={p.icon} color={isHovered ? "#fff" : p.accentColor} />
                   </div>
 
                   {/* Title */}

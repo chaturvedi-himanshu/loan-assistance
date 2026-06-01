@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import ChatbotWidget from "@/components/ChatbotWidget";
+import CurrencyNormalizer from "@/components/CurrencyNormalizer";
 
 export const metadata: Metadata = {
   title: "Smart Loans - Banking & Business Loan",
@@ -42,6 +43,7 @@ export default function RootLayout({
       <body>
         {children}
         <ChatbotWidget />
+        <CurrencyNormalizer />
       </body>
     </html>
   );

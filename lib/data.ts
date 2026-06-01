@@ -471,7 +471,7 @@ const FALLBACK_HOME_CONTENT: HomeContentData = {
   emiTenureMax: 360,
   emiTenureStep: 6,
   emiTenureDefault: 60,
-  emiCurrency: "USD",
+  emiCurrency: "INR",
   emiMonthlyEmiLabel: "Monthly EMI",
   emiPrincipalLabel: "Principal Amount",
   emiInterestTotalLabel: "Total Interest",
