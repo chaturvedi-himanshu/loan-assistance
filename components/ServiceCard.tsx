@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import IconWithFallback from "@/components/IconWithFallback";
 
 interface ServiceCardProps {
   _id: string;
+  /** URL slug — preferred when navigating to the detail page. */
+  slug?: string;
   title: string;
   icon: string;
   color: string;
@@ -13,13 +16,19 @@ interface ServiceCardProps {
   amount: string;
   tenure: string;
   features: string[];
+  /** Position in the parent list. Used to rotate fallback icons so
+   *  adjacent cards do not all render the same default glyph. */
+  index?: number;
 }
 
-export default function ServiceCard({ _id, title, icon, color, rate, desc, amount, tenure, features }: ServiceCardProps) {
+export default function ServiceCard({ _id, slug, title, icon, color, rate, desc, amount, tenure, features, index = 0 }: ServiceCardProps) {
   const router = useRouter();
+  // Always prefer the slug; fall back to id only if a legacy doc has
+  // not yet had its slug back-filled.
+  const detailHref = `/service-details/${slug ?? _id}`;
   return (
     <div
-      onClick={() => router.push(`/service-details/${_id}`)}
+      onClick={() => router.push(detailHref)}
       style={{
         borderRadius: 20,
         overflow: "hidden",
@@ -55,7 +64,7 @@ export default function ServiceCard({ _id, title, icon, color, rate, desc, amoun
 
         <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", position: "relative", zIndex: 1 }}>
           <div style={{ width: 48, height: 48, borderRadius: 13, background: "rgba(255,255,255,0.22)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <i className={icon} style={{ color: "#fff", fontSize: 22 }}></i>
+            <IconWithFallback icon={icon} title={title} index={index} color="#fff" size={22} />
           </div>
           <div style={{ textAlign: "right" }}>
             <div style={{ fontSize: 11, color: "rgba(255,255,255,0.75)", textTransform: "uppercase", letterSpacing: 0.8, marginBottom: 2 }}>From</div>

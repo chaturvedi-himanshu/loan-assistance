@@ -107,7 +107,7 @@ export default async function ServicesPage() {
           </div>
 
           <div className="row">
-            {services.map((s) => (
+            {services.map((s, idx) => (
               <div
                 key={s._id}
                 className="col-lg-4 col-md-6"
@@ -115,6 +115,7 @@ export default async function ServicesPage() {
               >
                 <ServiceCard
                   _id={s._id}
+                  slug={s.slug}
                   title={s.title}
                   icon={s.icon}
                   color={s.color}
@@ -123,6 +124,7 @@ export default async function ServicesPage() {
                   amount={s.amount}
                   tenure={s.tenure}
                   features={s.features}
+                  index={idx}
                 />
               </div>
             ))}

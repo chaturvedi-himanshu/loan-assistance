@@ -68,7 +68,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   try {
     const services = await getServices();
     serviceRoutes = services.map((s) => ({
-      url: `${base}/service-details/${s._id}`,
+      url: `${base}/service-details/${s.slug ?? s._id}`,
       lastModified: pickLastModified(s as unknown as Record<string, unknown>),
       changeFrequency: "monthly" as const,
       priority: 0.7,

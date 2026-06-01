@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { getServiceById, getServices, getSettings, getFooterContent } from "@/lib/data";
+import { getServiceBySlug, getServices, getSettings, getFooterContent } from "@/lib/data";
 
 import Preloader from "@/components/Preloader";
 import Header from "@/components/Header";
@@ -12,7 +12,9 @@ export const revalidate = 60;
 
 export async function generateStaticParams() {
   const services = await getServices();
-  return services.map((s) => ({ id: s._id }));
+  // Prefer slug; fall back to _id for any legacy doc that has not yet had
+  // its slug auto-generated.
+  return services.map((s) => ({ slug: s.slug ?? s._id }));
 }
 
 const processSteps = [
@@ -22,10 +24,12 @@ const processSteps = [
   { icon: "icofont-money-bag", title: "Disbursal", text: "Amount gets disbursed directly to your account after approval." },
 ];
 
-export default async function ServiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
+export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const [service, settings, footerContent] = await Promise.all([
-    getServiceById(id),
+    // `getServiceBySlug` also accepts an ObjectId, so any legacy
+    // /service-details/<id> URL still resolves cleanly.
+    getServiceBySlug(slug),
     getSettings(),
     getFooterContent(),
   ]);

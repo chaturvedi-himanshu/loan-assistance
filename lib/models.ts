@@ -66,11 +66,28 @@ const statSchema = new Schema(
 );
 
 // ── Service ───────────────────────────────────────────────
+/** Convert any string to a URL-safe slug. */
+function slugify(input: string): string {
+  return input
+    .toString()
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+}
+
 const serviceSchema = new Schema(
   {
     icon: { type: String, default: "flaticon-money" },
     rate: { type: String, required: true },
     title: { type: String, required: true },
+    // URL-friendly slug used in /service-details/<slug>. Sparse + unique so
+    // older documents without a slug remain valid (a one-off migration is
+    // not required — pre-save auto-fills the slug the next time a doc is
+    // saved, and the data layer falls back to id lookup at read time).
+    slug: { type: String, unique: true, sparse: true, index: true },
     amount: { type: String, required: true },
     tenure: { type: String, required: true },
     desc: { type: String, required: true },
@@ -80,6 +97,38 @@ const serviceSchema = new Schema(
   },
   { timestamps: true },
 );
+
+// Auto-generate `slug` from the title when missing. Runs on document
+// `.save()` — covered by both POST (Service.create) and any direct .save().
+// Mongoose v9 middleware is async/promise-based — never call the legacy
+// `next()` callback (it no longer exists and throws at runtime).
+serviceSchema.pre("save", function () {
+  const doc = this as unknown as { slug?: string; title?: string };
+  if (!doc.slug && doc.title) {
+    doc.slug = slugify(doc.title);
+  }
+});
+
+// Same protection for updates that go through findOneAndUpdate (PUT).
+serviceSchema.pre("findOneAndUpdate", function () {
+  const raw = this.getUpdate();
+  if (!raw || typeof raw !== "object") return;
+
+  const update = raw as {
+    slug?: string;
+    title?: string;
+    $set?: { slug?: string; title?: string };
+  };
+  const root = update.$set ?? update;
+
+  if (!root.slug && root.title) {
+    root.slug = slugify(root.title);
+    if (update.$set) {
+      update.$set = root;
+    }
+    this.setUpdate(update);
+  }
+});
 
 // ── Why Choose Us ─────────────────────────────────────────
 const whySchema = new Schema(
@@ -209,6 +258,13 @@ export const Settings =
 export const Hero = mongoose.models.Hero ?? mongoose.model("Hero", heroSchema);
 
 export const Stat = mongoose.models.Stat ?? mongoose.model("Stat", statSchema);
+
+// In dev, drop the cached model so schema/middleware edits take effect
+// without a full server restart (Mongoose caches models globally).
+if (process.env.NODE_ENV === "development" && mongoose.models.Service) {
+  delete mongoose.models.Service;
+  delete (mongoose.connection.models as Record<string, unknown>).Service;
+}
 
 export const Service =
   mongoose.models.Service ?? mongoose.model("Service", serviceSchema);

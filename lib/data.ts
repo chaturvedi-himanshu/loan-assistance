@@ -210,6 +210,10 @@ export interface StatItem {
 }
 export interface ServiceItem {
   _id: string;
+  /** URL-friendly identifier used in /service-details/<slug>. Optional on
+   *  legacy documents; the data layer falls back to `_id` lookup when
+   *  the slug isn't available. */
+  slug?: string;
   icon: string;
   rate: string;
   title: string;
@@ -530,6 +534,7 @@ const FALLBACK_STATS: StatItem[] = [
 const FALLBACK_SERVICES: ServiceItem[] = [
   {
     _id: "1",
+    slug: "personal-loan",
     icon: "flaticon-money",
     rate: "9.35%",
     title: "Personal Loan",
@@ -542,6 +547,7 @@ const FALLBACK_SERVICES: ServiceItem[] = [
   },
   {
     _id: "2",
+    slug: "education-loan",
     icon: "flaticon-resume",
     rate: "9.35%",
     title: "Education Loan",
@@ -554,6 +560,7 @@ const FALLBACK_SERVICES: ServiceItem[] = [
   },
   {
     _id: "3",
+    slug: "business-loan",
     icon: "flaticon-mortgage-loan",
     rate: "10.2%",
     title: "Business Loan",
@@ -566,6 +573,7 @@ const FALLBACK_SERVICES: ServiceItem[] = [
   },
   {
     _id: "4",
+    slug: "car-loan",
     icon: "flaticon-loan-2",
     rate: "9.35%",
     title: "Car Loan",
@@ -578,6 +586,7 @@ const FALLBACK_SERVICES: ServiceItem[] = [
   },
   {
     _id: "5",
+    slug: "medical-loan",
     icon: "flaticon-loan-1",
     rate: "18.5%",
     title: "Medical Loan",
@@ -590,6 +599,7 @@ const FALLBACK_SERVICES: ServiceItem[] = [
   },
   {
     _id: "6",
+    slug: "home-loan",
     icon: "flaticon-mortgage-loan",
     rate: "6.90%",
     title: "Home Loan",
@@ -900,13 +910,39 @@ export async function getStats(): Promise<StatItem[]> {
   }
 }
 
+/**
+ * Convert a title to a URL-safe slug. Used as an in-memory fallback when an
+ * older document hasn't yet been saved with the auto-generated slug from
+ * the model's pre-hook.
+ */
+function fallbackSlug(input: string): string {
+  return input
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+}
+
+/** Ensure every returned service has a non-empty `slug` so callers can
+ *  always build URLs like `/service-details/<slug>` without falling back
+ *  to the raw `_id`. */
+function ensureSlugs(items: ServiceItem[]): ServiceItem[] {
+  return items.map((s) =>
+    s.slug && s.slug.length > 0
+      ? s
+      : { ...s, slug: fallbackSlug(s.title) || s._id },
+  );
+}
+
 export async function getServices(): Promise<ServiceItem[]> {
-  if (!(await safeConnect())) return FALLBACK_SERVICES;
+  if (!(await safeConnect())) return ensureSlugs(FALLBACK_SERVICES);
   try {
     const docs = await Service.find().sort({ order: 1 }).lean<ServiceItem[]>();
-    return serialize(docs.length ? docs : FALLBACK_SERVICES);
+    return ensureSlugs(serialize(docs.length ? docs : FALLBACK_SERVICES));
   } catch {
-    return FALLBACK_SERVICES;
+    return ensureSlugs(FALLBACK_SERVICES);
   }
 }
 
@@ -916,6 +952,46 @@ export async function getServiceById(id: string): Promise<ServiceItem | null> {
   try {
     const doc = await Service.findById(id).lean<ServiceItem>();
     return doc ? serialize(doc) : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Look up a service by its URL slug. For backwards compatibility with any
+ * old links / bookmarks, if no document matches by slug AND the input looks
+ * like a 24-char hex ObjectId, we fall back to an `_id` lookup so existing
+ * `/service-details/<id>` URLs keep working.
+ */
+export async function getServiceBySlug(
+  slugOrId: string,
+): Promise<ServiceItem | null> {
+  if (!slugOrId) return null;
+
+  if (!(await safeConnect())) {
+    return (
+      FALLBACK_SERVICES.find((s) => s.slug === slugOrId) ??
+      FALLBACK_SERVICES.find((s) => s._id === slugOrId) ??
+      null
+    );
+  }
+
+  try {
+    const bySlug = await Service.findOne({ slug: slugOrId }).lean<ServiceItem>();
+    if (bySlug) return serialize(bySlug);
+
+    if (/^[a-f0-9]{24}$/i.test(slugOrId)) {
+      const byId = await Service.findById(slugOrId).lean<ServiceItem>();
+      if (byId) return serialize(byId);
+    }
+
+    // Last resort: match against the title-derived fallback slug for
+    // legacy documents that have not yet been saved with a real slug.
+    const all = await Service.find().lean<ServiceItem[]>();
+    const match = all.find(
+      (s) => fallbackSlug(s.title) === slugOrId,
+    );
+    return match ? serialize(match) : null;
   } catch {
     return null;
   }

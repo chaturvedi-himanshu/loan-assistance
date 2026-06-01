@@ -41,6 +41,13 @@ export default function AdminServicesPage() {
       apiPath="services"
       fields={[
         { key: "title",    label: "Loan Title",     placeholder: "Personal Loan" },
+        {
+          key: "slug",
+          label: "URL Slug (optional)",
+          placeholder: "personal-loan",
+          // The server auto-generates this from the title on save if left
+          // blank, and forms the final URL: /service-details/<slug>.
+        },
         { key: "rate",     label: "Interest Rate",  placeholder: "9.35%" },
         { key: "amount",   label: "Max Amount",     placeholder: "₹2,00,000" },
         { key: "tenure",   label: "Tenure",         placeholder: "Up to 60 months" },
@@ -50,7 +57,7 @@ export default function AdminServicesPage() {
         { key: "color",    label: "Accent Color",   type: "color" },
         { key: "order",    label: "Sort Order",     type: "number", placeholder: "1" },
       ]}
-      defaultValues={{ title: "", rate: "", amount: "", tenure: "", desc: "", features: [], icon: "flaticon-money", color: "#2cbbdf", order: 0 }}
+      defaultValues={{ title: "", slug: "", rate: "", amount: "", tenure: "", desc: "", features: [], icon: "flaticon-money", color: "#2cbbdf", order: 0 }}
       renderCard={(item, onEdit, onDelete) => (
         <ServiceCard key={item._id as string} item={item} onEdit={onEdit} onDelete={onDelete} />
       )}
