@@ -340,8 +340,8 @@ export const FORM_FIELD_SEEDS = [
   },
   {
     key: "amount",
-    label: "Loan Amount ($)",
-    placeholder: "Loan amount ($)",
+    label: "Loan Amount (INR)",
+    placeholder: "Loan amount (INR)",
     type: "number",
     required: true,
     enabled: true,
@@ -484,7 +484,7 @@ export const FORM_FIELD_SEEDS = [
   },
   {
     key: "income",
-    label: "Monthly Income ($)",
+    label: "Monthly Income (INR)",
     placeholder: "Monthly income",
     type: "number",
     required: false,
