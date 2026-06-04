@@ -133,7 +133,7 @@ export default function TrustedPartnersSection({ partners: allItems }: TrustedPa
                     Get <span style={{ color: "#2cbbdf" }}>0% processing fee</span> on your first loan!
                   </h3>
                   <p style={{ color: "rgba(255,255,255,0.65)", fontSize: 16, margin: 0 }}>
-                    Apply before December 31 and save up to ₹500 in fees. Limited slots available.
+                    Apply before December 31 and save up to $500 in fees. Limited slots available.
                   </p>
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: 12, zIndex: 1, flexShrink: 0 }}>

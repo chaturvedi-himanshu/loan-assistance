@@ -26,9 +26,9 @@ function serviceToProduct(s: ServiceItem, i: number, tags: string[]) {
 }
 
 const defaultProducts = [
-  { _id:"1", icon:"icofont-building",    title:"Home Loan",     rate:"6.90%", maxAmount:"₹50,00,000",tenure:"Up to 360 months",tag:"Lowest Rate",   tagColor:"#fff", accentColor:"#e91e8c", accentBg:"rgba(233,30,140,0.10)",bullets:["Balance transfer","Top-up facility","Tax benefits"] },
-  { _id:"2", icon:"icofont-businessman", title:"Business Loan", rate:"10.2%", maxAmount:"₹5,00,000", tenure:"Up to 84 months", tag:"Most Popular", tagColor:"#fff", accentColor:"#2cbbdf", accentBg:"rgba(44,187,223,0.10)", bullets:["No collateral required","Instant disbursal","Overdraft facility"] },
-  { _id:"3", icon:"icofont-car",         title:"Car Loan",      rate:"8.70%", maxAmount:"₹3,00,000", tenure:"Up to 60 months", tag:"Fast Approval", tagColor:"#fff", accentColor:"#f0734a", accentBg:"rgba(240,115,74,0.10)", bullets:["New & used cars","Up to 95% financing","Doorstep service"] },
+  { _id:"1", icon:"icofont-building",    title:"Home Loan",     rate:"6.90%", maxAmount:"$5,000,000",tenure:"Up to 360 months",tag:"Lowest Rate",   tagColor:"#fff", accentColor:"#e91e8c", accentBg:"rgba(233,30,140,0.10)",bullets:["Balance transfer","Top-up facility","Tax benefits"] },
+  { _id:"2", icon:"icofont-businessman", title:"Business Loan", rate:"10.2%", maxAmount:"$500,000", tenure:"Up to 84 months", tag:"Most Popular", tagColor:"#fff", accentColor:"#2cbbdf", accentBg:"rgba(44,187,223,0.10)", bullets:["No collateral required","Instant disbursal","Overdraft facility"] },
+  { _id:"3", icon:"icofont-car",         title:"Car Loan",      rate:"8.70%", maxAmount:"$300,000", tenure:"Up to 60 months", tag:"Fast Approval", tagColor:"#fff", accentColor:"#f0734a", accentBg:"rgba(240,115,74,0.10)", bullets:["New & used cars","Up to 95% financing","Doorstep service"] },
 ];
 
 interface LoanProductsSectionProps {
@@ -78,10 +78,10 @@ export default function LoanProductsSection({ services, content }: LoanProductsS
 
         {/* Floating currency symbols */}
         {[
-          { x: 60,   y: 350, sym: "₹", op: 0.06 },
+          { x: 60,   y: 350, sym: "$", op: 0.06 },
           { x: 1360, y: 200, sym: "%", op: 0.06 },
-          { x: 700,  y: 740, sym: "₹", op: 0.05 },
-          { x: 1200, y: 620, sym: "₹", op: 0.05 },
+          { x: 700,  y: 740, sym: "$", op: 0.05 },
+          { x: 1200, y: 620, sym: "$", op: 0.05 },
           { x: 180,  y: 650, sym: "%", op: 0.05 },
         ].map((s, i) => (
           <text key={i} x={s.x} y={s.y} fontSize="52" fill={`rgba(44,187,223,${s.op})`} fontFamily="sans-serif" fontWeight="bold">{s.sym}</text>

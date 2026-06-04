@@ -4,7 +4,13 @@ import PageBanner from "@/components/PageBanner";
 import Footer from "@/components/Footer";
 import Copyright from "@/components/Copyright";
 import ContactForm from "@/components/ContactForm";
-import { getSettings, getFooterContent, type SiteSettings } from "@/lib/data";
+import {
+  getSettings,
+  getFooterContent,
+  getContactPage,
+  type SiteSettings,
+  type ContactPageData,
+} from "@/lib/data";
 
 export const revalidate = 60;
 
@@ -18,35 +24,43 @@ interface ContactItem {
   href?: string;
 }
 
-function buildContactItems(s?: SiteSettings): ContactItem[] {
+function buildContactItems(s: SiteSettings, c: ContactPageData): ContactItem[] {
   const items: ContactItem[] = [];
-  if (s?.phone1) {
+  if (s.phone1) {
     items.push({
       icon: "icofont-phone",
-      label: "Call us anytime",
+      label: c.phoneLabel,
       value: s.phone1,
       href: `tel:${s.phone1.replace(/[^+\d]/g, "")}`,
     });
   }
-  if (s?.email) {
+  if (s.whatsapp) {
+    items.push({
+      icon: "icofont-brand-whatsapp",
+      label: c.whatsappLabel,
+      value: s.whatsapp,
+      href: `https://wa.me/${s.whatsapp.replace(/[^\d]/g, "")}`,
+    });
+  }
+  if (s.email) {
     items.push({
       icon: "icofont-email",
-      label: "Email our team",
+      label: c.emailLabel,
       value: s.email,
       href: `mailto:${s.email}`,
     });
   }
-  if (s?.address) {
+  if (s.address) {
     items.push({
       icon: "icofont-location-pin",
-      label: "Visit our office",
+      label: c.addressLabel,
       value: s.address,
     });
   }
-  if (s?.workingHours) {
+  if (s.workingHours) {
     items.push({
       icon: "icofont-clock-time",
-      label: "Working hours",
+      label: c.hoursLabel,
       value: s.workingHours,
     });
   }
@@ -65,11 +79,12 @@ function buildSocials(s?: SiteSettings) {
 }
 
 export default async function ContactPage() {
-  const [settings, footerContent] = await Promise.all([
+  const [settings, footerContent, contactPage] = await Promise.all([
     getSettings(),
     getFooterContent(),
+    getContactPage(),
   ]);
-  const contactItems = buildContactItems(settings);
+  const contactItems = buildContactItems(settings, contactPage);
   const socials = buildSocials(settings);
 
   return (
@@ -77,8 +92,8 @@ export default async function ContactPage() {
       <Preloader />
       <Header settings={settings} />
       <PageBanner
-        title="Contact Us"
-        description="Talk to a Smart Loans advisor — we usually reply within<br>24 working hours with clear next steps."
+        title={contactPage.bannerTitle}
+        description={contactPage.bannerDesc}
       />
 
       <section
@@ -194,7 +209,7 @@ export default async function ContactPage() {
                   }}
                 >
                   <i className="icofont-headphone-alt" />
-                  We&apos;re here for you
+                  {contactPage.infoEyebrow}
                 </span>
                 <h3
                   style={{
@@ -205,7 +220,7 @@ export default async function ContactPage() {
                     color: "#fff",
                   }}
                 >
-                  Let&apos;s find the right loan for you.
+                  {contactPage.infoHeading}
                 </h3>
                 <p
                   style={{
@@ -215,9 +230,7 @@ export default async function ContactPage() {
                     lineHeight: 1.7,
                   }}
                 >
-                  Reach out by phone, email, or the form on the right. A real
-                  Smart Loans advisor will get back to you with answers, not
-                  bots.
+                  {contactPage.infoDescription}
                 </p>
               </div>
 
@@ -305,7 +318,7 @@ export default async function ContactPage() {
                       marginBottom: 12,
                     }}
                   >
-                    Follow Smart Loans
+                    {contactPage.followLabel}
                   </div>
                   <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                     {socials.map((s) => (
@@ -356,7 +369,7 @@ export default async function ContactPage() {
                     lineHeight: 1.25,
                   }}
                 >
-                  Send us a message
+                  {contactPage.formHeading}
                 </h2>
                 <p
                   style={{
@@ -366,8 +379,7 @@ export default async function ContactPage() {
                     lineHeight: 1.6,
                   }}
                 >
-                  Fill in the form and we&apos;ll get back to you with the next
-                  steps tailored to your loan needs.
+                  {contactPage.formSubtitle}
                 </p>
               </header>
               <ContactForm />

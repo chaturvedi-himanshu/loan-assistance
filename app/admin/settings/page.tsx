@@ -29,6 +29,12 @@ export default function AdminSettingsPage() {
           placeholder: "hello@Smart Loans.com",
         },
         {
+          key: "whatsapp",
+          label: "WhatsApp Number",
+          placeholder: "+1 (800) 694-8956",
+          help: "Shown on the Contact page with a tap-to-chat link.",
+        },
+        {
           key: "address",
           label: "Office Address",
           placeholder: "42 Finance Tower...",

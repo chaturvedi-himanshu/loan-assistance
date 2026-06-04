@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 import Copyright from "@/components/Copyright";
 
 const benefits = [
-  "Loan amount up to ₹5,00,000",
+  "Loan amount up to $500,000",
   "Flexible tenure from 6 to 84 months",
   "Interest starts from 9.35% p.a.",
   "Minimal documentation required",
@@ -41,7 +41,7 @@ const process = [
 
 const metrics = [
   { label: "Starting Rate", value: "9.35%", icon: "icofont-chart-line" },
-  { label: "Max Amount", value: "₹5,00,000", icon: "icofont-money" },
+  { label: "Max Amount", value: "$500,000", icon: "icofont-money" },
   { label: "Approval Time", value: "24 Hours", icon: "icofont-clock-time" },
   { label: "Success Cases", value: "50,000+", icon: "icofont-badge" },
 ];

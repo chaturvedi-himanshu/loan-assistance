@@ -8,6 +8,7 @@ const settingsSchema = new Schema(
     phone1: { type: String, default: "+1 (800) 694-8956" },
     phone2: { type: String, default: "88 487 983 576" },
     email: { type: String, default: "hello@Smart Loans.com" },
+    whatsapp: { type: String, default: "+1 (800) 694-8956" },
     address: { type: String, default: "42 Finance Tower, New York, NY 10001" },
     workingHours: { type: String, default: "Mon – Sat: 9 AM – 6 PM" },
     facebookUrl: { type: String, default: "#" },
@@ -35,7 +36,7 @@ const heroSchema = new Schema(
     ctaSecondaryUrl: { type: String, default: "/services" },
     stat1Value: { type: String, default: "50K+" },
     stat1Label: { type: String, default: "Happy Customers" },
-    stat2Value: { type: String, default: "₹500Cr+" },
+    stat2Value: { type: String, default: "$500M+" },
     stat2Label: { type: String, default: "Disbursed" },
     stat3Value: { type: String, default: "24 Hrs" },
     stat3Label: { type: String, default: "Approval Time" },
@@ -48,7 +49,7 @@ const heroSchema = new Schema(
     // Floating badge 2 (Low Interest / From X%)
     badge2Title: { type: String, default: "Low Interest" },
     badge2Subtitle: { type: String, default: "From 8.5%" },
-    badge2Icon: { type: String, default: "icofont-rupee" },
+    badge2Icon: { type: String, default: "icofont-dollar" },
   },
   { timestamps: true },
 );
@@ -347,8 +348,8 @@ export const FORM_FIELD_SEEDS = [
   },
   {
     key: "amount",
-    label: "Loan Amount (INR)",
-    placeholder: "Loan amount (INR)",
+    label: "Loan Amount ($)",
+    placeholder: "Loan amount ($)",
     type: "number",
     required: true,
     enabled: true,
@@ -492,7 +493,7 @@ export const FORM_FIELD_SEEDS = [
   },
   {
     key: "income",
-    label: "Monthly Income (INR)",
+    label: "Monthly Income ($)",
     placeholder: "Monthly income",
     type: "number",
     required: false,
@@ -641,6 +642,45 @@ const aboutPageSchema = new Schema(
 
 export const AboutPage =
   mongoose.models.AboutPage ?? mongoose.model("AboutPage", aboutPageSchema);
+
+// ── Contact Page ──────────────────────────────────────────
+const contactPageSchema = new Schema(
+  {
+    // Page banner
+    bannerTitle: { type: String, default: "Contact Us" },
+    bannerDesc: {
+      type: String,
+      default:
+        "Talk to a Smart Loans advisor — we usually reply within<br>24 working hours with clear next steps.",
+    },
+    // Info card (left column)
+    infoEyebrow: { type: String, default: "We're here for you" },
+    infoHeading: { type: String, default: "Let's find the right loan for you." },
+    infoDescription: {
+      type: String,
+      default:
+        "Reach out by phone, email, or the form on the right. A real Smart Loans advisor will get back to you with answers, not bots.",
+    },
+    // Contact item labels
+    phoneLabel: { type: String, default: "Call us anytime" },
+    emailLabel: { type: String, default: "Email our team" },
+    whatsappLabel: { type: String, default: "Chat on WhatsApp" },
+    addressLabel: { type: String, default: "Visit our office" },
+    hoursLabel: { type: String, default: "Working hours" },
+    followLabel: { type: String, default: "Follow Smart Loans" },
+    // Form card (right column)
+    formHeading: { type: String, default: "Send us a message" },
+    formSubtitle: {
+      type: String,
+      default:
+        "Fill in the form and we'll get back to you with the next steps tailored to your loan needs.",
+    },
+  },
+  { timestamps: true },
+);
+
+export const ContactPage =
+  mongoose.models.ContactPage ?? mongoose.model("ContactPage", contactPageSchema);
 
 // ── Conveyancing Service ──────────────────────────────────
 const conveyancingSchema = new Schema(
@@ -865,7 +905,7 @@ const homeContentSchema = new Schema(
     emiTenureMax: { type: Number, default: 360 },
     emiTenureStep: { type: Number, default: 6 },
     emiTenureDefault: { type: Number, default: 60 },
-    emiCurrency: { type: String, default: "INR" },
+    emiCurrency: { type: String, default: "USD" },
     emiMonthlyEmiLabel: { type: String, default: "Monthly EMI" },
     emiPrincipalLabel: { type: String, default: "Principal Amount" },
     emiInterestTotalLabel: { type: String, default: "Total Interest" },

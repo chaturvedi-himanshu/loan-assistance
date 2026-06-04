@@ -3,18 +3,17 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import type { HomeContentData } from "@/lib/data";
 
-// Currency is always rendered as Indian Rupees regardless of what is stored
-// in the database (some legacy documents still carry "USD"). Locale is also
-// pinned to en-IN so thousands grouping follows the Indian system (1,00,000).
+// Currency is always rendered in US Dollars. Locale is pinned to en-US so
+// thousands grouping follows the standard system (1,000,000).
 function formatCurrency(value: number) {
   try {
-    return new Intl.NumberFormat("en-IN", {
+    return new Intl.NumberFormat("en-US", {
       style: "currency",
-      currency: "INR",
+      currency: "USD",
       maximumFractionDigits: 0,
     }).format(value);
   } catch {
-    return `₹${Math.round(value).toLocaleString("en-IN")}`;
+    return `$${Math.round(value).toLocaleString("en-US")}`;
   }
 }
 
@@ -44,8 +43,7 @@ export default function EmiCalculatorSection({ content }: EmiCalculatorSectionPr
   const tenureStep = content?.emiTenureStep ?? 6;
   const tenureDefault = content?.emiTenureDefault ?? 60;
 
-  // Currency is intentionally hard-pinned to INR inside formatCurrency so
-  // legacy "USD" values in `content?.emiCurrency` cannot leak into the UI.
+  // Currency is rendered in USD via formatCurrency above.
 
   const heading = content?.emiHeading ?? "EMI Calculator";
   const subtitle = content?.emiSubtitle ?? "Plan your loan repayment easily. Adjust the sliders to see your monthly\ninstallment, total interest, and total payment instantly.";

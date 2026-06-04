@@ -106,6 +106,7 @@ const settingsData = {
   phone1: "+1 (800) 694-8956",
   phone2: "88 487 983 576",
   email: "hello@Smart Loans.com",
+  whatsapp: "+1 (800) 694-8956",
   address: "42 Finance Tower, New York, NY 10001",
   workingHours: "Mon – Sat: 9 AM – 6 PM",
   facebookUrl: "#",
@@ -124,7 +125,7 @@ const heroData = {
   ctaSecondary: "Learn More",
   stat1Value: "50K+",
   stat1Label: "Happy Customers",
-  stat2Value: "₹500Cr+",
+  stat2Value: "$500M+",
   stat2Label: "Disbursed",
   stat3Value: "24 Hrs",
   stat3Label: "Approval Time",
@@ -141,7 +142,7 @@ const statsData = [
   },
   {
     icon: "icofont-money",
-    value: "₹2B+",
+    value: "$2B+",
     label: "Loans Processed",
     color: "#f0734a",
     order: 2,
@@ -167,7 +168,7 @@ const servicesData = [
     icon: "flaticon-money",
     rate: "9.35%",
     title: "Personal Loan",
-    amount: "₹2,00,000",
+    amount: "$200,000",
     tenure: "Up to 60 months",
     desc: "Ideal for urgent expenses, travel plans, medical support, and lifestyle goals with quick approval.",
     features: [
@@ -182,7 +183,7 @@ const servicesData = [
     icon: "flaticon-resume",
     rate: "9.35%",
     title: "Education Loan",
-    amount: "₹10,00,000",
+    amount: "$1,000,000",
     tenure: "Up to 120 months",
     desc: "Support your academic journey with tuition, hostel, books, and international education coverage.",
     features: [
@@ -197,7 +198,7 @@ const servicesData = [
     icon: "flaticon-mortgage-loan",
     rate: "10.2%",
     title: "Business Loan",
-    amount: "₹5,00,000",
+    amount: "$500,000",
     tenure: "Up to 84 months",
     desc: "Get working capital, expansion funds, and inventory financing tailored for SMEs and startups.",
     features: ["Fast disbursal", "Minimal paperwork", "Overdraft option"],
@@ -208,7 +209,7 @@ const servicesData = [
     icon: "flaticon-loan-2",
     rate: "9.35%",
     title: "Car Loan",
-    amount: "₹3,00,000",
+    amount: "$300,000",
     tenure: "Up to 84 months",
     desc: "Buy a new or used car with affordable monthly installments and simple digital documentation.",
     features: [
@@ -223,7 +224,7 @@ const servicesData = [
     icon: "flaticon-loan-1",
     rate: "18.5%",
     title: "Medical Loan",
-    amount: "₹1,00,000",
+    amount: "$100,000",
     tenure: "Up to 48 months",
     desc: "Handle emergency treatments and planned procedures with quick access to healthcare financing.",
     features: [
@@ -238,7 +239,7 @@ const servicesData = [
     icon: "flaticon-mortgage-loan",
     rate: "6.90%",
     title: "Home Loan",
-    amount: "₹50,00,000",
+    amount: "$5,000,000",
     tenure: "Up to 360 months",
     desc: "Own your dream home with low interest rates and long-term repayment plans designed for families.",
     features: [
@@ -513,7 +514,7 @@ const chatbotQAData = [
   {
     question: "Personal Loan",
     answer:
-      "🏦 **Personal Loans** at Smart Loans start from just **9.35% p.a.**\n\nYou can borrow up to ₹2,00,000 with a tenure of up to 60 months. No collateral required!\n\n✅ Instant approval | ✅ Minimal docs | ✅ Flexible EMI",
+      "🏦 **Personal Loans** at Smart Loans start from just **9.35% p.a.**\n\nYou can borrow up to $200,000 with a tenure of up to 60 months. No collateral required!\n\n✅ Instant approval | ✅ Minimal docs | ✅ Flexible EMI",
     keywords: ["personal", "personal loan", "urgent", "individual"],
     isQuickReply: true,
     order: 1,
@@ -521,7 +522,7 @@ const chatbotQAData = [
   {
     question: "Business Loan",
     answer:
-      "💼 **Business Loans** are available from **10.2% p.a.**\n\nGet up to ₹5,00,000 for working capital, expansion, or inventory — with tenure up to 84 months.\n\n✅ Fast disbursal | ✅ Minimal paperwork | ✅ Overdraft option",
+      "💼 **Business Loans** are available from **10.2% p.a.**\n\nGet up to $500,000 for working capital, expansion, or inventory — with tenure up to 84 months.\n\n✅ Fast disbursal | ✅ Minimal paperwork | ✅ Overdraft option",
     keywords: ["business", "sme", "startup", "enterprise", "shop", "company"],
     isQuickReply: true,
     order: 2,
@@ -560,7 +561,7 @@ const chatbotQAData = [
   {
     question: "Home Loan",
     answer:
-      "🏠 **Home Loans** starting at just **6.90% p.a.**\n\nBorrow up to ₹50,00,000 with tenure up to 360 months (30 years)!\n\n✅ Balance transfer available\n✅ Top-up facility\n✅ Dedicated relationship manager",
+      "🏠 **Home Loans** starting at just **6.90% p.a.**\n\nBorrow up to $5,000,000 with tenure up to 360 months (30 years)!\n\n✅ Balance transfer available\n✅ Top-up facility\n✅ Dedicated relationship manager",
     keywords: ["home", "house", "property", "mortgage", "flat", "apartment"],
     isQuickReply: false,
     order: 6,
@@ -568,7 +569,7 @@ const chatbotQAData = [
   {
     question: "Education Loan",
     answer:
-      "🎓 **Education Loans** at **9.35% p.a.**\n\nCover tuition, hostel, books & more — up to ₹10,00,000 with a moratorium period while you study.\n\n✅ Tax benefits under Sec 80E\n✅ Parent co-applicant accepted\n✅ International study covered",
+      "🎓 **Education Loans** at **9.35% p.a.**\n\nCover tuition, hostel, books & more — up to $1,000,000 with a moratorium period while you study.\n\n✅ Tax benefits under Sec 80E\n✅ Parent co-applicant accepted\n✅ International study covered",
     keywords: [
       "education",
       "study",

@@ -15,7 +15,7 @@ interface FieldConfig {
   order: number;
 }
 
-const REQUIRED_KEYS = new Set(["name", "email", "phone", "amount", "purpose"]);
+const REQUIRED_KEYS = new Set(["name", "email", "phone", "purpose"]);
 
 export default function AdminFormFieldsPage() {
   const [fields, setFields]   = useState<FieldConfig[]>([]);
@@ -163,7 +163,7 @@ export default function AdminFormFieldsPage() {
         <div>
           <h2 style={{ fontSize: 22, fontWeight: 800, color: "#1a1a2e", margin: "0 0 4px" }}>Form Fields</h2>
           <p style={{ color: "#888", margin: 0 }}>
-            Control which fields appear on the application form. Core fields (name, email, phone, amount, purpose) are always required.
+            Control which fields appear on the application form. Core fields (name, email, phone, purpose) are always required.
           </p>
         </div>
         <button

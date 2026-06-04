@@ -17,6 +17,7 @@ import {
   ProcessStep,
   Partner,
   AboutPage,
+  ContactPage,
   ConveyancingService,
   HomeContent,
   FooterContent,
@@ -30,6 +31,7 @@ export interface SiteSettings {
   phone1: string;
   phone2: string;
   email: string;
+  whatsapp: string;
   address: string;
   workingHours: string;
   facebookUrl: string;
@@ -336,6 +338,22 @@ export interface AboutPageData {
   bannerDesc: string;
 }
 
+export interface ContactPageData {
+  bannerTitle: string;
+  bannerDesc: string;
+  infoEyebrow: string;
+  infoHeading: string;
+  infoDescription: string;
+  phoneLabel: string;
+  emailLabel: string;
+  whatsappLabel: string;
+  addressLabel: string;
+  hoursLabel: string;
+  followLabel: string;
+  formHeading: string;
+  formSubtitle: string;
+}
+
 // ── Fallbacks ─────────────────────────────────────────────────────────────────
 
 const FALLBACK_SETTINGS: SiteSettings = {
@@ -344,6 +362,7 @@ const FALLBACK_SETTINGS: SiteSettings = {
   phone1: "+1 (800) 694-8956",
   phone2: "88 487 983 576",
   email: "hello@Smart Loans.com",
+  whatsapp: "+1 (800) 694-8956",
   address: "42 Finance Tower, New York, NY 10001",
   workingHours: "Mon – Sat: 9 AM – 6 PM",
   facebookUrl: "#",
@@ -364,7 +383,7 @@ const FALLBACK_HERO: HeroData = {
   ctaSecondaryUrl: "/services",
   stat1Value: "50K+",
   stat1Label: "Happy Customers",
-  stat2Value: "₹500Cr+",
+  stat2Value: "$500M+",
   stat2Label: "Disbursed",
   stat3Value: "24 Hrs",
   stat3Label: "Approval Time",
@@ -375,7 +394,7 @@ const FALLBACK_HERO: HeroData = {
   badge1Icon: "icofont-check-alt",
   badge2Title: "Low Interest",
   badge2Subtitle: "From 8.5%",
-  badge2Icon: "icofont-rupee",
+  badge2Icon: "icofont-dollar",
 };
 
 const FALLBACK_HOME_CONTENT: HomeContentData = {
@@ -475,7 +494,7 @@ const FALLBACK_HOME_CONTENT: HomeContentData = {
   emiTenureMax: 360,
   emiTenureStep: 6,
   emiTenureDefault: 60,
-  emiCurrency: "INR",
+  emiCurrency: "USD",
   emiMonthlyEmiLabel: "Monthly EMI",
   emiPrincipalLabel: "Principal Amount",
   emiInterestTotalLabel: "Total Interest",
@@ -508,7 +527,7 @@ const FALLBACK_STATS: StatItem[] = [
   {
     _id: "2",
     icon: "icofont-money",
-    value: "₹2B+",
+    value: "$2B+",
     label: "Loans Processed",
     color: "#f0734a",
     order: 2,
@@ -538,7 +557,7 @@ const FALLBACK_SERVICES: ServiceItem[] = [
     icon: "flaticon-mortgage-loan",
     rate: "6.90%",
     title: "Home Loan",
-    amount: "₹50,00,000",
+    amount: "$5,000,000",
     tenure: "Up to 360 months",
     desc: "Own your dream home with Smart Loans.",
     features: ["Top-up facility", "Balance transfer", "Dedicated manager"],
@@ -551,7 +570,7 @@ const FALLBACK_SERVICES: ServiceItem[] = [
     icon: "flaticon-mortgage-loan",
     rate: "10.2%",
     title: "Business Loan",
-    amount: "₹5,00,000",
+    amount: "$500,000",
     tenure: "Up to 84 months",
     desc: "Working capital for SMEs and startups, powered by Smart Loans.",
     features: ["Fast disbursal", "Minimal paperwork", "Overdraft"],
@@ -564,7 +583,7 @@ const FALLBACK_SERVICES: ServiceItem[] = [
     icon: "flaticon-loan-2",
     rate: "9.35%",
     title: "Car Loan",
-    amount: "₹3,00,000",
+    amount: "$300,000",
     tenure: "Up to 60 months",
     desc: "Buy a new or used car easily with Smart Loans.",
     features: ["Up to 95% financing", "Used car", "Doorstep processing"],
@@ -770,7 +789,7 @@ const FALLBACK_ABOUT: AboutPageData = {
       backDesc1:
         "Built our partner network with leading banks and NBFCs, and launched our digital application portal.",
       backDesc2:
-        "Crossed the milestone of ₹100 Cr in loans facilitated within two years.",
+        "Crossed the milestone of $100M in loans facilitated within two years.",
       order: 0,
     },
     {
@@ -1247,6 +1266,36 @@ export async function getAboutPage(): Promise<AboutPageData> {
     return data;
   } catch {
     return FALLBACK_ABOUT;
+  }
+}
+
+const FALLBACK_CONTACT: ContactPageData = {
+  bannerTitle: "Contact Us",
+  bannerDesc:
+    "Talk to a Smart Loans advisor — we usually reply within<br>24 working hours with clear next steps.",
+  infoEyebrow: "We're here for you",
+  infoHeading: "Let's find the right loan for you.",
+  infoDescription:
+    "Reach out by phone, email, or the form on the right. A real Smart Loans advisor will get back to you with answers, not bots.",
+  phoneLabel: "Call us anytime",
+  emailLabel: "Email our team",
+  whatsappLabel: "Chat on WhatsApp",
+  addressLabel: "Visit our office",
+  hoursLabel: "Working hours",
+  followLabel: "Follow Smart Loans",
+  formHeading: "Send us a message",
+  formSubtitle:
+    "Fill in the form and we'll get back to you with the next steps tailored to your loan needs.",
+};
+
+export async function getContactPage(): Promise<ContactPageData> {
+  if (!(await safeConnect())) return FALLBACK_CONTACT;
+  try {
+    const doc = await ContactPage.findOne().lean<ContactPageData>();
+    if (!doc) return FALLBACK_CONTACT;
+    return { ...FALLBACK_CONTACT, ...serialize(doc) };
+  } catch {
+    return FALLBACK_CONTACT;
   }
 }
 

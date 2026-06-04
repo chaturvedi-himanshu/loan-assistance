@@ -253,7 +253,7 @@ async function migrateAboutPage() {
           backDesc1:
             "Built our partner network with leading banks and NBFCs, and launched our digital application portal.",
           backDesc2:
-            "Crossed the milestone of ₹100 Cr in loans facilitated within two years.",
+            "Crossed the milestone of $100M in loans facilitated within two years.",
           order: 0,
         },
         {
@@ -559,7 +559,7 @@ async function migrateChatbot() {
     {
       question: "Business Loan",
       answer:
-        "💼 **Business Loan at Smart Loans**\n\n• Interest rate from **10.2% p.a.**\n• Loan amount up to **₹50,00,000**\n• Tenure up to **84 months**\n• Minimal paperwork & fast disbursal\n\nIdeal for working capital, expansion, equipment, and more.",
+        "💼 **Business Loan at Smart Loans**\n\n• Interest rate from **10.2% p.a.**\n• Loan amount up to **$5,000,000**\n• Tenure up to **84 months**\n• Minimal paperwork & fast disbursal\n\nIdeal for working capital, expansion, equipment, and more.",
       keywords: ["business", "sme", "working capital", "expansion"],
     },
     {

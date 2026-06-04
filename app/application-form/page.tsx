@@ -18,8 +18,8 @@ const ACCENT = "#f0734a";
 const BENEFITS = [
   {
     icon: "icofont-bolt",
-    title: "Approval in 24 working hours",
-    desc: "Our advisors review every application by hand — no automated rejections.",
+    title: "Quick response to your query",
+    desc: "Prompt responses, clear communication, and reliable support—every step of the way.",
   },
   {
     icon: "icofont-shield-alt",
@@ -410,7 +410,7 @@ export default async function ApplicationFormPage() {
                     lineHeight: 1.25,
                   }}
                 >
-                  Loan application
+                  Contact Us
                 </h2>
                 <p
                   style={{

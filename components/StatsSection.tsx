@@ -6,7 +6,7 @@ interface StatsSectionProps {
 
 const fallback = [
   { _id:"1", icon: "icofont-people",          value: "25,000+", label: "Happy Customers",  color: "#2cbbdf", order: 1 },
-  { _id:"2", icon: "icofont-money",            value: "₹2B+",    label: "Loans Processed",  color: "#f0734a", order: 2 },
+  { _id:"2", icon: "icofont-money",            value: "$2B+",    label: "Loans Processed",  color: "#f0734a", order: 2 },
   { _id:"3", icon: "icofont-check-circled",    value: "98%",     label: "Approval Rate",    color: "#27ae60", order: 3 },
   { _id:"4", icon: "icofont-globe",            value: "50+",     label: "Cities Covered",   color: "#e91e8c", order: 4 },
 ];

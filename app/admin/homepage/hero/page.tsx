@@ -18,7 +18,7 @@ export default function AdminHomeHeroPage() {
 
         { key: "stat1Value", label: "Stat 1 – Value", placeholder: "50K+" },
         { key: "stat1Label", label: "Stat 1 – Label", placeholder: "Happy Customers" },
-        { key: "stat2Value", label: "Stat 2 – Value", placeholder: "₹500Cr+" },
+        { key: "stat2Value", label: "Stat 2 – Value", placeholder: "$500M+" },
         { key: "stat2Label", label: "Stat 2 – Label", placeholder: "Disbursed" },
         { key: "stat3Value", label: "Stat 3 – Value", placeholder: "24 Hrs" },
         { key: "stat3Label", label: "Stat 3 – Label", placeholder: "Approval Time" },

@@ -9,7 +9,7 @@ interface HeroSectionProps {
 
 const fallbackStats = [
   { icon: "icofont-people", value: "25K+", label: "Happy Clients" },
-  { icon: "icofont-check-circled", value: "₹2B+", label: "Loans Processed" },
+  { icon: "icofont-check-circled", value: "$2B+", label: "Loans Processed" },
   { icon: "icofont-star", value: "98%", label: "Satisfaction Rate" },
 ];
 
@@ -23,7 +23,7 @@ export default function HeroSection({ hero, stats }: HeroSectionProps) {
         },
         {
           icon: "icofont-check-circled",
-          value: stats[1]?.value ?? "₹2B+",
+          value: stats[1]?.value ?? "$2B+",
           label: stats[1]?.label ?? "Loans Processed",
         },
         {

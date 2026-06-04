@@ -49,7 +49,7 @@ export default function AdminServicesPage() {
           // blank, and forms the final URL: /service-details/<slug>.
         },
         { key: "rate",     label: "Interest Rate",  placeholder: "9.35%" },
-        { key: "amount",   label: "Max Amount",     placeholder: "₹2,00,000" },
+        { key: "amount",   label: "Max Amount",     placeholder: "$200,000" },
         { key: "tenure",   label: "Tenure",         placeholder: "Up to 60 months" },
         { key: "desc",     label: "Description",    type: "textarea", placeholder: "Short description..." },
         { key: "features", label: "Features (Enter to add)", type: "tags" },
