@@ -158,7 +158,7 @@ export default function LoanProductsSection({ services, content }: LoanProductsS
                   <h4 style={{ fontSize: 20, fontWeight: 700, color: isHovered ? "#fff" : "#222", marginBottom: 16, transition: "color 0.35s" }}>{p.title}</h4>
 
                   {/* Key metrics row */}
-                  <div style={{ display: "flex", gap: 0, marginBottom: 20, borderRadius: 12, overflow: "hidden", background: isHovered ? "rgba(255,255,255,0.12)" : "#f8f8fb" }}>
+                  {/* <div style={{ display: "flex", gap: 0, marginBottom: 20, borderRadius: 12, overflow: "hidden", background: isHovered ? "rgba(255,255,255,0.12)" : "#f8f8fb" }}>
                     {[
                       { label: "Rate", value: p.rate, icon: "icofont-chart-growth" },
                       { label: "Max", value: p.maxAmount, icon: "icofont-money" },
@@ -171,13 +171,13 @@ export default function LoanProductsSection({ services, content }: LoanProductsS
                         <div style={{ fontSize: 16, fontWeight: 800, color: isHovered ? "#fff" : p.accentColor, transition: "color 0.35s" }}>{m.value}</div>
                       </div>
                     ))}
-                  </div>
+                  </div> */}
 
                   {/* Tenure */}
-                  <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+                  {/* <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
                     <i className="icofont-calendar" style={{ color: isHovered ? "rgba(255,255,255,0.75)" : "#aaa", fontSize: 14 }}></i>
                     <span style={{ fontSize: 14, color: isHovered ? "rgba(255,255,255,0.85)" : "#929292", transition: "color 0.35s" }}>{p.tenure}</span>
-                  </div>
+                  </div> */}
 
                   {/* Bullet features */}
                   <ul style={{ padding: 0, margin: "0 0 24px", listStyle: "none", flex: 1 }}>
