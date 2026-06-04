@@ -66,20 +66,24 @@ async function main() {
 
   try {
     console.log("\n[HomeContent.whyLogos]");
-    let doc = await HomeContent.findOne();
-    if (!doc) {
-      doc = await HomeContent.create({
-        whyLogos: BANK_LOGOS,
-        whyLogosHeading: "Trusted by Australia's leading banks",
-      });
+    const doc = await HomeContent.findOne().lean();
+    const existing = Array.isArray(doc?.whyLogos) ? doc.whyLogos : [];
+
+    if (existing.length > 0) {
+      console.log(`  • whyLogos already set (${existing.length}) — left untouched.`);
+    } else if (!doc) {
+      // $set with upsert guarantees the array persists even on a non-strict schema.
+      await HomeContent.updateOne(
+        {},
+        { $set: { whyLogos: BANK_LOGOS, whyLogosHeading: "Trusted by Australia's leading banks" } },
+        { upsert: true },
+      );
       console.log(`  ✓ Created HomeContent with ${BANK_LOGOS.length} bank logos.`);
-    } else if (!Array.isArray(doc.whyLogos) || doc.whyLogos.length === 0) {
-      doc.whyLogos = BANK_LOGOS;
-      if (!doc.whyLogosHeading) doc.whyLogosHeading = "Trusted by Australia's leading banks";
-      await doc.save();
-      console.log(`  ✓ Added ${BANK_LOGOS.length} Australian bank logos.`);
     } else {
-      console.log(`  • whyLogos already set (${doc.whyLogos.length}) — left untouched.`);
+      const set = { whyLogos: BANK_LOGOS };
+      if (!doc.whyLogosHeading) set.whyLogosHeading = "Trusted by Australia's leading banks";
+      await HomeContent.updateOne({ _id: doc._id }, { $set: set });
+      console.log(`  ✓ Added ${BANK_LOGOS.length} Australian bank logos.`);
     }
     console.log("\n✅  Bank logo seeding complete.");
   } catch (err) {

@@ -30,7 +30,7 @@ export default function LogoCarousel({ logos, heading }: LogoCarouselProps) {
         background: "#fff",
         border: "1px solid #f0f0f8",
         borderRadius: 16,
-        padding: "28px 8px",
+        padding: "36px 8px",
         boxShadow: "0 8px 32px rgba(31,34,71,0.06)",
         overflow: "hidden",
       }}
@@ -88,17 +88,16 @@ export default function LogoCarousel({ logos, heading }: LogoCarouselProps) {
         }
         .logo-carousel-slide img {
           max-width: 100%;
-          max-height: 46px;
+          max-height: 72px;
           width: auto;
           height: auto;
           object-fit: contain;
-          filter: grayscale(100%);
-          opacity: 0.7;
-          transition: filter 0.3s ease, opacity 0.3s ease;
+          opacity: 0.9;
+          transition: opacity 0.3s ease, transform 0.3s ease;
         }
         .logo-carousel-slide img:hover {
-          filter: grayscale(0%);
           opacity: 1;
+          transform: scale(1.05);
         }
         @keyframes logoCarouselScroll {
           from { transform: translateX(0); }
