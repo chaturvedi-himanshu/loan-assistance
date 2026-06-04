@@ -18,19 +18,15 @@ export default function ServiceFlipCard({
       <div className="flipper">
         <div className="front">
           <i className={icon}></i>
-          <h1>{rate}</h1>
           <div className="clearfix"></div>
           <h4>{title}</h4>
           <p>{description}</p>
-          <h5>{installment}</h5>
         </div>
         <div className="back">
           <i className={icon}></i>
-          <h1>{rate}</h1>
           <div className="clearfix"></div>
           <h4>{title}</h4>
           <p>{description}</p>
-          <h5>{installment}</h5>
         </div>
       </div>
     </div>

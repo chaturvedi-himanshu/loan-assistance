@@ -60,11 +60,17 @@ export default function Footer({ settings, content }: FooterProps) {
     });
   }, [c?.copyrightText, s?.siteName]);
 
-  const contactInfo = [
-    { icon: "icofont-location-pin", text: s?.address      ?? "42 Finance Tower, New York, NY 10001" },
-    { icon: "icofont-phone",        text: s?.phone1        ?? "+1 (800) 694-8956" },
-    { icon: "icofont-email",        text: s?.email         ?? "hello@payloan.com" },
-    { icon: "icofont-clock-time",   text: s?.workingHours  ?? "Mon – Sat: 9 AM – 6 PM" },
+  const phone = s?.phone1 ?? "+1 (800) 694-8956";
+  const whatsapp = s?.whatsapp ?? "";
+  const email = s?.email ?? "hello@payloan.com";
+  const contactInfo: { icon: string; text: string; href?: string }[] = [
+    { icon: "icofont-location-pin", text: s?.address ?? "42 Finance Tower, New York, NY 10001" },
+    { icon: "icofont-phone", text: phone, href: `tel:${phone.replace(/[^+\d]/g, "")}` },
+    ...(whatsapp
+      ? [{ icon: "icofont-brand-whatsapp", text: whatsapp, href: `https://wa.me/${whatsapp.replace(/[^\d]/g, "")}` }]
+      : []),
+    { icon: "icofont-email", text: email, href: `mailto:${email}` },
+    { icon: "icofont-clock-time", text: s?.workingHours ?? "Mon – Sat: 9 AM – 6 PM" },
   ];
   const socialsWithLinks = [
     { icon: "icofont-facebook",     href: s?.facebookUrl  ?? "#", color: "#3b5998", label: "Facebook" },
@@ -135,14 +141,32 @@ export default function Footer({ settings, content }: FooterProps) {
             </p>
 
             <ul style={{ listStyle: "none", padding: 0, margin: "0 0 28px" }}>
-              {contactInfo.map((ci) => (
-                <li key={ci.text} style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 12 }}>
-                  <div style={{ width: 30, height: 30, borderRadius: 8, background: "rgba(44,187,223,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
-                    <i className={ci.icon} style={{ color: "#2cbbdf", fontSize: 14 }}></i>
-                  </div>
-                  <span style={{ color: "rgba(255,255,255,0.60)", fontSize: 13, lineHeight: 1.6 }}>{ci.text}</span>
-                </li>
-              ))}
+              {contactInfo.map((ci) => {
+                const iconColor = ci.icon === "icofont-brand-whatsapp" ? "#25d366" : "#2cbbdf";
+                const content = (
+                  <>
+                    <div style={{ width: 30, height: 30, borderRadius: 8, background: "rgba(44,187,223,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: 1 }}>
+                      <i className={ci.icon} style={{ color: iconColor, fontSize: 14 }}></i>
+                    </div>
+                    <span style={{ color: "rgba(255,255,255,0.60)", fontSize: 13, lineHeight: 1.6 }}>{ci.text}</span>
+                  </>
+                );
+                return (
+                  <li key={ci.text} style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 12 }}>
+                    {ci.href ? (
+                      <a
+                        href={ci.href}
+                        {...(ci.icon === "icofont-brand-whatsapp" ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                        style={{ display: "flex", alignItems: "flex-start", gap: 10, textDecoration: "none" }}
+                      >
+                        {content}
+                      </a>
+                    ) : (
+                      content
+                    )}
+                  </li>
+                );
+              })}
             </ul>
 
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>

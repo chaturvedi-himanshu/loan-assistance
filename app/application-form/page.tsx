@@ -7,7 +7,9 @@ import ApplicationFormClient from "@/components/ApplicationFormClient";
 import {
   getSettings,
   getFooterContent,
+  getApplicationPage,
   type SiteSettings,
+  type ApplicationPageData,
 } from "@/lib/data";
 
 export const revalidate = 60;
@@ -15,43 +17,13 @@ export const revalidate = 60;
 const PRIMARY = "#2cbbdf";
 const ACCENT = "#f0734a";
 
-const BENEFITS = [
-  {
-    icon: "icofont-bolt",
-    title: "Quick response to your query",
-    desc: "Prompt responses, clear communication, and reliable support—every step of the way.",
-  },
-  {
-    icon: "icofont-shield-alt",
-    title: "Bank-level security",
-    desc: "Your information is encrypted in transit and never sold to third parties.",
-  },
-  {
-    icon: "icofont-coins",
-    title: "Zero hidden charges",
-    desc: "Transparent rates and fees — what you see is what you pay.",
-  },
-];
-
-const STEPS = [
-  {
-    num: "01",
-    title: "Fill out the form",
-    desc: "Share a few details about you and the loan you need.",
-  },
-  {
-    num: "02",
-    title: "We review & match",
-    desc: "Our team matches you with the best lender for your profile.",
-  },
-  {
-    num: "03",
-    title: "Approval & next steps",
-    desc: "We get back to you within 24 working hours with a decision.",
-  },
-];
-
-function SideCard({ settings }: { settings?: SiteSettings }) {
+function SideCard({
+  settings,
+  content,
+}: {
+  settings: SiteSettings;
+  content: ApplicationPageData;
+}) {
   return (
     <aside
       style={{
@@ -111,7 +83,7 @@ function SideCard({ settings }: { settings?: SiteSettings }) {
             }}
           >
             <i className="icofont-rocket-alt-2" />
-            Quick Application
+            {content.sideBadge}
           </span>
           <h3
             style={{
@@ -122,7 +94,7 @@ function SideCard({ settings }: { settings?: SiteSettings }) {
               color: "#fff",
             }}
           >
-            Get a loan that fits your life.
+            {content.sideHeading}
           </h3>
           <p
             style={{
@@ -132,8 +104,7 @@ function SideCard({ settings }: { settings?: SiteSettings }) {
               lineHeight: 1.7,
             }}
           >
-            Fill in the form on the right and our team will get back to you with
-            the best options for your profile within 24 working hours.
+            {content.sideDescription}
           </p>
 
           <ul
@@ -146,7 +117,7 @@ function SideCard({ settings }: { settings?: SiteSettings }) {
               gap: 12,
             }}
           >
-            {BENEFITS.map((b) => (
+            {content.benefits.map((b) => (
               <li
                 key={b.title}
                 style={{
@@ -209,7 +180,7 @@ function SideCard({ settings }: { settings?: SiteSettings }) {
             margin: "0 0 14px",
           }}
         >
-          What happens next
+          {content.processHeading}
         </h4>
         <ol
           style={{
@@ -221,7 +192,7 @@ function SideCard({ settings }: { settings?: SiteSettings }) {
             gap: 14,
           }}
         >
-          {STEPS.map((s) => (
+          {content.steps.map((s) => (
             <li key={s.num} style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
               <span
                 style={{
@@ -252,7 +223,7 @@ function SideCard({ settings }: { settings?: SiteSettings }) {
           ))}
         </ol>
 
-        {(settings?.phone1 || settings?.email) && (
+        {(settings.phone1 || settings.whatsapp || settings.email) && (
           <div
             style={{
               marginTop: 22,
@@ -272,9 +243,9 @@ function SideCard({ settings }: { settings?: SiteSettings }) {
                 textTransform: "uppercase",
               }}
             >
-              Need help right now?
+              {content.helpLabel}
             </div>
-            {settings?.phone1 && (
+            {settings.phone1 && (
               <a
                 href={`tel:${settings.phone1.replace(/[^+\d]/g, "")}`}
                 style={{
@@ -291,7 +262,26 @@ function SideCard({ settings }: { settings?: SiteSettings }) {
                 {settings.phone1}
               </a>
             )}
-            {settings?.email && (
+            {settings.whatsapp && (
+              <a
+                href={`https://wa.me/${settings.whatsapp.replace(/[^\d]/g, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 10,
+                  color: "#1a1a2e",
+                  fontSize: 14,
+                  fontWeight: 600,
+                  textDecoration: "none",
+                }}
+              >
+                <i className="icofont-brand-whatsapp" style={{ color: "#25d366", fontSize: 17 }} />
+                {settings.whatsapp}
+              </a>
+            )}
+            {settings.email && (
               <a
                 href={`mailto:${settings.email}`}
                 style={{
@@ -317,9 +307,10 @@ function SideCard({ settings }: { settings?: SiteSettings }) {
 }
 
 export default async function ApplicationFormPage() {
-  const [settings, footerContent] = await Promise.all([
+  const [settings, footerContent, content] = await Promise.all([
     getSettings(),
     getFooterContent(),
+    getApplicationPage(),
   ]);
 
   return (
@@ -327,9 +318,9 @@ export default async function ApplicationFormPage() {
       <Preloader />
       <Header settings={settings} />
       <PageBanner
-        title="Apply for Your Loan"
-        eyebrow="Application Form"
-        description="Tell us a little about you and we&apos;ll get back to you within<br>24 working hours with a decision and the best next steps."
+        title={content.bannerTitle}
+        eyebrow={content.bannerEyebrow}
+        description={content.bannerDesc}
       />
 
       <section
@@ -387,7 +378,7 @@ export default async function ApplicationFormPage() {
               alignItems: "start",
             }}
           >
-            <SideCard settings={settings} />
+            <SideCard settings={settings} content={content} />
 
             {/* Right: Form card */}
             <div
@@ -407,22 +398,21 @@ export default async function ApplicationFormPage() {
                     fontWeight: 800,
                     color: "#1a1a2e",
                     margin: 0,
-                    lineHeight: 1.25,
-                  }}
-                >
-                  Contact Us
-                </h2>
-                <p
-                  style={{
-                    margin: "8px 0 0",
-                    color: "#6b7390",
-                    fontSize: 14,
-                    lineHeight: 1.6,
-                  }}
-                >
-                  Complete the form below. Everything you share is encrypted
-                  and used only to process your application.
-                </p>
+                  lineHeight: 1.25,
+                }}
+              >
+                {content.formHeading}
+              </h2>
+              <p
+                style={{
+                  margin: "8px 0 0",
+                  color: "#6b7390",
+                  fontSize: 14,
+                  lineHeight: 1.6,
+                }}
+              >
+                {content.formSubtitle}
+              </p>
               </header>
               <ApplicationFormClient />
             </div>

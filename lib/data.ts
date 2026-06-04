@@ -18,6 +18,7 @@ import {
   Partner,
   AboutPage,
   ContactPage,
+  ApplicationPage,
   ConveyancingService,
   HomeContent,
   FooterContent,
@@ -350,6 +351,33 @@ export interface ContactPageData {
   addressLabel: string;
   hoursLabel: string;
   followLabel: string;
+  formHeading: string;
+  formSubtitle: string;
+}
+
+export interface ApplyBenefit {
+  icon: string;
+  title: string;
+  desc: string;
+}
+
+export interface ApplyStep {
+  num: string;
+  title: string;
+  desc: string;
+}
+
+export interface ApplicationPageData {
+  bannerTitle: string;
+  bannerEyebrow: string;
+  bannerDesc: string;
+  sideBadge: string;
+  sideHeading: string;
+  sideDescription: string;
+  benefits: ApplyBenefit[];
+  processHeading: string;
+  steps: ApplyStep[];
+  helpLabel: string;
   formHeading: string;
   formSubtitle: string;
 }
@@ -1296,6 +1324,60 @@ export async function getContactPage(): Promise<ContactPageData> {
     return { ...FALLBACK_CONTACT, ...serialize(doc) };
   } catch {
     return FALLBACK_CONTACT;
+  }
+}
+
+const FALLBACK_APPLICATION: ApplicationPageData = {
+  bannerTitle: "Apply for Your Loan",
+  bannerEyebrow: "Application Form",
+  bannerDesc:
+    "Tell us a little about you and we'll get back to you within<br>24 working hours with a decision and the best next steps.",
+  sideBadge: "Quick Application",
+  sideHeading: "Get a loan that fits your life.",
+  sideDescription:
+    "Fill in the form on the right and our team will get back to you with the best options for your profile within 24 working hours.",
+  benefits: [
+    {
+      icon: "icofont-bolt",
+      title: "Quick response to your query",
+      desc: "Prompt responses, clear communication, and reliable support—every step of the way.",
+    },
+    {
+      icon: "icofont-shield-alt",
+      title: "Bank-level security",
+      desc: "Your information is encrypted in transit and never sold to third parties.",
+    },
+    {
+      icon: "icofont-coins",
+      title: "Zero hidden charges",
+      desc: "Transparent rates and fees — what you see is what you pay.",
+    },
+  ],
+  processHeading: "What happens next",
+  steps: [
+    { num: "01", title: "Fill out the form", desc: "Share a few details about you and the loan you need." },
+    { num: "02", title: "We review & match", desc: "Our team matches you with the best lender for your profile." },
+    { num: "03", title: "Approval & next steps", desc: "We get back to you within 24 working hours with a decision." },
+  ],
+  helpLabel: "Need help right now?",
+  formHeading: "Contact Us",
+  formSubtitle:
+    "Complete the form below. Everything you share is encrypted and used only to process your application.",
+};
+
+export async function getApplicationPage(): Promise<ApplicationPageData> {
+  if (!(await safeConnect())) return FALLBACK_APPLICATION;
+  try {
+    const doc = await ApplicationPage.findOne().lean<ApplicationPageData>();
+    if (!doc) return FALLBACK_APPLICATION;
+    const data = { ...FALLBACK_APPLICATION, ...serialize(doc) };
+    if (!Array.isArray(data.benefits) || data.benefits.length === 0)
+      data.benefits = FALLBACK_APPLICATION.benefits;
+    if (!Array.isArray(data.steps) || data.steps.length === 0)
+      data.steps = FALLBACK_APPLICATION.steps;
+    return data;
+  } catch {
+    return FALLBACK_APPLICATION;
   }
 }
 

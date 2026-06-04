@@ -682,6 +682,89 @@ const contactPageSchema = new Schema(
 export const ContactPage =
   mongoose.models.ContactPage ?? mongoose.model("ContactPage", contactPageSchema);
 
+// ── Application Page ──────────────────────────────────────
+const applyBenefitSchema = new Schema(
+  {
+    icon: { type: String, default: "icofont-check-circled" },
+    title: { type: String, default: "" },
+    desc: { type: String, default: "" },
+  },
+  { _id: false },
+);
+
+const applyStepSchema = new Schema(
+  {
+    num: { type: String, default: "" },
+    title: { type: String, default: "" },
+    desc: { type: String, default: "" },
+  },
+  { _id: false },
+);
+
+const applicationPageSchema = new Schema(
+  {
+    // Page banner
+    bannerTitle: { type: String, default: "Apply for Your Loan" },
+    bannerEyebrow: { type: String, default: "Application Form" },
+    bannerDesc: {
+      type: String,
+      default:
+        "Tell us a little about you and we'll get back to you within<br>24 working hours with a decision and the best next steps.",
+    },
+    // Side trust card
+    sideBadge: { type: String, default: "Quick Application" },
+    sideHeading: { type: String, default: "Get a loan that fits your life." },
+    sideDescription: {
+      type: String,
+      default:
+        "Fill in the form on the right and our team will get back to you with the best options for your profile within 24 working hours.",
+    },
+    benefits: {
+      type: [applyBenefitSchema],
+      default: [
+        {
+          icon: "icofont-bolt",
+          title: "Quick response to your query",
+          desc: "Prompt responses, clear communication, and reliable support—every step of the way.",
+        },
+        {
+          icon: "icofont-shield-alt",
+          title: "Bank-level security",
+          desc: "Your information is encrypted in transit and never sold to third parties.",
+        },
+        {
+          icon: "icofont-coins",
+          title: "Zero hidden charges",
+          desc: "Transparent rates and fees — what you see is what you pay.",
+        },
+      ],
+    },
+    // Process card
+    processHeading: { type: String, default: "What happens next" },
+    steps: {
+      type: [applyStepSchema],
+      default: [
+        { num: "01", title: "Fill out the form", desc: "Share a few details about you and the loan you need." },
+        { num: "02", title: "We review & match", desc: "Our team matches you with the best lender for your profile." },
+        { num: "03", title: "Approval & next steps", desc: "We get back to you within 24 working hours with a decision." },
+      ],
+    },
+    helpLabel: { type: String, default: "Need help right now?" },
+    // Form card header
+    formHeading: { type: String, default: "Contact Us" },
+    formSubtitle: {
+      type: String,
+      default:
+        "Complete the form below. Everything you share is encrypted and used only to process your application.",
+    },
+  },
+  { timestamps: true },
+);
+
+export const ApplicationPage =
+  mongoose.models.ApplicationPage ??
+  mongoose.model("ApplicationPage", applicationPageSchema);
+
 // ── Conveyancing Service ──────────────────────────────────
 const conveyancingSchema = new Schema(
   {

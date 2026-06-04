@@ -48,6 +48,7 @@ const navItems: NavEntry[] = [
 
   { href: "/admin/about", icon: "icofont-info-circle", label: "About Page" },
   { href: "/admin/contact-page", icon: "icofont-headphone-alt", label: "Contact Page" },
+  { href: "/admin/application-page", icon: "icofont-paper", label: "Application Page" },
   { href: "/admin/services", icon: "icofont-briefcase", label: "Services (CRUD)" },
   { href: "/admin/conveyancing", icon: "icofont-law-document", label: "Conveyancing (CRUD)" },
   { href: "/admin/why-choose-us", icon: "icofont-star", label: "Why Choose Us (CRUD)" },
