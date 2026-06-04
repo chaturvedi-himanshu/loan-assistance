@@ -66,6 +66,11 @@ export interface HeroData {
   badge2Icon: string;
 }
 
+export interface WhyLogo {
+  image: string;
+  alt: string;
+}
+
 export interface HomeContentData {
   // Services intro
   servicesBadge: string;
@@ -92,11 +97,8 @@ export interface HomeContentData {
   whyBadge: string;
   whyHeading: string;
   whySubtitle: string;
-  whyHighlight1: string;
-  whyHighlight2: string;
-  whyHighlight3: string;
-  whyHighlight4: string;
-  whyHighlightIcon: string;
+  whyLogosHeading: string;
+  whyLogos: WhyLogo[];
   // Home Contact
   contactBadge: string;
   contactHeading: string;
@@ -460,11 +462,8 @@ const FALLBACK_HOME_CONTENT: HomeContentData = {
   whyHeading: "Why thousands of people\nchoose us every day",
   whySubtitle:
     "We combine speed, trust, and flexibility to deliver the best\nloan experience you've ever had.",
-  whyHighlight1: "No prepayment penalty",
-  whyHighlight2: "Minimal documentation",
-  whyHighlight3: "Instant e-approval letter",
-  whyHighlight4: "Doorstep document pickup",
-  whyHighlightIcon: "icofont-check-alt",
+  whyLogosHeading: "",
+  whyLogos: [],
 
   contactBadge: "Get In Touch",
   contactHeading: "Our manager will contact you to clear the details.",

@@ -7,17 +7,13 @@ interface ApplicationProcessSectionProps {
 
 const marginClasses = ["mr_40", "mlr_40", "ml_40"];
 
-const defaultSteps: ProcessStepItem[] = [
-  { _id:"1", num:"01", title:"Apply Online",         desc:"Fill out the simple online form.",                                                   icon:"icofont-paper",         order:1 },
-  { _id:"2", num:"02", title:"Share Documents",      desc:"Share the required documents and know your borrowing capacity.",                     icon:"icofont-check-circled", order:2 },
-  { _id:"3", num:"03", title:"Choose Your Lender",   desc:"Choose the best lenders from multiple options.",                                     icon:"icofont-money",         order:3 },
-];
-
 export default function ApplicationProcessSection({ steps, content }: ApplicationProcessSectionProps) {
-  const items = steps?.length ? steps : defaultSteps;
-  const badge = content?.processBadge ?? `Simple ${items.length} Steps`;
-  const heading = content?.processHeading ?? "Fast and Very Easy\nApplication Process";
-  const subtitle = content?.processSubtitle ?? "Three simple steps and our team takes care of the rest —\nfast, transparent, and stress-free.";
+  const items = steps ?? [];
+  const badge = content?.processBadge ?? "";
+  const heading = content?.processHeading ?? "";
+  const subtitle = content?.processSubtitle ?? "";
+
+  if (!items.length) return null;
 
   return (
     <section className="commonSection applicatioProces" style={{ position: "relative", overflow: "hidden" }}>
@@ -37,16 +33,20 @@ export default function ApplicationProcessSection({ steps, content }: Applicatio
       </svg>
 
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
-        <div className="row">
-          <div className="col-lg-12 text-center">
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(44,187,223,0.10)", padding: "6px 16px", borderRadius: 20, marginBottom: 16 }}>
-              <i className="icofont-rocket-alt-2" style={{ color: "#2cbbdf", fontSize: 16 }}></i>
-              <span style={{ fontSize: 13, color: "#2cbbdf", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>{badge}</span>
+        {(badge || heading || subtitle) && (
+          <div className="row">
+            <div className="col-lg-12 text-center">
+              {badge && (
+                <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "rgba(44,187,223,0.10)", padding: "6px 16px", borderRadius: 20, marginBottom: 16 }}>
+                  <i className="icofont-rocket-alt-2" style={{ color: "#2cbbdf", fontSize: 16 }}></i>
+                  <span style={{ fontSize: 13, color: "#2cbbdf", fontWeight: 700, letterSpacing: 1, textTransform: "uppercase" }}>{badge}</span>
+                </div>
+              )}
+              {heading && <h2 className="sec_title" style={{ whiteSpace: "pre-line" }}>{heading}</h2>}
+              {subtitle && <p className="sec_desc" style={{ whiteSpace: "pre-line" }}>{subtitle}</p>}
             </div>
-            <h2 className="sec_title" style={{ whiteSpace: "pre-line" }}>{heading}</h2>
-            <p className="sec_desc" style={{ whiteSpace: "pre-line" }}>{subtitle}</p>
           </div>
-        </div>
+        )}
 
         <div className="row">
           {items.map((step, i) => (

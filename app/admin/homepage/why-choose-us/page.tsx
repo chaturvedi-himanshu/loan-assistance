@@ -5,7 +5,7 @@ export default function AdminWhyChooseUsIntroPage() {
   return (
     <AdminSingleForm
       title="Why Choose Us Section"
-      description="Edit headings and bottom highlights for the 'Why Choose Us' section."
+      description="Edit headings and the looping partner/bank logo carousel for the 'Why Choose Us' section."
       apiPath="home-content"
       banner={
         <CrudLinkBanner
@@ -35,29 +35,23 @@ export default function AdminWhyChooseUsIntroPage() {
         },
 
         {
-          key: "whyHighlight1",
-          label: "Bottom Strip Highlight 1",
-          placeholder: "No prepayment penalty",
+          key: "whyLogosHeading",
+          label: "Logo Carousel Caption (optional)",
+          placeholder: "Trusted by Australia's leading banks",
+          help: "Small caption shown above the looping logo strip. Leave blank to hide it.",
         },
         {
-          key: "whyHighlight2",
-          label: "Bottom Strip Highlight 2",
-          placeholder: "Minimal documentation",
-        },
-        {
-          key: "whyHighlight3",
-          label: "Bottom Strip Highlight 3",
-          placeholder: "Instant e-approval letter",
-        },
-        {
-          key: "whyHighlight4",
-          label: "Bottom Strip Highlight 4",
-          placeholder: "Doorstep document pickup",
-        },
-        {
-          key: "whyHighlightIcon",
-          label: "Highlight Icon Class",
-          placeholder: "icofont-check-alt",
+          key: "whyLogos",
+          label: "Partner / Bank Logos",
+          type: "repeater",
+          itemLabel: "Logo",
+          addLabel: "+ Add logo",
+          defaultItem: { image: "", alt: "" },
+          help: "Logos scroll in a continuous loop (about 6 visible at a time). Reorder with the arrows.",
+          itemFields: [
+            { key: "image", label: "Logo Image", type: "image", placeholder: "/images/banks/logo.png" },
+            { key: "alt", label: "Alt Text / Bank Name", placeholder: "Commonwealth Bank" },
+          ],
         },
       ]}
     />

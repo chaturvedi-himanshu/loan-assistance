@@ -888,11 +888,12 @@ const homeContentSchema = new Schema(
       default:
         "We combine speed, trust, and flexibility to deliver the best\nloan experience you've ever had.",
     },
-    whyHighlight1: { type: String, default: "No prepayment penalty" },
-    whyHighlight2: { type: String, default: "Minimal documentation" },
-    whyHighlight3: { type: String, default: "Instant e-approval letter" },
-    whyHighlight4: { type: String, default: "Doorstep document pickup" },
-    whyHighlightIcon: { type: String, default: "icofont-check-alt" },
+    // Looping logo carousel (e.g. partner / accepted bank logos)
+    whyLogosHeading: { type: String, default: "" },
+    whyLogos: {
+      type: [{ image: { type: String, default: "" }, alt: { type: String, default: "" } }],
+      default: [],
+    },
 
     // Home Contact section
     contactBadge: { type: String, default: "Get In Touch" },

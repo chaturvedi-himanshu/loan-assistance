@@ -1,5 +1,6 @@
 "use client";
 
+import LogoCarousel from "@/components/LogoCarousel";
 import type { WhyItem, HomeContentData } from "@/lib/data";
 
 interface WhyChooseUsSectionProps {
@@ -7,90 +8,21 @@ interface WhyChooseUsSectionProps {
   content?: HomeContentData;
 }
 
-const defaultFeatures: WhyItem[] = [
-  {
-    _id: "1",
-    icon: "icofont-flash",
-    title: "Lightning Fast Approval",
-    desc: "Get your loan approved within 24 hours. No lengthy paperwork, no endless waiting.",
-    color: "#2cbbdf",
-    bg: "rgba(44,187,223,0.10)",
-    order: 1,
-  },
-  {
-    _id: "2",
-    icon: "icofont-shield-alt",
-    title: "Bank-Level Security",
-    desc: "Your data is protected by 256-bit SSL encryption and strict privacy protocols.",
-    color: "#27ae60",
-    bg: "rgba(39,174,96,0.10)",
-    order: 2,
-  },
-  {
-    _id: "3",
-    icon: "icofont-money",
-    title: "Lowest Interest Rates",
-    desc: "We offer the most competitive rates in the market, starting from just 8.5% p.a.",
-    color: "#f0734a",
-    bg: "rgba(240,115,74,0.10)",
-    order: 3,
-  },
-  {
-    _id: "4",
-    icon: "icofont-ui-calculator",
-    title: "Flexible Repayment",
-    desc: "Choose your own repayment tenure from 6 to 360 months to fit your budget.",
-    color: "#e91e8c",
-    bg: "rgba(233,30,140,0.10)",
-    order: 4,
-  },
-  {
-    _id: "5",
-    icon: "icofont-support",
-    title: "24 / 7 Expert Support",
-    desc: "Our dedicated team of financial advisors is always available to guide you.",
-    color: "#2196f3",
-    bg: "rgba(33,150,243,0.10)",
-    order: 5,
-  },
-  {
-    _id: "6",
-    icon: "icofont-paper",
-    title: "Zero Hidden Charges",
-    desc: "Complete transparency in every transaction. What you see is exactly what you pay.",
-    color: "#ff9800",
-    bg: "rgba(255,152,0,0.10)",
-    order: 6,
-  },
-];
-
-const defaultHighlights = [
-  { icon: "icofont-check-alt", text: "No prepayment penalty" },
-  { icon: "icofont-check-alt", text: "Minimal documentation" },
-  { icon: "icofont-check-alt", text: "Instant e-approval letter" },
-  { icon: "icofont-check-alt", text: "Doorstep document pickup" },
-];
-
 export default function WhyChooseUsSection({
   features,
   content,
 }: WhyChooseUsSectionProps) {
-  const items = features?.length ? features : defaultFeatures;
-  const badge = content?.whyBadge ?? "Why Smart Loans";
-  const heading =
-    content?.whyHeading ?? "Why thousands of people\nchoose us every day";
-  const subtitle =
-    content?.whySubtitle ??
-    "We combine speed, trust, and flexibility to deliver the best\nloan experience you've ever had.";
-  const highlightIcon = content?.whyHighlightIcon ?? "icofont-check-alt";
-  const highlights = content
-    ? [
-        { icon: highlightIcon, text: content.whyHighlight1 },
-        { icon: highlightIcon, text: content.whyHighlight2 },
-        { icon: highlightIcon, text: content.whyHighlight3 },
-        { icon: highlightIcon, text: content.whyHighlight4 },
-      ].filter((h) => h.text)
-    : defaultHighlights;
+  const items = features ?? [];
+  const badge = content?.whyBadge ?? "";
+  const heading = content?.whyHeading ?? "";
+  const subtitle = content?.whySubtitle ?? "";
+  const logos = (content?.whyLogos ?? []).filter((l) => l?.image);
+  const logosHeading = content?.whyLogosHeading ?? "";
+
+  const hasHeader = Boolean(badge || heading || subtitle);
+  // Nothing to show at all → hide the whole section.
+  if (!hasHeader && items.length === 0 && logos.length === 0) return null;
+
   return (
     <section
       className="commonSection"
@@ -244,43 +176,51 @@ export default function WhyChooseUsSection({
 
       <div className="container" style={{ position: "relative", zIndex: 1 }}>
         {/* ── Heading ── */}
-        <div className="row">
-          <div className="col-lg-12 text-center">
-            <div
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                background: "rgba(44,187,223,0.10)",
-                padding: "6px 16px",
-                borderRadius: 20,
-                marginBottom: 16,
-              }}
-            >
-              <i
-                className="icofont-star"
-                style={{ color: "#2cbbdf", fontSize: 14 }}
-              ></i>
-              <span
-                style={{
-                  fontSize: 13,
-                  color: "#2cbbdf",
-                  fontWeight: 700,
-                  letterSpacing: 1,
-                  textTransform: "uppercase",
-                }}
-              >
-                {badge}
-              </span>
+        {hasHeader && (
+          <div className="row">
+            <div className="col-lg-12 text-center">
+              {badge && (
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 8,
+                    background: "rgba(44,187,223,0.10)",
+                    padding: "6px 16px",
+                    borderRadius: 20,
+                    marginBottom: 16,
+                  }}
+                >
+                  <i
+                    className="icofont-star"
+                    style={{ color: "#2cbbdf", fontSize: 14 }}
+                  ></i>
+                  <span
+                    style={{
+                      fontSize: 13,
+                      color: "#2cbbdf",
+                      fontWeight: 700,
+                      letterSpacing: 1,
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    {badge}
+                  </span>
+                </div>
+              )}
+              {heading && (
+                <h2 className="sec_title" style={{ whiteSpace: "pre-line" }}>
+                  {heading}
+                </h2>
+              )}
+              {subtitle && (
+                <p className="sec_desc" style={{ whiteSpace: "pre-line" }}>
+                  {subtitle}
+                </p>
+              )}
             </div>
-            <h2 className="sec_title" style={{ whiteSpace: "pre-line" }}>
-              {heading}
-            </h2>
-            <p className="sec_desc" style={{ whiteSpace: "pre-line" }}>
-              {subtitle}
-            </p>
           </div>
-        </div>
+        )}
 
         {/* ── Feature cards ── */}
         <div className="row">
@@ -372,84 +312,14 @@ export default function WhyChooseUsSection({
           ))}
         </div>
 
-        {/* ── Bottom highlights strip ── */}
-        <div className="row" style={{ marginTop: 20 }}>
-          <div className="col-lg-12">
-            <div
-              style={{
-                background: "linear-gradient(135deg, #2cbbdf 0%, #38cfe8 100%)",
-                borderRadius: 16,
-                padding: "28px 40px",
-                display: "flex",
-                flexWrap: "wrap",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: 16,
-                boxShadow: "0 8px 32px rgba(44,187,223,0.35)",
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              {/* bg shape */}
-              <div
-                style={{
-                  position: "absolute",
-                  right: -40,
-                  top: -40,
-                  width: 160,
-                  height: 160,
-                  borderRadius: "50%",
-                  background: "rgba(255,255,255,0.07)",
-                }}
-              />
-              <div
-                style={{
-                  position: "absolute",
-                  left: -20,
-                  bottom: -30,
-                  width: 120,
-                  height: 120,
-                  borderRadius: "50%",
-                  background: "rgba(255,255,255,0.05)",
-                }}
-              />
-
-              {highlights.map((h) => (
-                <div
-                  key={h.text}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 10,
-                    zIndex: 1,
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: "50%",
-                      background: "rgba(255,255,255,0.20)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <i
-                      className={h.icon}
-                      style={{ color: "#fff", fontSize: 14 }}
-                    ></i>
-                  </div>
-                  <span
-                    style={{ color: "#fff", fontWeight: 600, fontSize: 15 }}
-                  >
-                    {h.text}
-                  </span>
-                </div>
-              ))}
+        {/* ── Partner / bank logo carousel ── */}
+        {logos.length > 0 && (
+          <div className="row" style={{ marginTop: 20 }}>
+            <div className="col-lg-12">
+              <LogoCarousel logos={logos} heading={logosHeading} />
             </div>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );
