@@ -286,7 +286,7 @@ export default function HeroSection({ hero, stats }: HeroSectionProps) {
           {/* ── Image side ── */}
           <div className="col-lg-6">
             <div className="header_img" style={{ position: "relative" }}>
-              <div
+              {/* <div
                 style={{
                   position: "absolute",
                   top: 30,
@@ -325,7 +325,7 @@ export default function HeroSection({ hero, stats }: HeroSectionProps) {
                     {hero?.badge1Subtitle ?? "Within 24 hours"}
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <DynamicImage
                 src={imageSrc}
