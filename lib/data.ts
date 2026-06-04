@@ -116,6 +116,8 @@ export interface HomeContentData {
   contactPhoneLabel: string;
   contactEmailLabel: string;
   contactAddressLabel: string;
+  contactWhatsapp: string;
+  contactWhatsappLabel: string;
   // Process
   processBadge: string;
   processHeading: string;
@@ -482,6 +484,8 @@ const FALLBACK_HOME_CONTENT: HomeContentData = {
   contactPhoneLabel: "Call us anytime",
   contactEmailLabel: "Send us an email",
   contactAddressLabel: "Our headquarters",
+  contactWhatsapp: "",
+  contactWhatsappLabel: "Chat on WhatsApp",
 
   processBadge: "Simple Steps",
   processHeading: "Fast and Very Easy\nApplication Process",

@@ -919,6 +919,9 @@ const homeContentSchema = new Schema(
     contactPhoneLabel: { type: String, default: "Call us anytime" },
     contactEmailLabel: { type: String, default: "Send us an email" },
     contactAddressLabel: { type: String, default: "Our headquarters" },
+    // WhatsApp number specific to this section (independent of Site Settings)
+    contactWhatsapp: { type: String, default: "" },
+    contactWhatsappLabel: { type: String, default: "Chat on WhatsApp" },
 
     // Application Process section
     processBadge: { type: String, default: "Simple Steps" },

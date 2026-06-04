@@ -30,6 +30,9 @@ export default function AdminHomeContactPage() {
         { key: "contactEmailLabel", label: "Email Row Label", placeholder: "Send us an email" },
         { key: "contactAddressLabel", label: "Address Row Label", placeholder: "Our headquarters" },
 
+        { key: "contactWhatsapp", label: "WhatsApp Number (this section only)", placeholder: "+61 400 000 000", help: "Shown as a tap-to-chat row in this section. Independent of the global Settings number. Leave blank to hide." },
+        { key: "contactWhatsappLabel", label: "WhatsApp Row Label", placeholder: "Chat on WhatsApp" },
+
         { key: "contactBadge1Title", label: "Floating Badge 1 – Title", placeholder: "100% Secure" },
         { key: "contactBadge1Subtitle", label: "Floating Badge 1 – Subtitle", placeholder: "Bank-level safety" },
         { key: "contactBadge1Icon", label: "Floating Badge 1 – Icon", placeholder: "icofont-shield-alt" },

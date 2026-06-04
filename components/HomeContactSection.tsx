@@ -11,7 +11,14 @@ export default function HomeContactSection({
   settings,
   content,
 }: HomeContactSectionProps) {
-  const contactInfo = [
+  const whatsappNumber = content?.contactWhatsapp?.trim();
+
+  const contactInfo: {
+    icon: string;
+    text: string;
+    label: string;
+    href?: string;
+  }[] = [
     {
       icon: "icofont-phone",
       text: settings?.phone1 ?? "+1 (800) 694-8956",
@@ -28,6 +35,15 @@ export default function HomeContactSection({
       label: content?.contactAddressLabel ?? "Our headquarters",
     },
   ];
+
+  if (whatsappNumber) {
+    contactInfo.push({
+      icon: "icofont-brand-whatsapp",
+      text: whatsappNumber,
+      label: content?.contactWhatsappLabel ?? "Chat on WhatsApp",
+      href: `https://wa.me/${whatsappNumber.replace(/[^0-9]/g, "")}`,
+    });
+  }
 
   const badge = content?.contactBadge ?? "Get In Touch";
   const heading =
@@ -142,53 +158,77 @@ export default function HomeContactSection({
               <p style={{ marginBottom: 10 }}>{subtitle}</p>
 
               <div style={{ margin: "24px 0 28px" }}>
-                {contactInfo.map((c) => (
-                  <div
-                    key={c.label}
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 14,
-                      marginBottom: 16,
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 46,
-                        height: 46,
-                        borderRadius: "50%",
-                        background: "#2cbbdf",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        flexShrink: 0,
-                        boxShadow: "0 4px 14px rgba(44,187,223,0.35)",
-                      }}
-                    >
-                      <i
-                        className={c.icon}
-                        style={{ color: "#fff", fontSize: 20 }}
-                      ></i>
-                    </div>
-                    <div>
+                {contactInfo.map((c) => {
+                  const isWhatsapp = Boolean(c.href);
+                  const rowStyle: React.CSSProperties = {
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 14,
+                    marginBottom: 16,
+                    textDecoration: "none",
+                  };
+                  const inner = (
+                    <>
                       <div
                         style={{
-                          fontSize: 12,
-                          color: "#aaa",
-                          textTransform: "uppercase",
-                          letterSpacing: 1,
+                          width: 46,
+                          height: 46,
+                          borderRadius: "50%",
+                          background: isWhatsapp ? "#25D366" : "#2cbbdf",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          flexShrink: 0,
+                          boxShadow: isWhatsapp
+                            ? "0 4px 14px rgba(37,211,102,0.35)"
+                            : "0 4px 14px rgba(44,187,223,0.35)",
                         }}
                       >
-                        {c.label}
+                        <i
+                          className={c.icon}
+                          style={{ color: "#fff", fontSize: 20 }}
+                        ></i>
                       </div>
-                      <div
-                        style={{ fontSize: 16, fontWeight: 700, color: "#222" }}
-                      >
-                        {c.text}
+                      <div>
+                        <div
+                          style={{
+                            fontSize: 12,
+                            color: "#aaa",
+                            textTransform: "uppercase",
+                            letterSpacing: 1,
+                          }}
+                        >
+                          {c.label}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: 16,
+                            fontWeight: 700,
+                            color: "#222",
+                          }}
+                        >
+                          {c.text}
+                        </div>
                       </div>
+                    </>
+                  );
+
+                  return c.href ? (
+                    <a
+                      key={c.label}
+                      href={c.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={rowStyle}
+                    >
+                      {inner}
+                    </a>
+                  ) : (
+                    <div key={c.label} style={rowStyle}>
+                      {inner}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
 
               <Link href={ctaUrl} className="common_btn">

@@ -55,7 +55,7 @@ export default async function HomePage() {
       <WhyChooseUsSection features={why} content={homeContent} />
 
       <HomeContactSection settings={settings} content={homeContent} />
-      <ApplicationProcessSection steps={processSteps} content={homeContent} />
+      {/* <ApplicationProcessSection steps={processSteps} content={homeContent} /> */}
 
       <ConveyancingSection items={conveyancing} compact={true} content={homeContent} />
 
