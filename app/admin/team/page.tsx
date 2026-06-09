@@ -11,7 +11,7 @@ function TeamCard({ item, onEdit, onDelete }: { item: Record<string, unknown>; o
         <h4 style={{ margin: 0, fontSize: 15 }}>{item.name as string}</h4>
         <p style={{ margin: "3px 0 0", fontSize: 13, color: "#2cbbdf" }}>{item.role as string}</p>
         {item.description as string &&
-          <p style={{ margin: "4px 0 0", fontSize: 12, color: "#999" }}>
+          <p style={{ margin: "4px 0 0", fontSize: 12, color: "#999", display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden", lineHeight: 1.45 }}>
             {item.description as string}
           </p>
         }
