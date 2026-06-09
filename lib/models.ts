@@ -765,6 +765,41 @@ export const ApplicationPage =
   mongoose.models.ApplicationPage ??
   mongoose.model("ApplicationPage", applicationPageSchema);
 
+// ── Services Page (header / intro / CTA content) ──────────
+const servicesPageSchema = new Schema(
+  {
+    // Page banner
+    bannerEyebrow: { type: String, default: "Smart Loans" },
+    bannerTitle: { type: String, default: "Services of Smart Loans" },
+    bannerDesc: {
+      type: String,
+      default:
+        "We are here to help you when you need your<br>financial support, then we are help you.",
+    },
+    // Section intro (above the service cards)
+    introEyebrow: { type: String, default: "Our Loan Services" },
+    introHeading: { type: String, default: "Find the right loan product for your goals" },
+    introDesc: {
+      type: String,
+      default:
+        "Each service is designed with competitive rates, flexible tenure, and transparent processing.",
+    },
+    // CTA banner (below the service cards)
+    ctaHeading: { type: String, default: "Need help choosing the right loan?" },
+    ctaSubtitle: {
+      type: String,
+      default: "Talk to our advisor and get a tailored recommendation in minutes.",
+    },
+    ctaButtonLabel: { type: String, default: "Apply Now" },
+    ctaButtonHref: { type: String, default: "/application-form" },
+  },
+  { timestamps: true },
+);
+
+export const ServicesPage =
+  mongoose.models.ServicesPage ??
+  mongoose.model("ServicesPage", servicesPageSchema);
+
 // ── Conveyancing Service ──────────────────────────────────
 const conveyancingSchema = new Schema(
   {

@@ -37,7 +37,7 @@ export default function AdminTeamPage() {
         { key: "name", label: "Full Name", placeholder: "James Taylor" },
         { key: "role", label: "Role / Title", placeholder: "Financial Advisor" },
         { key: "description", label: "Short Bio", placeholder: "A brief description of this team member..." },
-        { key: "image", label: "Image Path", placeholder: "/images/team/1.jpg" },
+        { key: "image", label: "Image", type: "image", placeholder: "/images/team/1.jpg" },
         { key: "order", label: "Sort Order", type: "number", placeholder: "1" },
       ]}
       defaultValues={{ name: "", role: "", description: "", image: "/images/team/1.jpg", order: 0 }}

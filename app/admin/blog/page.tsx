@@ -40,7 +40,7 @@ export default function AdminBlogPage() {
         { key: "category",  label: "Category",        placeholder: "Personal Finance" },
         { key: "author",    label: "Author",          placeholder: "Admin" },
         { key: "date",      label: "Date",            placeholder: "2026-04-12" },
-        { key: "image",     label: "Featured Image Path", placeholder: "/images/blog/1.jpg" },
+        { key: "image",     label: "Featured Image", type: "image", placeholder: "/images/blog/1.jpg" },
         { key: "excerpt",   label: "Excerpt / Summary",   type: "textarea", placeholder: "Short intro to the post..." },
         { key: "content",   label: "Full Content",         type: "jodit",    placeholder: "Write your blog post here…" },
         { key: "published", label: "Status",               type: "select",   options: [{ value: "false", label: "Draft" }, { value: "true", label: "Published" }] },

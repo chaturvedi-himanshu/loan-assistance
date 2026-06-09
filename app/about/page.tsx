@@ -24,6 +24,10 @@ export default async function AboutPage() {
 
   const historyItems = about.historyItems ?? [];
 
+  // Admin usually publishes a single milestone, so a lone card gets a
+  // centred "hero" treatment; multiple milestones render as a timeline.
+  const isSingleHistory = historyItems.length === 1;
+
   return (
     <>
       <Preloader />
@@ -34,20 +38,24 @@ export default async function AboutPage() {
       />
 
       {/* Section 1 */}
-      <section className="commonSection ab_section">
+      <section className="abIntro">
         <div className="container">
-          <div className="row">
-            <div className="col-lg-7">
-              <div className="singleABThumb">
-                <DynamicImage src={about.sec1Image} alt="About" width={660} height={500} />
+          <div className="row align-items-center">
+            <div className="col-lg-6">
+              <div className="abIntro__media">
+                <DynamicImage src={about.sec1Image} alt="About Smart Loans" width={660} height={500} className="abIntro__img" />
               </div>
             </div>
-            <div className="col-lg-5">
-              <div className="singleAB text-left">
-                <h2>{about.sec1Heading}</h2>
-                <p>{about.sec1Sub}</p>
-                <p>{about.sec1Body1}</p>
-                <p>{about.sec1Body2}</p>
+            <div className="col-lg-6">
+              <div className="abIntro__content">
+                <span className="abIntro__eyebrow">
+                  <i className="icofont-people" aria-hidden="true" />
+                  Who We Are
+                </span>
+                <h2 className="abIntro__title">{about.sec1Heading}</h2>
+                {about.sec1Sub && <p className="abIntro__lead">{about.sec1Sub}</p>}
+                {about.sec1Body1 && <p className="abIntro__text">{about.sec1Body1}</p>}
+                {about.sec1Body2 && <p className="abIntro__text">{about.sec1Body2}</p>}
               </div>
             </div>
           </div>
@@ -55,22 +63,29 @@ export default async function AboutPage() {
       </section>
 
       {/* Section 2 */}
-      <section className="commonSection ab_section">
+      <section className="abIntro abIntro--alt">
         <div className="container">
-          <div className="row">
-            <div className="col-lg-6">
-              <div className="singleAB text-left">
-                <h2>{about.sec2Heading}</h2>
-                <p>{about.sec2Sub}</p>
-                <p>
-                  <Link href="#">{about.sec2Link}</Link>
-                </p>
-                <p>{about.sec2Body}</p>
+          <div className="row align-items-center">
+            <div className="col-lg-6 order-lg-2">
+              <div className="abIntro__media abIntro__media--right">
+                <DynamicImage src={about.sec2Image} alt="Why choose Smart Loans" width={540} height={450} className="abIntro__img" />
               </div>
             </div>
-            <div className="col-lg-6">
-              <div className="singleABThumb_2">
-                <DynamicImage src={about.sec2Image} alt="About" width={540} height={450} />
+            <div className="col-lg-6 order-lg-1">
+              <div className="abIntro__content">
+                <span className="abIntro__eyebrow">
+                  <i className="icofont-badge" aria-hidden="true" />
+                  Why Choose Us
+                </span>
+                <h2 className="abIntro__title">{about.sec2Heading}</h2>
+                {about.sec2Sub && <p className="abIntro__lead">{about.sec2Sub}</p>}
+                {about.sec2Link && (
+                  <Link href="#" className="abIntro__callout">
+                    <i className="icofont-quote-left" aria-hidden="true" />
+                    <span>{about.sec2Link}</span>
+                  </Link>
+                )}
+                {about.sec2Body && <p className="abIntro__text">{about.sec2Body}</p>}
               </div>
             </div>
           </div>
@@ -78,37 +93,52 @@ export default async function AboutPage() {
       </section>
 
       {/* Company History */}
-      <section className="commonSection com_history">
+      <section className="commonSection com_history history">
         <div className="container">
-          <div className="row">
-            <div className="col-lg-12 text-center">
-              <h2
-                className="sec_title"
-                dangerouslySetInnerHTML={{ __html: about.historyTitle.replace(/\n/g, "<br />") }}
-              />
-              <p className="sec_desc">{about.historyDesc}</p>
-            </div>
+          <div className="history__head">
+            <span className="history__eyebrow">
+              <i className="icofont-clock-time" aria-hidden="true" />
+              Our Journey
+            </span>
+            <h2
+              className="history__title"
+              dangerouslySetInnerHTML={{ __html: about.historyTitle.replace(/\n/g, "<br />") }}
+            />
+            {about.historyDesc && <p className="history__desc">{about.historyDesc}</p>}
           </div>
-          <div className="row">
-            {historyItems.map((item, idx) => (
-              <div key={item._id ?? `${item.period}-${idx}`} className="col-lg-4 col-md-6">
-                <div className="singleHistory">
-                  <div className="flipper">
-                    <div className="front">
-                      <h4>{item.period}</h4>
-                      <p>{item.frontDesc1}</p>
-                      <p>{item.frontDesc2}</p>
+
+          {historyItems.length > 0 && (
+            <div className={`history__timeline ${isSingleHistory ? "history__timeline--single" : "history__timeline--multi"}`}>
+              {historyItems.map((item, idx) => {
+                const highlights = [item.backDesc1, item.backDesc2].filter(Boolean);
+                return (
+                  <div key={item._id ?? `${item.period}-${idx}`} className="history__item">
+                    <div className="history__node" aria-hidden="true">
+                      <i className="icofont-clock-time" />
                     </div>
-                    <div className="back">
-                      <h4>{item.period}</h4>
-                      <p>{item.backDesc1}</p>
-                      <p>{item.backDesc2}</p>
-                    </div>
+                    <article className="history__card">
+                      <span className="history__period">
+                        <i className="icofont-calendar" />
+                        {item.period}
+                      </span>
+                      {item.frontDesc1 && <p>{item.frontDesc1}</p>}
+                      {item.frontDesc2 && <p>{item.frontDesc2}</p>}
+                      {highlights.length > 0 && (
+                        <ul className="history__highlights">
+                          {highlights.map((highlight, hIdx) => (
+                            <li key={hIdx}>
+                              <i className="icofont-check-circled" aria-hidden="true" />
+                              <span>{highlight}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </article>
                   </div>
-                </div>
-              </div>
-            ))}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
 

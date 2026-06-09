@@ -1,2 +1,391 @@
 /* Reset Tailwind defaults – using original theme CSS instead */
 *, *::before, *::after { box-sizing: border-box; }
+
+/* ─────────────────────────────────────────────────────────────
+   About intro sections (the two blocks above the history timeline)
+   ───────────────────────────────────────────────────────────── */
+.abIntro {
+  position: relative;
+  padding: clamp(48px, 7vw, 88px) 0;
+}
+
+.abIntro--alt {
+  background: linear-gradient(180deg, #f7fcff 0%, #ffffff 100%);
+}
+
+/* Framed image with a layered accent shape behind it */
+.abIntro__media {
+  position: relative;
+  padding: 18px;
+  z-index: 1;
+}
+
+.abIntro__media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(44, 187, 223, 0.18), rgba(44, 187, 223, 0));
+  transform: rotate(-3deg);
+  z-index: -1;
+}
+
+.abIntro__media--right::before {
+  background: linear-gradient(135deg, rgba(240, 115, 74, 0.16), rgba(240, 115, 74, 0));
+  transform: rotate(3deg);
+}
+
+.abIntro__img {
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(28, 50, 79, 0.16);
+}
+
+.abIntro__content {
+  padding: clamp(8px, 2vw, 28px) 0;
+}
+
+/* Give the text a little breathing room from the image on desktop */
+@media (min-width: 992px) {
+  .abIntro .col-lg-6:last-child .abIntro__content {
+    padding-left: 20px;
+  }
+  .abIntro--alt .order-lg-1 .abIntro__content {
+    padding-right: 20px;
+    padding-left: 0;
+  }
+}
+
+.abIntro__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #2cbbdf;
+  background: rgba(44, 187, 223, 0.1);
+  padding: 7px 16px;
+  border-radius: 30px;
+  margin-bottom: 18px;
+}
+
+.abIntro__eyebrow i {
+  font-size: 15px;
+}
+
+.abIntro__title {
+  font-size: clamp(26px, 3.4vw, 40px);
+  line-height: 1.25;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin: 0 0 18px;
+}
+
+.abIntro__lead {
+  font-size: clamp(16px, 1.8vw, 19px);
+  line-height: 30px;
+  color: #43435a;
+  font-weight: 500;
+  margin: 0 0 18px;
+}
+
+.abIntro__text {
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 29px;
+  color: #6c6c87;
+  margin: 0 0 16px;
+}
+
+.abIntro__text:last-child {
+  margin-bottom: 0;
+}
+
+/* Highlighted quote/link callout (section 2) */
+.abIntro__callout {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin: 0 0 18px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  background: rgba(44, 187, 223, 0.07);
+  border-left: 4px solid #2cbbdf;
+  color: #3a3a55;
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 27px;
+  text-decoration: none;
+  transition: background 200ms ease, transform 200ms ease;
+}
+
+.abIntro__callout:hover,
+.abIntro__callout:focus-visible {
+  background: rgba(44, 187, 223, 0.13);
+  transform: translateX(4px);
+  color: #1a1a2e;
+}
+
+.abIntro__callout i {
+  color: #2cbbdf;
+  font-size: 20px;
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Company History timeline (About page)
+   Designed around the common single-milestone case, while
+   gracefully scaling to two or three milestones.
+   ───────────────────────────────────────────────────────────── */
+.history {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Soft decorative glows behind the section */
+.history::before,
+.history::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+.history::before {
+  top: -120px;
+  right: -100px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(44, 187, 223, 0.12), transparent 70%);
+}
+.history::after {
+  bottom: -140px;
+  left: -120px;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(240, 115, 74, 0.08), transparent 70%);
+}
+
+.history .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Heading ── */
+.history__head {
+  max-width: 720px;
+  margin: 0 auto 56px;
+  text-align: center;
+}
+
+.history__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #2cbbdf;
+  background: rgba(44, 187, 223, 0.1);
+  padding: 7px 16px;
+  border-radius: 30px;
+  margin-bottom: 18px;
+}
+
+.history__eyebrow i {
+  font-size: 15px;
+}
+
+.history__title {
+  font-size: clamp(28px, 4vw, 42px);
+  line-height: 1.25;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin: 0 0 16px;
+}
+
+.history__title::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin: 20px auto 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #2cbbdf, #38cfe8);
+}
+
+.history__desc {
+  font-size: clamp(15px, 1.8vw, 18px);
+  line-height: 30px;
+  color: #6c6c87;
+  margin: 0;
+}
+
+.history__timeline {
+  position: relative;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 8px 0;
+}
+
+/* Connector line only makes sense with more than one milestone */
+.history__timeline--multi::before {
+  content: "";
+  position: absolute;
+  top: 32px;
+  bottom: 32px;
+  left: 31px;
+  width: 2px;
+  background: linear-gradient(180deg, #2cbbdf 0%, rgba(44, 187, 223, 0.12) 100%);
+}
+
+.history__item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(16px, 2.5vw, 24px);
+}
+
+.history__item + .history__item {
+  margin-top: clamp(20px, 3vw, 32px);
+}
+
+.history__node {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 26px;
+  background: linear-gradient(135deg, #2cbbdf 0%, #1f9ec0 100%);
+  box-shadow: 0 8px 22px rgba(44, 187, 223, 0.38);
+  position: relative;
+  z-index: 1;
+}
+
+.history__card {
+  flex: 1 1 auto;
+  min-width: 0;
+  background: #fff;
+  border-radius: 16px;
+  padding: clamp(20px, 3vw, 34px);
+  border: 1px solid rgba(44, 187, 223, 0.08);
+  box-shadow: 0 12px 40px rgba(129, 128, 224, 0.12);
+  transition: transform 250ms ease-in-out, box-shadow 250ms ease-in-out;
+}
+
+.history__card:hover,
+.history__card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 52px rgba(44, 187, 223, 0.22);
+}
+
+.history__period {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #2cbbdf;
+  background: rgba(44, 187, 223, 0.1);
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
+.history__period i {
+  font-size: 15px;
+}
+
+.history__card p {
+  margin: 0 0 12px;
+  color: #6c6c87;
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 28px;
+}
+
+.history__card p:last-of-type {
+  margin-bottom: 0;
+}
+
+.history__highlights {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 20px 0 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  display: grid;
+  gap: 12px;
+}
+
+.history__highlights li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: #4a4a63;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.history__highlights i {
+  color: #2cbbdf;
+  font-size: 18px;
+  margin-top: 2px;
+  flex: 0 0 auto;
+}
+
+/* ── Single milestone → centered hero treatment ── */
+.history__timeline--single {
+  max-width: 720px;
+}
+
+.history__timeline--single .history__item {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.history__timeline--single .history__node {
+  width: 76px;
+  height: 76px;
+  font-size: 32px;
+  margin-bottom: -38px;
+  z-index: 2;
+}
+
+.history__timeline--single .history__card {
+  width: 100%;
+  padding-top: 56px;
+}
+
+.history__timeline--single .history__highlights {
+  text-align: left;
+  max-width: 460px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ── Small screens ── */
+@media (max-width: 575px) {
+  .history__node {
+    width: 52px;
+    height: 52px;
+    font-size: 22px;
+  }
+  .history__timeline--multi::before {
+    left: 25px;
+  }
+  .history__timeline--single .history__node {
+    width: 64px;
+    height: 64px;
+    margin-bottom: -32px;
+  }
+}

@@ -2,13 +2,14 @@
 
 import { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
+import ImageInput from "./ImageInput";
 
 const JoditField = dynamic(() => import("./JoditField"), { ssr: false });
 
 interface Field {
   key: string;
   label: string;
-  type?: "text" | "textarea" | "number" | "color" | "select" | "tags" | "jodit";
+  type?: "text" | "textarea" | "number" | "color" | "select" | "tags" | "jodit" | "image";
   options?: string[] | { value: string; label: string }[];
   multiline?: boolean;
   placeholder?: string;
@@ -348,6 +349,12 @@ export default function AdminCrud({
                     <JoditField
                       value={String(form[f.key] ?? "")}
                       onChange={(val) => handleFieldChange(f.key, val)}
+                      placeholder={f.placeholder}
+                    />
+                  ) : f.type === "image" ? (
+                    <ImageInput
+                      value={String(form[f.key] ?? "")}
+                      onChange={(next) => handleFieldChange(f.key, next)}
                       placeholder={f.placeholder}
                     />
                   ) : (f.type === "select" || f.options) ? (

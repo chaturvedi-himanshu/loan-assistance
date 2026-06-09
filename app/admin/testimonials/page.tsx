@@ -37,7 +37,7 @@ export default function AdminTestimonialsPage() {
         { key: "role",  label: "Role / Occupation", placeholder: "Small Business Owner" },
         { key: "text",  label: "Review Text",    type: "textarea", placeholder: "Their feedback..." },
         { key: "stars", label: "Star Rating (1-5)", type: "number", placeholder: "5" },
-        { key: "image", label: "Photo Path",     placeholder: "/images/testimonials/1.jpg" },
+        { key: "image", label: "Photo", type: "image",     placeholder: "/images/testimonials/1.jpg" },
         { key: "order", label: "Sort Order",     type: "number", placeholder: "1" },
       ]}
       defaultValues={{ name: "", role: "", text: "", stars: 5, image: "/images/testimonials/1.jpg", order: 0 }}

@@ -19,6 +19,7 @@ import {
   AboutPage,
   ContactPage,
   ApplicationPage,
+  ServicesPage,
   ConveyancingService,
   HomeContent,
   FooterContent,
@@ -384,6 +385,19 @@ export interface ApplicationPageData {
   helpLabel: string;
   formHeading: string;
   formSubtitle: string;
+}
+
+export interface ServicesPageData {
+  bannerEyebrow: string;
+  bannerTitle: string;
+  bannerDesc: string;
+  introEyebrow: string;
+  introHeading: string;
+  introDesc: string;
+  ctaHeading: string;
+  ctaSubtitle: string;
+  ctaButtonLabel: string;
+  ctaButtonHref: string;
 }
 
 // ── Fallbacks ─────────────────────────────────────────────────────────────────
@@ -1381,6 +1395,32 @@ export async function getApplicationPage(): Promise<ApplicationPageData> {
     return data;
   } catch {
     return FALLBACK_APPLICATION;
+  }
+}
+
+const FALLBACK_SERVICES_PAGE: ServicesPageData = {
+  bannerEyebrow: "Smart Loans",
+  bannerTitle: "Services of Smart Loans",
+  bannerDesc:
+    "We are here to help you when you need your<br>financial support, then we are help you.",
+  introEyebrow: "Our Loan Services",
+  introHeading: "Find the right loan product for your goals",
+  introDesc:
+    "Each service is designed with competitive rates, flexible tenure, and transparent processing.",
+  ctaHeading: "Need help choosing the right loan?",
+  ctaSubtitle: "Talk to our advisor and get a tailored recommendation in minutes.",
+  ctaButtonLabel: "Apply Now",
+  ctaButtonHref: "/application-form",
+};
+
+export async function getServicesPage(): Promise<ServicesPageData> {
+  if (!(await safeConnect())) return FALLBACK_SERVICES_PAGE;
+  try {
+    const doc = await ServicesPage.findOne().lean<ServicesPageData>();
+    if (!doc) return FALLBACK_SERVICES_PAGE;
+    return { ...FALLBACK_SERVICES_PAGE, ...serialize(doc) };
+  } catch {
+    return FALLBACK_SERVICES_PAGE;
   }
 }
 

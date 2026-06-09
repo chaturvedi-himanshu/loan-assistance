@@ -18,7 +18,7 @@ export default function AdminHeroPage() {
         { key: "stat2Label", label: "Stat 2 – Label", placeholder: "Disbursed" },
         { key: "stat3Value", label: "Stat 3 – Value", placeholder: "24 Hrs" },
         { key: "stat3Label", label: "Stat 3 – Label", placeholder: "Approval Time" },
-        { key: "image", label: "Hero Image Path", placeholder: "/images/banner/banner_img.png" },
+        { key: "image", label: "Hero Image", type: "image", placeholder: "/images/banner/banner_img.png" },
       ]}
     />
   );

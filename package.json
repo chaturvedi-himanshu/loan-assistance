@@ -10,6 +10,7 @@
     "seed": "node scripts/seed.mjs"
   },
   "dependencies": {
+    "cloudinary": "^2.10.0",
     "jodit-react": "^5.3.21",
     "jose": "^6.2.2",
     "mongoose": "^9.5.0",

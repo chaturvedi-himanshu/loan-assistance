@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import ImageInput from "./ImageInput";
 
 type FieldType =
   | "text"
@@ -358,28 +359,12 @@ export default function AdminSingleForm({
     }
 
     if (f.type === "image") {
-      const src = String(value ?? "");
       return (
-        <div>
-          <input
-            type="text"
-            value={src}
-            onChange={(e) => onChange(e.target.value)}
-            placeholder={f.placeholder ?? "/images/example.png or https://..."}
-            style={{ width: "100%", padding: "10px 12px", border: "1.5px solid #cceffa", borderRadius: 8, fontSize: 14, outline: "none", boxSizing: "border-box" }}
-          />
-          {src && (
-            <div style={{ marginTop: 8 }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={src}
-                alt="preview"
-                style={{ maxWidth: 180, maxHeight: 120, borderRadius: 8, border: "1px solid #eef" }}
-                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = "none"; }}
-              />
-            </div>
-          )}
-        </div>
+        <ImageInput
+          value={String(value ?? "")}
+          onChange={(next) => onChange(next)}
+          placeholder={f.placeholder}
+        />
       );
     }
 

@@ -12,17 +12,19 @@ import {
   getConveyancingServices,
   getHomeContent,
   getFooterContent,
+  getServicesPage,
 } from "@/lib/data";
 
 export const revalidate = 60;
 
 export default async function ServicesPage() {
-  const [services, settings, conveyancing, homeContent, footerContent] = await Promise.all([
+  const [services, settings, conveyancing, homeContent, footerContent, servicesPage] = await Promise.all([
     getServices(),
     getSettings(),
     getConveyancingServices(),
     getHomeContent(),
     getFooterContent(),
+    getServicesPage(),
   ]);
 
   return (
@@ -30,8 +32,9 @@ export default async function ServicesPage() {
       <Preloader />
       <Header settings={settings} />
       <PageBanner
-        title="Services of Smart Loans"
-        description="We are here to help you when you need your<br>financial support, then we are help you."
+        eyebrow={servicesPage.bannerEyebrow}
+        title={servicesPage.bannerTitle}
+        description={servicesPage.bannerDesc}
       />
 
       {/* ── Loan Products ─────────────────────────────────── */}
@@ -93,16 +96,11 @@ export default async function ServicesPage() {
                     letterSpacing: 0.8,
                   }}
                 >
-                  Our Loan Services
+                  {servicesPage.introEyebrow}
                 </span>
               </div>
-              <h2 className="sec_title">
-                Find the right loan product for your goals
-              </h2>
-              <p className="sec_desc">
-                Each service is designed with competitive rates, flexible
-                tenure, and transparent processing.
-              </p>
+              <h2 className="sec_title">{servicesPage.introHeading}</h2>
+              <p className="sec_desc">{servicesPage.introDesc}</p>
             </div>
           </div>
 
@@ -150,15 +148,14 @@ export default async function ServicesPage() {
                   <h4
                     style={{ color: "#fff", margin: "0 0 6px", fontSize: 24 }}
                   >
-                    Need help choosing the right loan?
+                    {servicesPage.ctaHeading}
                   </h4>
                   <p style={{ color: "rgba(255,255,255,0.8)", margin: 0 }}>
-                    Talk to our advisor and get a tailored recommendation in
-                    minutes.
+                    {servicesPage.ctaSubtitle}
                   </p>
                 </div>
-                <Link className="common_btn" href="/application-form">
-                  Apply Now
+                <Link className="common_btn" href={servicesPage.ctaButtonHref}>
+                  {servicesPage.ctaButtonLabel}
                 </Link>
               </div>
             </div>

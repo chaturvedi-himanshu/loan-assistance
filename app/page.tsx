@@ -59,8 +59,8 @@ export default async function HomePage() {
 
       <ConveyancingSection items={conveyancing} compact={true} content={homeContent} />
 
-      <ApplyAmountSection content={homeContent} />
-      <EmiCalculatorSection content={homeContent} />
+      {/* <ApplyAmountSection content={homeContent} /> */}
+      {/* <EmiCalculatorSection content={homeContent} /> */}
 
       <TeamSection
         members={team.map(m => ({ name: m.name, role: m.role, description: m.description, image: m.image }))}
