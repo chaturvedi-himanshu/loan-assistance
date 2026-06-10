@@ -207,7 +207,7 @@ Version: 1.0
 }
 .fixedHeader {
   background: #fff;
-  padding: 15px 0;
+  padding: 10px 0;
   left: 0;
   position: fixed;
   right: 0;
@@ -548,9 +548,9 @@ Version: 1.0
   height: 45px;
 }
 .singleCustomer p {
-  font-size: 27px;
+  font-size: 14px;
   color: #ffffff;
-  line-height: 38px;
+  /* line-height: 38px; */
   margin: 0 0 45px;
 }
 .singleCustomer h5 {

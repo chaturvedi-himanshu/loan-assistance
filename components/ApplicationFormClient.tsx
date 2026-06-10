@@ -559,12 +559,12 @@ export default function ApplicationFormClient() {
           {submitting ? (
             <>
               <Spinner />
-              Submitting application…
+              Submitting enquiry…
             </>
           ) : (
             <>
               <i className="icofont-paper-plane" style={{ fontSize: 18 }} />
-              Submit Application
+              Submit Enquiry
             </>
           )}
         </button>

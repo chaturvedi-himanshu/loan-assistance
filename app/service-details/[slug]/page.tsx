@@ -62,7 +62,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         <div className="container" style={{ position: "relative", zIndex: 1 }}>
 
           {/* ── Key metrics row ── */}
-          <div className="row" style={{ marginBottom: 30 }}>
+          {/* <div className="row" style={{ marginBottom: 30 }}>
             {[
               { label: "Starting Rate", value: service.rate, icon: "icofont-chart-line" },
               { label: "Max Amount", value: service.amount, icon: "icofont-money" },
@@ -85,7 +85,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
 
           {/* ── Main content + sidebar ── */}
           <div className="row" style={{ marginBottom: 26 }}>

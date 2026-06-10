@@ -53,6 +53,7 @@ export default function TestimonialsSection({
     : testimonials;
 
   const [current, setCurrent] = useState(0);
+  const [expanded, setExpanded] = useState(false);
 
   const badge = content?.testimonialsBadge ?? "Testimonials";
   const heading = content?.testimonialsHeading ?? "What Our Clients\nSay About Us";
@@ -62,10 +63,14 @@ export default function TestimonialsSection({
   const sideImage = content?.testimonialsImage ?? "/images/about/3.png";
   const sideImageAlt = content?.testimonialsImageAlt ?? "Customer";
 
-  const prev = () => setCurrent((c) => (c - 1 + list.length) % list.length);
-  const next = () => setCurrent((c) => (c + 1) % list.length);
+  const prev = () => { setCurrent((c) => (c - 1 + list.length) % list.length); setExpanded(false); };
+  const next = () => { setCurrent((c) => (c + 1) % list.length); setExpanded(false); };
 
   const t = list[current];
+
+  const words = t.text.trim().split(/\s+/);
+  const isLong = words.length > 50;
+  const displayText = isLong && !expanded ? words.slice(0, 50).join(" ") + "…" : t.text;
 
   return (
     <section
@@ -180,7 +185,7 @@ export default function TestimonialsSection({
           </div>
         </div>
 
-        <div className="row">
+        <div className="row align-items-center">
           <div className="col-lg-6 col-md-6">
             <div className="customer_area" style={{ position: "relative" }}>
               {/* Star rating */}
@@ -206,8 +211,33 @@ export default function TestimonialsSection({
                     <h5>{t.name}</h5>
                   </div>
                 </div>
-                <div className="quote_img">
-                  <p>{t.text}</p>
+                <div
+                  className="quote_img"
+                  style={{
+                    minHeight: "12em",
+                    overflow: "hidden",
+                  }}
+                >
+                  <p>
+                    {displayText}
+                    {isLong && (
+                      <button
+                        onClick={() => setExpanded((e) => !e)}
+                        style={{
+                          marginLeft: 6,
+                          background: "none",
+                          border: "none",
+                          padding: 0,
+                          color: "#2cbbdf",
+                          fontWeight: 600,
+                          cursor: "pointer",
+                          fontSize: "inherit",
+                        }}
+                      >
+                        {expanded ? "Read less" : "Read more"}
+                      </button>
+                    )}
+                  </p>
                 </div>
               </div>
 
@@ -227,6 +257,7 @@ export default function TestimonialsSection({
                     width: 40,
                     height: 40,
                     borderRadius: "50%",
+                    color: "#2cbbdf",
                     border: "2px solid #2cbbdf",
                     background: "transparent",
                     cursor: "pointer",
@@ -235,10 +266,10 @@ export default function TestimonialsSection({
                     justifyContent: "center",
                   }}
                 >
-                  <i
+                  {/* <i
                     className="icofont-previous"
                     style={{ color: "#2cbbdf", fontSize: 16 }}
-                  ></i>
+                  ></i> */}&larr;
                 </button>
                 <span style={{ fontSize: 14, color: "#aaa" }}>
                   {current + 1} / {list.length}
@@ -252,6 +283,7 @@ export default function TestimonialsSection({
                     borderRadius: "50%",
                     background: "#2cbbdf",
                     border: "none",
+                    color: "#fff",
                     cursor: "pointer",
                     display: "flex",
                     alignItems: "center",
@@ -259,10 +291,7 @@ export default function TestimonialsSection({
                     boxShadow: "0 4px 14px rgba(44,187,223,0.4)",
                   }}
                 >
-                  <i
-                    className="icofont-next"
-                    style={{ color: "#fff", fontSize: 16 }}
-                  ></i>
+                  &rarr;
                 </button>
               </div>
             </div>

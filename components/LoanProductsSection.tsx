@@ -44,7 +44,7 @@ export default function LoanProductsSection({ services, content }: LoanProductsS
   const badge = content?.loanProductsBadge ?? "Loan Products";
   const heading = content?.loanProductsHeading ?? "Choose the right loan\nfor your needs";
   const subtitle = content?.loanProductsSubtitle ?? "From personal to business, we have a loan product crafted\nfor every milestone in your life.";
-  const ctaText = content?.loanProductsCtaText ?? "Apply Now";
+  const ctaText = content?.loanProductsCtaText ?? "Enquire now";
   const ctaUrl = content?.loanProductsCtaUrl ?? "/application-form";
 
   return (

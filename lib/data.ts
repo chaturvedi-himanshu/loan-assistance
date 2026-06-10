@@ -471,7 +471,7 @@ const FALLBACK_HOME_CONTENT: HomeContentData = {
     "Lowest Rate",
     "Emergency",
   ],
-  loanProductsCtaText: "Apply Now",
+  loanProductsCtaText: "Enquire Now",
   loanProductsCtaUrl: "/application-form",
 
   whyBadge: "Why Smart Loans",

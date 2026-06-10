@@ -130,7 +130,7 @@ export default function ServiceCard({ _id, slug, title, icon, color, rate, desc,
             (e.currentTarget as HTMLAnchorElement).style.color = color;
           }}
         >
-          Apply Now <i className="icofont-long-arrow-right"></i>
+          Enquire Now <i className="icofont-long-arrow-right"></i>
         </Link>
       </div>
     </div>
