@@ -131,9 +131,9 @@ export default function Footer({ settings, content }: FooterProps) {
               <DynamicImage
                 src={brandLogo}
                 alt={brandLogoAlt}
-                width={160}
-                height={48}
-                style={{ marginBottom: 20, filter: "brightness(0) invert(1)" }}
+                width={600}
+                height={200}
+                style={{ width: "auto", height: 48, maxHeight: 48, marginBottom: 20, filter: "brightness(0) invert(1)" }}
               />
             </Link>
             <p style={{ color: "rgba(255,255,255,0.55)", fontSize: 14, lineHeight: 1.8, marginBottom: 24 }}>

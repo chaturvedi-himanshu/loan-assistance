@@ -56,8 +56,8 @@ export default function Header({ settings }: { settings?: SiteSettings }) {
                 <Image
                   src="/images/logo.png"
                   alt={settings?.siteName ?? "Smart Loans"}
-                  width={240}
-                  height={84}
+                  width={600}
+                  height={200}
                   style={{
                     width: "auto",
                     height: 64,
