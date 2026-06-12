@@ -1,7 +1,30 @@
 import { connectDB } from "@/lib/mongodb";
-import { Application } from "@/lib/models";
+import { Application, FormField, FORM_FIELD_SEEDS } from "@/lib/models";
 import { ok, err } from "@/lib/apiHelper";
 import { NextRequest } from "next/server";
+
+async function seedFormFieldsIfEmpty() {
+  const count = await FormField.countDocuments();
+  if (count === 0) {
+    await FormField.insertMany(FORM_FIELD_SEEDS);
+  }
+}
+
+function getMissingRequiredFields(
+  body: Record<string, unknown>,
+  fields: { key: string; type: string; required: boolean }[],
+) {
+  return fields
+    .filter((field) => field.required)
+    .filter((field) => {
+      const value = body[field.key];
+      if (field.type === "number") {
+        return !Number(value);
+      }
+      return !value?.toString().trim();
+    })
+    .map((field) => field.key);
+}
 
 export async function GET() {
   try {
@@ -16,11 +39,12 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     await connectDB();
+    await seedFormFieldsIfEmpty();
     const body = await req.json();
-    const missingText = ["name", "email", "phone", "purpose"].filter((k) => !body?.[k]?.toString().trim());
-    if (missingText.length || !Number(body?.amount)) {
-      const all = [...missingText, ...(!Number(body?.amount) ? ["amount"] : [])];
-      return err(`Required fields missing: ${all.join(", ")}`, 400);
+    const enabledFields = await FormField.find({ enabled: true }).lean();
+    const missing = getMissingRequiredFields(body, enabledFields);
+    if (missing.length) {
+      return err(`Required fields missing: ${missing.join(", ")}`, 400);
     }
     const doc = await Application.create({
       ...body,
